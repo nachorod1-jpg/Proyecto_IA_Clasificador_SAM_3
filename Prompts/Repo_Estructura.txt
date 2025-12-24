@@ -1,0 +1,56 @@
+Proyecto_IA/
+  README.md
+  LICENSE
+  .gitignore
+  .gitattributes
+
+  apps/
+    backend/
+      src/
+        api/
+        core/
+        inference/
+        jobs/
+        datasets/
+        stats/
+        storage/
+      tests/
+      pyproject.toml
+      .env.example
+
+    frontend/
+      src/
+      public/
+      package.json
+      vite.config.ts            # o next.config.js
+      .env.example
+
+  scripts/
+    dev/
+      run_backend.ps1
+      run_backend.sh
+      run_frontend.ps1
+      run_frontend.sh
+    setup/
+      check_env.py
+      download_models.py
+      dataset_scan.py
+
+  data/
+    datasets/.gitkeep
+    cache/.gitkeep
+
+  checkpoints/
+    sam3/.gitkeep
+
+  vendor/
+    sam3/                       # submódulo o clon del repo oficial
+    sam3_extras/                # opcional si aparece tooling auxiliar
+
+  docs/
+    lod0/
+    lod1/
+    adr/
+    api/
+
+  logs/.gitkeep

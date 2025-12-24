@@ -1,0 +1,58 @@
+
+Buenos días ChatGPT.
+Vamos a trabajar en el proyecto del curso.
+Estoy en el plan operativo, preparando los requisitos y el andamiaje para luego construir sobre ello sin problema.
+En el plan Operativo, en los archivos del proyecto, puedes ver la sección de requisitos:
+Voy a ir anotando sobre cada sección:
+
+
+3. Requisitos de SAM-3
+3.1. Requisitos de software
+Entorno recomendado:
+● Sistema operativo: Linux (Ubuntu LTS o similar).
+>Usaremos Windows 10, ya que es lo que tengo disponible.
+
+● Python: ≥ 3.10 (idealmente 3.12 si la librería lo soporta de forma estable).
+>Tengo instalado Python 3.11, pero no estoy utilizando Anaconda.
+¿Sería preferible desinstalarlo, e instalarlo con Anaconda? quizá nos facilite el manejo de los entornos...
+
+● PyTorch:
+○ Versión moderna con soporte CUDA 12.x.
+>Tenemos una tarjeta gráfica NVIDIA GeForce GTX 1050 Ti, tendremos que preparar la compatibilidad CUDA, puesto que el ordenador donde estamos trabajando nunca ha sido utilizado para estas aplicaciones.
+
+○ torchvision, torchaudio compatibles.
+>No deberíamos tener problemas para instalarlos en nuestro entorno, pero no sé para que vamos a utilizar torchaudio. 
+● Librerías asociadas:
+○ numpy, opencv-python, pillow, pycocotools (o equivalente RLE), etc.
+○ Librerías oficiales de SAM-3 (clonado del repo y pip install -e .).
+>Vamos a tener que preparar un pequeño tutorial paso a paso de esta parte. 
+● Manejador de colas (opcional pero recomendado):
+>Recomendado en qué sentido? Qué es un manejador de colas y para qué lo necesitamos? 
+○ Redis + Celery / RQ, o sistema equivalente para jobs de inferencia.
+Se definirá un entorno dedicado, por ejemplo:
+● Carpeta envs/sam3_env/.
+● Ficheros:
+○ pyproject.toml o requirements.txt con versiones fijadas.
+○ environment.yml (si se usa Conda).
+>Ya tenemos la estructura del repositorio preparada. 
+3.2. Requisitos de hardware
+Configuración objetivo:
+● GPU NVIDIA con ≥ 16 GB VRAM (recomendado 24 GB para margen).
+● CPU con 8–16 cores.
+● RAM ≥ 32 GB (ideal 64 GB para buffering de imágenes y metadatos).
+● Almacenamiento ≥ 1 TB SSD (datasets + checkpoints + cachés + resultados).
+Limitaciones:
+Si la GPU no cumple el mínimo, el sistema sigue siendo funcional, pero se reduce batch size y se avisa al
+usuario de que el rendimiento será inferior.
+3.3. Checkpoints y licencias
+● Checkpoints de SAM-3 obtenidos desde Hugging Face / repositorio oficial.
+● Requisitos:
+○ Token de Hugging Face configurado (variable de entorno o fichero local de credenciales).
+○ Aceptación de la licencia del modelo.
+● El backend debe:
+○ Descargar los pesos bajo demanda en el primer arranque.
+Cachearlos en una ruta configurable (checkpoints/sam3/).
+○ Registrar versión del modelo (tag/commit) en logs y en cada job
+
+
+Ningún archivo seleccionadoNingún archivo seleccionado
