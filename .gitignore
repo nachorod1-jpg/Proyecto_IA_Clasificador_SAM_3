@@ -1,0 +1,30 @@
+# Entornos y dependencias
+.env
+*.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
+
+# Salidas de build
+build/
+dist/
+coverage/
+
+# Herramientas
+.pytest_cache/
+.DS_Store
+.idea/
+.vscode/
+
+# --- ML weights / caches (never commit) ---
+checkpoints/
+**/checkpoints/
+
+*.pt
+*.pth
+*.safetensors
+
+# Hugging Face per-user cache (optional)
+**/.cache/huggingface/
