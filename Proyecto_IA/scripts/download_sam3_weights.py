@@ -9,20 +9,27 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from huggingface_hub import HfApi, HfFolder, HfHubHTTPError, snapshot_download
+from huggingface_hub import HfApi, snapshot_download
+from huggingface_hub.utils import HfHubHTTPError
 
 REPO_ID = "facebook/sam3"
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TARGET_DIR = PROJECT_ROOT / "checkpoints" / "sam3"
 
 
+import os
+
 def ensure_token() -> str:
-    token = HfFolder.get_token()
+    token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_HUB_TOKEN")
     if token:
         return token
     raise SystemExit(
-        "No se encontró token de Hugging Face. Ejecuta:\n"
-        "  python -m huggingface_hub.commands.huggingface_cli login"
+        "No se encontró token en variables de entorno.\n"
+        "Opción 1 (recomendada):\n"
+        "  set HF_TOKEN=hf_xxx\n"
+        "  python Proyecto_IA\\scripts\\download_sam3_weights.py\n"
+        "Opción 2: login con:\n"
+        "  python -m huggingface_hub.commands.huggingface_cli login\n"
     )
 
 

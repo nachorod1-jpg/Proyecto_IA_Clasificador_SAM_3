@@ -124,18 +124,59 @@ def prepare_inputs(image: Image.Image, processor, device: torch.device) -> Dict[
 
 
 def run_warmup(model, processor, device: torch.device) -> float:
-    dummy = Image.fromarray(np.random.randint(0, 255, (TARGET_RESOLUTION, TARGET_RESOLUTION, 3), dtype=np.uint8))
-    inputs = prepare_inputs(dummy, processor, device)
+    """
+    Warm-up mínimo. Para Sam3VideoModel hace una inferencia sobre 1 frame
+    creando un inference_session (requerido por forward()).
+    """
+    import time
+    import inspect
+    import numpy as np
 
-    warmup_time = None
-    for i in range(2):
-        start = time.perf_counter()
-        with torch.no_grad():
+    model.eval()
+
+    # Elegimos dtype seguro: en GTX 1050 Ti normalmente bf16 no es viable.
+    if device.type == "cuda":
+        dtype = torch.float16
+    else:
+        dtype = torch.float32
+
+    # Detectar si el forward requiere inference_session
+    sig = inspect.signature(model.forward)
+    needs_session = "inference_session" in sig.parameters
+
+    t0 = time.perf_counter()
+    with torch.no_grad():
+        if needs_session:
+            # 1 frame dummy (H, W, C) uint8
+            frame = np.zeros((480, 854, 3), dtype=np.uint8)
+            video_frames = [frame]
+
+            # Crear sesión (según README HF)
+            inference_session = processor.init_video_session(
+                video=video_frames,
+                inference_device=device,
+                processing_device="cpu",
+                video_storage_device="cpu",
+                dtype=dtype,
+            )
+
+            # Add minimal text prompt (required for SAM3 Video)
+            inference_session = processor.add_text_prompt(
+                inference_session=inference_session,
+                text="object"
+            )
+
+            # Una inferencia mínima sobre el frame 0
+            _ = model(inference_session=inference_session, frame_idx=0)
+        else:
+            # Fallback genérico por si en el futuro cargas un modelo "image"
+            dummy = np.zeros((512, 512, 3), dtype=np.uint8)
+            inputs = processor(images=dummy, text="warmup", return_tensors="pt")
+            inputs = {k: v.to(device) if hasattr(v, "to") else v for k, v in inputs.items()}
             _ = model(**inputs)
-        elapsed = time.perf_counter() - start
-        warmup_time = elapsed
-        print(f"Iteración {i + 1} completada en {elapsed:.2f} s")
-    return warmup_time if warmup_time is not None else 0.0
+
+    t1 = time.perf_counter()
+    return t1 - t0
 
 
 def save_status(payload: Dict[str, Any]) -> None:

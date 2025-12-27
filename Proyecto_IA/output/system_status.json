@@ -5,8 +5,9 @@
   "vram_total_gb": 4.0,
   "low_vram_warning": true,
   "torch_version": "2.7.1+cu118",
-  "sam3_source": null,
+  "sam3_source": "C:\\Users\\nacho\\Documents\\GitHub\\Proyecto_IA_Clasificador_SAM_3\\Proyecto_IA\\checkpoints\\sam3",
   "weights_path": "C:\\Users\\nacho\\Documents\\GitHub\\Proyecto_IA_Clasificador_SAM_3\\Proyecto_IA\\checkpoints\\sam3",
-  "warmup_ok": false,
-  "error": "No se pudo cargar SAM-3 desde ninguna fuente: No se pudo cargar el modelo desde facebook/sam3: The checkpoint you are trying to load has model type `sam3_video` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.\n\nYou can update Transformers with the command `pip install --upgrade transformers`. If this does not work, and the checkpoint is very new, then there may not be a release version that supports this model yet. In this case, you can get the most up-to-date code by installing Transformers from source with the command `pip install git+https://github.com/huggingface/transformers.git`"
+  "warmup_ok": true,
+  "error": null,
+  "warmup_time_s": 7.40119520004373
 }
