@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import threading
 import time
 from datetime import datetime
@@ -17,6 +18,8 @@ from core.utils import load_image, serialize_bbox
 from inference.sam3_runner import SAM3Runner
 from stats.buckets import BucketDefinition, build_buckets, select_bucket
 
+logger = logging.getLogger(__name__)
+
 settings = get_settings()
 
 
@@ -24,6 +27,9 @@ class JobManager:
     def __init__(self, runner_factory: Callable[[Path], SAM3Runner]):
         self.runner_factory = runner_factory
         self.active_jobs: Dict[int, threading.Event] = {}
+        self._runner: Optional[SAM3Runner] = None
+        self._runner_weights_path: Optional[Path] = None
+        self._runner_lock = threading.Lock()
 
     def _get_weights_path(self) -> Optional[Path]:
         if settings.sam3_checkpoint_path:
@@ -31,6 +37,24 @@ class JobManager:
         if settings.sam3_weights_dir:
             return Path(settings.sam3_weights_dir)
         return None
+
+    def _get_runner(self, weights_path: Path) -> SAM3Runner:
+        with self._runner_lock:
+            if self._runner is None or self._runner_weights_path != weights_path:
+                if self._runner is not None:
+                    try:
+                        self._runner.unload()
+                        logger.info(
+                            "Unloaded previous SAM-3 runner for %s before switching to %s",
+                            self._runner_weights_path,
+                            weights_path,
+                        )
+                    except Exception as exc:  # pragma: no cover - defensive logging
+                        logger.warning("Failed to unload previous SAM-3 runner: %s", exc)
+                self._runner = self.runner_factory(weights_path)
+                self._runner_weights_path = weights_path
+                logger.info("Created SAM-3 runner for weights at %s", weights_path)
+            return self._runner
 
     def _run_job(self, job_id: int):
         from core.database import SessionLocal
@@ -102,7 +126,7 @@ class JobManager:
             job_logger.error(job.error_message)
             return
 
-        runner = self.runner_factory(weights_path)
+        runner = self._get_runner(weights_path)
         try:
             runner.load_model(
                 safe_mode=safe_mode,
