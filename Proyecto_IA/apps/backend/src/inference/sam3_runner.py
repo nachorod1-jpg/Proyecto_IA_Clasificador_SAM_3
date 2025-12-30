@@ -3,6 +3,7 @@ from __future__ import annotations
 import gc
 import importlib.util
 import logging
+import threading
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -17,6 +18,19 @@ except Exception:  # pragma: no cover - optional dependency
     torch = None
 
 logger = logging.getLogger(__name__)
+
+
+def _estimate_weights_size_gb(weights_path: Path) -> float:
+    total_size = 0
+    if weights_path.is_file() and weights_path.suffix in {".safetensors", ".bin"}:
+        total_size += weights_path.stat().st_size
+    elif weights_path.is_dir():
+        for path in weights_path.rglob("*"):
+            if path.suffix in {".safetensors", ".bin"} and path.is_file():
+                total_size += path.stat().st_size
+    if total_size == 0:
+        logger.warning("Could not estimate SAM-3 weights size at %s", weights_path)
+    return total_size / (1024 ** 3)
 
 
 @dataclass
@@ -40,6 +54,36 @@ class SAM3Runner:
         self._is_loaded = False
         self._loaded_device: str | None = None
         self._loaded_dtype: torch.dtype | None = None
+        self._load_lock = threading.Lock()
+
+    def _memory_preflight(self, target_device: str, dtype_pref: str | None) -> tuple[bool, str]:
+        available_gb = psutil.virtual_memory().available / (1024 ** 3)
+        weights_gb = _estimate_weights_size_gb(self.weights_path)
+        dtype_pref = (dtype_pref or "auto").lower()
+        if target_device == "cpu":
+            required = max(6.0, weights_gb * 2.0)
+        else:
+            required = max(2.0, weights_gb * 1.2)
+        if target_device == "cuda" and torch and torch.cuda.is_available():
+            try:  # pragma: no cover - optional dependency
+                free_vram, total_vram = torch.cuda.mem_get_info()  # type: ignore[attr-defined]
+                free_vram_gb = free_vram / (1024 ** 3)
+                total_vram_gb = total_vram / (1024 ** 3)
+                logger.info(
+                    "VRAM check: free=%.2fGB total=%.2fGB device=%s dtype_pref=%s",
+                    free_vram_gb,
+                    total_vram_gb,
+                    target_device,
+                    dtype_pref,
+                )
+            except Exception as exc:
+                logger.debug("torch.cuda.mem_get_info unavailable: %s", exc)
+        if available_gb < required:
+            return (
+                False,
+                f"Insufficient RAM: available={available_gb:.2f}GB required~{required:.2f}GB weights={weights_gb:.2f}GB",
+            )
+        return True, "ok"
 
     def unload(self) -> None:
         if self.model:
@@ -61,144 +105,166 @@ class SAM3Runner:
         box_threshold: float = 0.5,
         mask_threshold: float = 0.5,
     ) -> None:
-        if not self.weights_path.exists():
-            raise FileNotFoundError(f"SAM-3 weights not found at {self.weights_path}")
-        if not torch:  # pragma: no cover - optional dependency
-            raise RuntimeError("PyTorch is required for SAM-3 inference")
+        with self._load_lock:
+            if not self.weights_path.exists():
+                raise FileNotFoundError(f"SAM-3 weights not found at {self.weights_path}")
+            if not torch:  # pragma: no cover - optional dependency
+                raise RuntimeError("PyTorch is required for SAM-3 inference")
 
-        try:  # pragma: no cover - external dependency
-            from transformers import Sam3Model, Sam3Processor
-        except Exception as exc:  # pragma: no cover - external dependency
-            raise RuntimeError("transformers does not include SAM-3 support") from exc
-
-        device_preference = (device_preference or "auto").lower()
-        dtype_preference = (dtype_preference or "auto").lower()
-        self.safe_mode = safe_mode
-        self.device_preference = device_preference
-        self.safe_load = safe_load
-        self.box_threshold = box_threshold
-        self.mask_threshold = mask_threshold
-
-        if device_preference == "cuda" and torch.cuda.is_available():
-            self.device = "cuda"
-        elif device_preference == "cpu":
-            self.device = "cpu"
-        else:
-            self.device = "cuda" if torch.cuda.is_available() else "cpu"
-
-        if dtype_preference == "fp16" and self.device != "cuda":
-            logger.warning("fp16 requested but CUDA not available; using fp32 on CPU")
-        if dtype_preference == "fp32":
-            target_dtype = torch.float32
-        elif dtype_preference == "fp16":
-            target_dtype = torch.float16 if self.device == "cuda" else torch.float32
-        else:
-            target_dtype = torch.float16 if self.device == "cuda" else torch.float32
-        prefer_fp16 = self.device == "cuda" and dtype_preference != "fp32"
-
-        if (
-            self._is_loaded
-            and self.model is not None
-            and self.processor is not None
-            and self._loaded_device == self.device
-            and self._loaded_dtype == target_dtype
-        ):
-            return
-
-        if self._is_loaded:
-            self.unload()
-        local_dir = self.weights_path if self.weights_path.is_dir() else self.weights_path.parent
-        if not local_dir.exists():
-            raise FileNotFoundError(f"SAM-3 weights not found at {local_dir}")
-
-        accelerate_available = importlib.util.find_spec("accelerate") is not None
-        device_map = "auto" if self.device == "cuda" and safe_load and accelerate_available else None
-
-        def _log_memory(prefix: str) -> tuple[float, float]:
-            process = psutil.Process()
-            rss = process.memory_info().rss
-            vram = torch.cuda.memory_allocated() if torch and torch.cuda.is_available() else 0
-            logger.info(f"{prefix} RAM: {rss / (1024 ** 3):.2f} GB, VRAM: {vram / (1024 ** 3):.2f} GB")
-            return rss, vram
-
-        def _strategy_description(name: str, dtype: torch.dtype, map_value: str | None) -> str:
-            return (
-                f"strategy={name}, device={self.device}, dtype={dtype}, device_map={map_value}"
-            )
-
-        load_args = {
-            "pretrained_model_name_or_path": local_dir.as_posix(),
-            "local_files_only": True,
-        }
-        strategies = []
-        if safe_load:
-            load_args["low_cpu_mem_usage"] = True
-            if device_map and prefer_fp16:
-                strategies.append(("device_map_auto_fp16", device_map, torch.float16))
-            if prefer_fp16:
-                strategies.append(("manual_fp16", None, torch.float16))
-            strategies.append(("manual_fp32", None, torch.float32))
-        else:
-            strategies.append(("standard", None, target_dtype))
-
-        load_errors: list[str] = []
-        for idx, (name, map_value, dtype) in enumerate(strategies, start=1):
-            try:
-                logger.info(
-                    f"Loading SAM-3 ({idx}/{len(strategies)}) with {_strategy_description(name, dtype, map_value)}"
-                )
-                rss_before, vram_before = _log_memory("Before load")
-                model_kwargs = dict(load_args)
-                model_kwargs["torch_dtype"] = dtype
-                if map_value:
-                    model_kwargs["device_map"] = map_value
-                try:
-                    self.model = Sam3Model.from_pretrained(**model_kwargs)
-                except TypeError as type_err:
-                    if "device_map" in str(type_err) and map_value:
-                        logger.warning(
-                            "device_map parameter not supported by this Transformers version. "
-                            f"Falling back to manual .to(device). Error: {type_err}"
-                        )
-                        model_kwargs.pop("device_map", None)
-                        self.model = Sam3Model.from_pretrained(**model_kwargs)
-                        self.model.to(self.device)
-                    else:
-                        raise
-                if not map_value:
-                    self.model.to(self.device)
-                self.processor = Sam3Processor.from_pretrained(local_dir.as_posix(), local_files_only=True)
-                self.model.eval()
-                rss_after, vram_after = _log_memory("After load")
-                logger.info(
-                    "Memory load: RAM: %.2f -> %.2f GB (+%.2f), VRAM: %.2f -> %.2f GB (+%.2f), device=%s, dtype=%s, device_map=%s"
-                    % (
-                        rss_before / (1024 ** 3),
-                        rss_after / (1024 ** 3),
-                        (rss_after - rss_before) / (1024 ** 3),
-                        vram_before / (1024 ** 3),
-                        vram_after / (1024 ** 3),
-                        (vram_after - vram_before) / (1024 ** 3),
-                        self.device,
-                        dtype,
-                        map_value,
-                    )
-                )
-                self._is_loaded = True
-                self._loaded_device = self.device
-                self._loaded_dtype = dtype
-                return
+            try:  # pragma: no cover - external dependency
+                from transformers import Sam3Model, Sam3Processor
             except Exception as exc:  # pragma: no cover - external dependency
-                load_errors.append(str(exc))
-                logger.warning(
-                    f"SAM-3 load failed with {_strategy_description(name, dtype, map_value)}: {exc}."
-                    f" Trying next strategy..." if idx < len(strategies) else ""
+                raise RuntimeError("transformers does not include SAM-3 support") from exc
+
+            device_preference = (device_preference or "auto").lower()
+            dtype_preference = (dtype_preference or "auto").lower()
+            self.safe_mode = safe_mode
+            self.device_preference = device_preference
+            self.safe_load = safe_load
+            self.box_threshold = box_threshold
+            self.mask_threshold = mask_threshold
+
+            if device_preference == "cuda" and torch.cuda.is_available():
+                self.device = "cuda"
+            elif device_preference == "cpu":
+                self.device = "cpu"
+            else:
+                self.device = "cuda" if torch.cuda.is_available() else "cpu"
+
+            if dtype_preference == "fp16" and self.device != "cuda":
+                logger.warning("fp16 requested but CUDA not available; using fp32 on CPU")
+            if dtype_preference == "fp32":
+                target_dtype = torch.float32
+            elif dtype_preference == "fp16":
+                target_dtype = torch.float16 if self.device == "cuda" else torch.float32
+            else:
+                target_dtype = torch.float16 if self.device == "cuda" else torch.float32
+            prefer_fp16 = self.device == "cuda" and dtype_preference != "fp32"
+
+            preflight_ok, preflight_msg = self._memory_preflight(self.device, dtype_preference)
+            logger.info(
+                "SAM-3 preflight: device=%s dtype_pref=%s available_ram=%.2fGB weights_est=%.2fGB status=%s",
+                self.device,
+                dtype_preference,
+                psutil.virtual_memory().available / (1024 ** 3),
+                _estimate_weights_size_gb(self.weights_path),
+                preflight_msg,
+            )
+            if not preflight_ok:
+                logger.error("SAM-3 load aborted: %s", preflight_msg)
+                raise RuntimeError(preflight_msg)
+
+            if (
+                self._is_loaded
+                and self.model is not None
+                and self.processor is not None
+                and self._loaded_device == self.device
+                and self._loaded_dtype == target_dtype
+            ):
+                logger.info(
+                    "SAM-3 model already loaded; reusing existing instance on device=%s dtype=%s",
+                    self._loaded_device,
+                    self._loaded_dtype,
                 )
+                return
 
-        raise RuntimeError(
-            "Failed to load SAM-3 from %s after strategies: %s" % (local_dir, "; ".join(load_errors))
-        )
+            if self._is_loaded:
+                self.unload()
+            local_dir = self.weights_path if self.weights_path.is_dir() else self.weights_path.parent
+            if not local_dir.exists():
+                raise FileNotFoundError(f"SAM-3 weights not found at {local_dir}")
 
+            accelerate_available = importlib.util.find_spec("accelerate") is not None
+            device_map = "auto" if self.device == "cuda" and safe_load and accelerate_available else None
+
+            def _log_memory(prefix: str) -> tuple[float, float]:
+                process = psutil.Process()
+                rss = process.memory_info().rss
+                vram = torch.cuda.memory_allocated() if torch and torch.cuda.is_available() else 0
+                logger.info(f"{prefix} RAM: {rss / (1024 ** 3):.2f} GB, VRAM: {vram / (1024 ** 3):.2f} GB")
+                return rss, vram
+    
+            def _strategy_description(name: str, dtype: torch.dtype, map_value: str | None) -> str:
+                return (
+                    f"strategy={name}, device={self.device}, dtype={dtype}, device_map={map_value}"
+                )
+    
+            load_args = {
+                "pretrained_model_name_or_path": local_dir.as_posix(),
+                "local_files_only": True,
+            }
+            strategies = []
+            if safe_load:
+                load_args["low_cpu_mem_usage"] = True
+                if device_map and prefer_fp16:
+                    strategies.append(("device_map_auto_fp16", device_map, torch.float16))
+                    strategies.append(("device_map_auto_fp32", device_map, torch.float32))
+                elif device_map:
+                    strategies.append(("device_map_auto_fp32", device_map, torch.float32))
+                if prefer_fp16:
+                    strategies.append(("manual_fp16", None, torch.float16))
+                strategies.append(("manual_fp32", None, torch.float32))
+            else:
+                strategies.append(("standard", None, target_dtype))
+    
+            load_errors: list[str] = []
+            for idx, (name, map_value, dtype) in enumerate(strategies, start=1):
+                try:
+                    logger.info(
+                        f"Loading SAM-3 ({idx}/{len(strategies)}) with {_strategy_description(name, dtype, map_value)}"
+                    )
+                    rss_before, vram_before = _log_memory("Before load")
+                    model_kwargs = dict(load_args)
+                    model_kwargs["torch_dtype"] = dtype
+                    if map_value:
+                        model_kwargs["device_map"] = map_value
+                    try:
+                        self.model = Sam3Model.from_pretrained(**model_kwargs)
+                    except TypeError as type_err:
+                        if "device_map" in str(type_err) and map_value:
+                            logger.warning(
+                                "device_map parameter not supported by this Transformers version. "
+                                f"Falling back to manual .to(device). Error: {type_err}"
+                            )
+                            model_kwargs.pop("device_map", None)
+                            self.model = Sam3Model.from_pretrained(**model_kwargs)
+                            self.model.to(self.device)
+                        else:
+                            raise
+                    if not map_value:
+                        self.model.to(self.device)
+                    self.processor = Sam3Processor.from_pretrained(local_dir.as_posix(), local_files_only=True)
+                    self.model.eval()
+                    rss_after, vram_after = _log_memory("After load")
+                    logger.info(
+                        "Memory load: RAM: %.2f -> %.2f GB (+%.2f), VRAM: %.2f -> %.2f GB (+%.2f), device=%s, dtype=%s, device_map=%s"
+                        % (
+                            rss_before / (1024 ** 3),
+                            rss_after / (1024 ** 3),
+                            (rss_after - rss_before) / (1024 ** 3),
+                            vram_before / (1024 ** 3),
+                            vram_after / (1024 ** 3),
+                            (vram_after - vram_before) / (1024 ** 3),
+                            self.device,
+                            dtype,
+                            map_value,
+                        )
+                    )
+                    self._is_loaded = True
+                    self._loaded_device = self.device
+                    self._loaded_dtype = dtype
+                    return
+                except Exception as exc:  # pragma: no cover - external dependency
+                    load_errors.append(str(exc))
+                    logger.warning(
+                        f"SAM-3 load failed with {_strategy_description(name, dtype, map_value)}: {exc}."
+                        f" Trying next strategy..." if idx < len(strategies) else ""
+                    )
+    
+            raise RuntimeError(
+                "Failed to load SAM-3 from %s after strategies: %s" % (local_dir, "; ".join(load_errors))
+            )
+    
     def is_loaded(self) -> bool:
         return self.model is not None
 
@@ -236,7 +302,7 @@ class SAM3Runner:
                 outputs = self.model(**inputs)
             results = self.processor.post_process_instance_segmentation(
                 outputs,
-                threshold=0.0,
+                threshold=box_threshold,  # avoid explosion of candidates
                 mask_threshold=self.mask_threshold,
                 target_sizes=target_sizes,
             )[0]

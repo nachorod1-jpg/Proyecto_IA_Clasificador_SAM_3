@@ -103,3 +103,6 @@ curl -O http://localhost:8000/api/v1/images/10/file
 - El backend valida la existencia de la ruta de pesos antes de ejecutar.
 - La inferencia usa batch_size=1 y `target_long_side=768` por defecto (configurable en el request).
 - Si se produce OOM, se reduce el batch a 1 y se sigue procesando la siguiente imagen.
+- El JobManager reutiliza un único runner SAM-3 por ruta de pesos; solo se descarga y recarga si cambian los checkpoints.
+- Antes de cargar el modelo se ejecuta un preflight de RAM (y VRAM si aplica) con psutil/torch; si no hay margen suficiente se aborta rápido con error claro.
+- El post-procesado usa `threshold=box_threshold` para evitar explosiones de candidatos temporales.
