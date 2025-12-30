@@ -56,6 +56,31 @@ curl -X POST http://localhost:8000/api/v1/jobs/level1 \
   -d '{"dataset_id":1, "concepts":[{"concept_id":1,"prompt_text":"roof"}], "user_confidence":0.5, "batch_size":1, "target_long_side":768}'
 ```
 
+### Safe Mode (recomendado para GPUs <=4GB y Windows)
+El modo seguro reduce la resolución y el número de detecciones para evitar cuelgues en GPUs pequeñas (por ejemplo GTX 1050 Ti) y obliga a CPU salvo que se pida explícitamente CUDA.
+
+- Campos opcionales al crear jobs de nivel 1:
+  - `safe_mode` (bool, por defecto `true`).
+  - `device_preference`: `"auto" | "cpu" | "cuda"` (por defecto `"auto"`). En safe mode se usa CPU salvo que se pida `"cuda"` explícito.
+  - `target_long_side`: si no se envía, `512` en safe mode o `768` en modo normal.
+  - `box_threshold`: si no se envía, `0.5` en safe mode o `0.3` en modo normal.
+  - `max_detections_per_image`: si no se envía, `20` en safe mode o `100` en modo normal.
+  - `sleep_ms_between_images`: pausa entre imágenes (200 ms en safe mode, 0 en normal si no se envía).
+
+Ejemplo de request seguro en CPU:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/jobs/level1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "dataset_id": 1,
+    "concepts": [{"concept_id": 1, "prompt_text": "roof"}],
+    "safe_mode": true,
+    "device_preference": "cpu",
+    "max_images": 5
+  }'
+```
+
 Consultar estado del job y estadísticas:
 ```bash
 curl http://localhost:8000/api/v1/jobs/1

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import threading
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, List, Optional
@@ -41,6 +42,42 @@ class JobManager:
         if not job:
             return
 
+        params = job.params()
+        safe_mode = bool(params.get("safe_mode", True))
+        device_preference = str(params.get("device_preference") or "auto").lower()
+        target_long_side_param = params.get("target_long_side")
+        target_long_side = (
+            int(target_long_side_param)
+            if target_long_side_param is not None
+            else (512 if safe_mode else settings.default_target_long_side)
+        )
+
+        box_threshold_param = params.get("box_threshold")
+        box_threshold = (
+            float(box_threshold_param)
+            if box_threshold_param is not None
+            else (0.5 if safe_mode else 0.3)
+        )
+
+        max_detections_param = params.get("max_detections_per_image")
+        max_detections = (
+            int(max_detections_param)
+            if max_detections_param is not None
+            else (20 if safe_mode else 100)
+        )
+
+        sleep_param = params.get("sleep_ms_between_images")
+        sleep_ms_between_images = (
+            int(sleep_param)
+            if sleep_param is not None
+            else (200 if safe_mode else 0)
+        )
+        user_confidence = float(params.get("user_confidence", 0.5))
+        max_images = params.get("max_images")
+        buckets = build_buckets(user_confidence)
+
+        concept_prompts = {int(c["concept_id"]): c["prompt_text"] for c in params.get("concepts", [])}
+
         weights_path = self._get_weights_path()
         if not weights_path or not weights_path.exists():
             job.status = "failed"
@@ -52,7 +89,11 @@ class JobManager:
 
         runner = self.runner_factory(weights_path)
         try:
-            runner.load_model()
+            runner.load_model(
+                safe_mode=safe_mode,
+                device_preference=device_preference,
+                box_threshold=box_threshold,
+            )
         except Exception as exc:  # pragma: no cover - external dependency
             job.status = "failed"
             job.error_message = str(exc)
@@ -65,15 +106,6 @@ class JobManager:
         job.status = "running"
         job.started_at = datetime.utcnow()
         session.commit()
-
-        params = job.params()
-        batch_size = max(1, int(params.get("batch_size", settings.default_batch_size)))
-        target_long_side = int(params.get("target_long_side", settings.default_target_long_side))
-        user_confidence = float(params.get("user_confidence", 0.5))
-        max_images = params.get("max_images")
-        buckets = build_buckets(user_confidence)
-
-        concept_prompts = {int(c["concept_id"]): c["prompt_text"] for c in params.get("concepts", [])}
 
         images_query = session.query(Image).filter(Image.dataset_id == job.dataset_id).order_by(Image.id)
         if job.cursor_image_id:
@@ -108,21 +140,17 @@ class JobManager:
             for concept_id, prompt in concept_prompts.items():
                 detections = []
                 try:
-                    detections = runner.run_pcs(pil_img, prompt, target_long_side)
-                except RuntimeError as exc:
-                    if "out of memory" in str(exc).lower() and batch_size > 1:
-                        batch_size = 1
-                        job_logger.warning("OOM detected. Reducing batch_size to 1 and retrying")
-                        try:
-                            detections = runner.run_pcs(pil_img, prompt, target_long_side)
-                        except Exception as retry_exc:
-                            job_logger.error(f"OOM retry failed for image {img.id}: {retry_exc}")
-                            continue
-                    else:
-                        job_logger.error(f"Error during inference: {exc}")
-                        continue
+                    detections = runner.run_pcs(
+                        pil_img,
+                        prompt,
+                        target_long_side=target_long_side,
+                        box_threshold=box_threshold,
+                        max_detections=max_detections,
+                    )
                 except Exception as exc:
                     job_logger.error(f"Error during inference: {exc}")
+                    img.status = "error"
+                    session.commit()
                     continue
 
                 for det in detections:
@@ -141,6 +169,9 @@ class JobManager:
             job.cursor_image_id = img.id + 1
             session.commit()
             job_logger.info(f"Processed image {img.id} ({job.processed_images}/{job.total_images})")
+
+            if sleep_ms_between_images > 0:
+                time.sleep(sleep_ms_between_images / 1000)
 
         self._calculate_stats(session, job, buckets)
         job.status = "completed"
