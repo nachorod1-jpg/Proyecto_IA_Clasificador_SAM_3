@@ -44,7 +44,22 @@ class JobManager:
 
         params = job.params()
         safe_mode = bool(params.get("safe_mode", True))
-        device_preference = str(params.get("device_preference") or "auto").lower()
+        safe_load = True if params.get("safe_load") is None else bool(params.get("safe_load"))
+        device_preference_param = params.get("device_preference")
+        device_preference = str(device_preference_param or "auto").lower()
+        if device_preference_param is None:
+            inferred_device = None
+            if safe_mode:
+                inferred_device = "cpu"
+            else:
+                try:  # pragma: no cover - optional dependency
+                    import torch
+
+                    inferred_device = "cuda" if torch.cuda.is_available() else "cpu"
+                except Exception:
+                    inferred_device = "cpu"
+            device_preference = inferred_device
+            job_logger.info(f"Legacy job detected: inferred device_preference={device_preference}")
         target_long_side_param = params.get("target_long_side")
         target_long_side = (
             int(target_long_side_param)
@@ -91,7 +106,9 @@ class JobManager:
         try:
             runner.load_model(
                 safe_mode=safe_mode,
+                safe_load=safe_load,
                 device_preference=device_preference,
+                dtype_preference=params.get("dtype_preference", "auto"),
                 box_threshold=box_threshold,
             )
         except Exception as exc:  # pragma: no cover - external dependency

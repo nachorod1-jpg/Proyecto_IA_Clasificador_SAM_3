@@ -56,12 +56,15 @@ curl -X POST http://localhost:8000/api/v1/jobs/level1 \
   -d '{"dataset_id":1, "concepts":[{"concept_id":1,"prompt_text":"roof"}], "user_confidence":0.5, "batch_size":1, "target_long_side":768}'
 ```
 
-### Safe Mode (recomendado para GPUs <=4GB y Windows)
-El modo seguro reduce la resolución y el número de detecciones para evitar cuelgues en GPUs pequeñas (por ejemplo GTX 1050 Ti) y obliga a CPU salvo que se pida explícitamente CUDA.
+### Safe Mode vs Safe Load
 
-- Campos opcionales al crear jobs de nivel 1:
-  - `safe_mode` (bool, por defecto `true`).
-  - `device_preference`: `"auto" | "cpu" | "cuda"` (por defecto `"auto"`). En safe mode se usa CPU salvo que se pida `"cuda"` explícito.
+- `safe_load` (nuevo, por defecto `true`): controla la estrategia de carga del modelo para minimizar picos de RAM/VRAM (usa `device_map="auto"`, `low_cpu_mem_usage` y fp16 cuando hay CUDA). No fuerza CPU y evita recargas innecesarias.
+- `safe_mode` (inferencias): reduce resolución, top-K y pacing durante la ejecución, pero ya no altera el dispositivo de carga.
+
+Campos opcionales al crear jobs de nivel 1:
+  - `safe_load` (bool): si falta se asume `true` por compatibilidad.
+  - `safe_mode` (bool): controla solo parámetros de inferencia.
+  - `device_preference`: `"auto" | "cpu" | "cuda"`. Si no se envía y el job es legacy con `safe_mode=true`, se infiere CPU para mantener compatibilidad.
   - `target_long_side`: si no se envía, `512` en safe mode o `768` en modo normal.
   - `box_threshold`: si no se envía, `0.5` en safe mode o `0.3` en modo normal.
   - `max_detections_per_image`: si no se envía, `20` en safe mode o `100` en modo normal.

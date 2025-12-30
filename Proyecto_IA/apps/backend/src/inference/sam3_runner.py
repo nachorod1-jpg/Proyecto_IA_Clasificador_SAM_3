@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gc
+import importlib.util
 import logging
 from dataclasses import dataclass
 from functools import lru_cache
@@ -8,6 +9,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from PIL import Image
+import psutil
 
 try:  # Optional torch import for GPU detection
     import torch
@@ -34,11 +36,28 @@ class SAM3Runner:
         self.mask_threshold = 0.5
         self.safe_mode = True
         self.device_preference = "auto"
+        self.safe_load = True
+        self._is_loaded = False
+        self._loaded_device: str | None = None
+        self._loaded_dtype: torch.dtype | None = None
+
+    def unload(self) -> None:
+        if self.model:
+            self.model = None
+        self.processor = None
+        self._is_loaded = False
+        self._loaded_device = None
+        self._loaded_dtype = None
+        gc.collect()
+        if torch and torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     def load_model(
         self,
         safe_mode: bool = True,
+        safe_load: bool = True,
         device_preference: str = "auto",
+        dtype_preference: str = "auto",
         box_threshold: float = 0.5,
         mask_threshold: float = 0.5,
     ) -> None:
@@ -53,31 +72,120 @@ class SAM3Runner:
             raise RuntimeError("transformers does not include SAM-3 support") from exc
 
         device_preference = (device_preference or "auto").lower()
+        dtype_preference = (dtype_preference or "auto").lower()
         self.safe_mode = safe_mode
         self.device_preference = device_preference
+        self.safe_load = safe_load
         self.box_threshold = box_threshold
         self.mask_threshold = mask_threshold
 
-        if safe_mode:
-            use_cuda = device_preference == "cuda" and torch.cuda.is_available()
-            self.device = "cuda" if use_cuda else "cpu"
+        if device_preference == "cuda" and torch.cuda.is_available():
+            self.device = "cuda"
+        elif device_preference == "cpu":
+            self.device = "cpu"
         else:
-            if device_preference == "cpu":
-                self.device = "cpu"
-            elif device_preference == "cuda" and torch.cuda.is_available():
-                self.device = "cuda"
-            else:
-                self.device = "cuda" if torch.cuda.is_available() else "cpu"
+            self.device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        if dtype_preference == "fp16" and self.device != "cuda":
+            logger.warning("fp16 requested but CUDA not available; using fp32 on CPU")
+        if dtype_preference == "fp32":
+            target_dtype = torch.float32
+        elif dtype_preference == "fp16":
+            target_dtype = torch.float16 if self.device == "cuda" else torch.float32
+        else:
+            target_dtype = torch.float16 if self.device == "cuda" else torch.float32
+        prefer_fp16 = self.device == "cuda" and dtype_preference != "fp32"
+
+        if (
+            self._is_loaded
+            and self.model is not None
+            and self.processor is not None
+            and self._loaded_device == self.device
+            and self._loaded_dtype == target_dtype
+        ):
+            return
+
+        if self._is_loaded:
+            self.unload()
         local_dir = self.weights_path if self.weights_path.is_dir() else self.weights_path.parent
         if not local_dir.exists():
             raise FileNotFoundError(f"SAM-3 weights not found at {local_dir}")
 
-        try:  # pragma: no cover - external dependency
-            self.model = Sam3Model.from_pretrained(local_dir.as_posix(), local_files_only=True).to(self.device)
-            self.processor = Sam3Processor.from_pretrained(local_dir.as_posix(), local_files_only=True)
-            self.model.eval()
-        except Exception as exc:  # pragma: no cover - external dependency
-            raise RuntimeError(f"Failed to load SAM-3 from {local_dir}: {exc}") from exc
+        accelerate_available = importlib.util.find_spec("accelerate") is not None
+        device_map = "auto" if self.device == "cuda" and safe_load and accelerate_available else None
+
+        def _log_memory(prefix: str) -> tuple[float, float]:
+            process = psutil.Process()
+            rss = process.memory_info().rss
+            vram = torch.cuda.memory_allocated() if torch and torch.cuda.is_available() else 0
+            logger.info(f"{prefix} RAM: {rss / (1024 ** 3):.2f} GB, VRAM: {vram / (1024 ** 3):.2f} GB")
+            return rss, vram
+
+        def _strategy_description(name: str, dtype: torch.dtype, map_value: str | None) -> str:
+            return (
+                f"strategy={name}, device={self.device}, dtype={dtype}, device_map={map_value}"
+            )
+
+        load_args = {
+            "pretrained_model_name_or_path": local_dir.as_posix(),
+            "local_files_only": True,
+        }
+        strategies = []
+        if safe_load:
+            load_args["low_cpu_mem_usage"] = True
+            if device_map and prefer_fp16:
+                strategies.append(("device_map_auto_fp16", device_map, torch.float16))
+            if prefer_fp16:
+                strategies.append(("manual_fp16", None, torch.float16))
+            strategies.append(("manual_fp32", None, torch.float32))
+        else:
+            strategies.append(("standard", None, target_dtype))
+
+        load_errors: list[str] = []
+        for idx, (name, map_value, dtype) in enumerate(strategies, start=1):
+            try:
+                logger.info(
+                    f"Loading SAM-3 ({idx}/{len(strategies)}) with {_strategy_description(name, dtype, map_value)}"
+                )
+                rss_before, vram_before = _log_memory("Before load")
+                model_kwargs = dict(load_args)
+                model_kwargs["torch_dtype"] = dtype
+                if map_value:
+                    model_kwargs["device_map"] = map_value
+                self.model = Sam3Model.from_pretrained(**model_kwargs)
+                if not map_value:
+                    self.model.to(self.device)
+                self.processor = Sam3Processor.from_pretrained(local_dir.as_posix(), local_files_only=True)
+                self.model.eval()
+                rss_after, vram_after = _log_memory("After load")
+                logger.info(
+                    "Memory load: RAM: %.2f -> %.2f GB (+%.2f), VRAM: %.2f -> %.2f GB (+%.2f), device=%s, dtype=%s, device_map=%s"
+                    % (
+                        rss_before / (1024 ** 3),
+                        rss_after / (1024 ** 3),
+                        (rss_after - rss_before) / (1024 ** 3),
+                        vram_before / (1024 ** 3),
+                        vram_after / (1024 ** 3),
+                        (vram_after - vram_before) / (1024 ** 3),
+                        self.device,
+                        dtype,
+                        map_value,
+                    )
+                )
+                self._is_loaded = True
+                self._loaded_device = self.device
+                self._loaded_dtype = dtype
+                return
+            except Exception as exc:  # pragma: no cover - external dependency
+                load_errors.append(str(exc))
+                logger.warning(
+                    f"SAM-3 load failed with {_strategy_description(name, dtype, map_value)}: {exc}."
+                    f" Trying next strategy..." if idx < len(strategies) else ""
+                )
+
+        raise RuntimeError(
+            "Failed to load SAM-3 from %s after strategies: %s" % (local_dir, "; ".join(load_errors))
+        )
 
     def is_loaded(self) -> bool:
         return self.model is not None
@@ -103,77 +211,60 @@ class SAM3Runner:
             new_height = max(1, int(round(orig_height * scale)))
             resized_image = image_rgb.resize((new_width, new_height))
 
-        attempts = 0
-        last_exc: Exception | None = None
-        while attempts < 2:
-            inputs = outputs = results = boxes = scores = masks = None
-            try:
-                inputs = self.processor(images=resized_image, text=prompt_text, return_tensors="pt")
-                if torch and self.device:
-                    inputs = {
-                        key: value.to(self.device) if hasattr(value, "to") else value
-                        for key, value in inputs.items()
-                    }
-                target_sizes = [(orig_height, orig_width)]
-                with torch.inference_mode():
-                    outputs = self.model(**inputs)
-                results = self.processor.post_process_instance_segmentation(
-                    outputs,
-                    threshold=0.0,
-                    mask_threshold=self.mask_threshold,
-                    target_sizes=target_sizes,
-                )[0]
+        inputs = outputs = results = boxes = scores = masks = None
+        try:
+            inputs = self.processor(images=resized_image, text=prompt_text, return_tensors="pt")
+            if torch and self.device:
+                inputs = {
+                    key: value.to(self.device) if hasattr(value, "to") else value
+                    for key, value in inputs.items()
+                }
+            target_sizes = [(resized_image.size[1], resized_image.size[0])]
+            with torch.inference_mode():
+                outputs = self.model(**inputs)
+            results = self.processor.post_process_instance_segmentation(
+                outputs,
+                threshold=0.0,
+                mask_threshold=self.mask_threshold,
+                target_sizes=target_sizes,
+            )[0]
 
-                boxes = results.get("boxes") or []
-                scores = results.get("scores") or []
-                masks = results.get("masks")
-                filtered = [
-                    (idx, box, float(score))
-                    for idx, (box, score) in enumerate(zip(boxes, scores))
-                    if float(score) >= box_threshold
-                ]
-                filtered.sort(key=lambda item: item[2], reverse=True)
-                if max_detections:
-                    filtered = filtered[:max_detections]
+            boxes = results.get("boxes") or []
+            scores = results.get("scores") or []
+            masks = results.get("masks")
+            filtered = [
+                (idx, box, float(score))
+                for idx, (box, score) in enumerate(zip(boxes, scores))
+                if float(score) >= box_threshold
+            ]
+            filtered.sort(key=lambda item: item[2], reverse=True)
+            if max_detections:
+                filtered = filtered[:max_detections]
 
-                detections: List[Detection] = []
-                for idx, box, score in filtered:
-                    x0, y0, x1, y1 = [float(v) for v in box]
-                    bbox = [x0, y0, max(0.0, x1 - x0), max(0.0, y1 - y0)]
-                    mask_path = None
-                    if masks is not None and len(masks) > idx:
-                        mask = masks[idx]
-                        if hasattr(mask, "cpu"):
-                            mask = mask.cpu()
-                        mask_path = None  # Masks persistence can be added later
-                    detections.append(Detection(bbox=bbox, score=score, mask_path=mask_path))
-                return detections
-            except torch.cuda.OutOfMemoryError as exc:  # pragma: no cover - requires GPU
-                last_exc = exc
-                logger.warning("CUDA OOM detected. Retrying on CPU if possible.")
-                if torch and torch.cuda.is_available():
-                    torch.cuda.empty_cache()
-                if self.device == "cuda":
-                    self.device = "cpu"
-                    if self.model is not None:
-                        self.model.to(self.device)
-                    attempts += 1
-                    continue
-                raise RuntimeError("SAM-3 inference failed after CPU retry") from exc
-            except Exception as exc:
-                last_exc = exc
-                raise RuntimeError(f"SAM-3 inference failed: {exc}") from exc
-            finally:
-                inputs = None
-                outputs = None
-                results = None
-                boxes = None
-                scores = None
-                masks = None
-                gc.collect()
-                if torch and self.device == "cuda":
-                    torch.cuda.empty_cache()
-        raise RuntimeError(f"SAM-3 inference failed: {last_exc}")
+            detections: List[Detection] = []
+            for idx, box, score in filtered:
+                x0, y0, x1, y1 = [float(v) for v in box]
+                bbox = [x0, y0, max(0.0, x1 - x0), max(0.0, y1 - y0)]
+                mask_path = None
+                if masks is not None and len(masks) > idx:
+                    mask = masks[idx]
+                    if hasattr(mask, "cpu"):
+                        mask = mask.cpu()
+                    mask_path = None  # Masks persistence can be added later
+                detections.append(Detection(bbox=bbox, score=score, mask_path=mask_path))
+            return detections
+        except Exception as exc:
+            raise RuntimeError(f"SAM-3 inference failed: {exc}") from exc
+        finally:
+            inputs = None
+            outputs = None
+            results = None
+            boxes = None
+            scores = None
+            masks = None
+            gc.collect()
+            if torch and self.device == "cuda":
+                torch.cuda.empty_cache()
 
 
 def get_torch_info():
@@ -195,15 +286,24 @@ def get_torch_info():
 @lru_cache(maxsize=2)
 def validate_sam3_load(weights_path: str) -> tuple[bool, str]:
     path = Path(weights_path)
-    runner = SAM3Runner(path)
+    if not path.exists():
+        return False, f"Weights path not found: {path}"
     try:
-        runner.load_model(safe_mode=True, device_preference="cpu")
+        from transformers import Sam3Model, Sam3Processor
+    except Exception as exc:  # pragma: no cover - optional dependency
+        return False, f"Transformers SAM-3 not available: {exc}"
+
+    if path.is_dir():
+        config_file = path / "config.json"
+        if not config_file.exists():
+            return False, f"Missing config.json in {path}"
+    else:
+        if not path.exists():
+            return False, f"Checkpoint not found: {path}"
+
+    try:
+        Sam3Model.from_pretrained(path.as_posix(), local_files_only=True, device_map="meta")
+        Sam3Processor.from_pretrained(path.as_posix(), local_files_only=True)
     except Exception as exc:  # pragma: no cover - external dependency
-        return False, f"Model load failed: {exc}"
-    finally:
-        runner.model = None
-        runner.processor = None
-        gc.collect()
-        if torch and torch.cuda.is_available():  # pragma: no cover - GPU specific
-            torch.cuda.empty_cache()
+        return False, f"Model metadata validation failed: {exc}"
     return True, "Model load ok"
