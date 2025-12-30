@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
 
 class DatasetCreate(BaseModel):
@@ -49,7 +50,12 @@ class JobLevel1Request(BaseModel):
     concepts: List[ConceptPrompt]
     user_confidence: float = Field(0.5, ge=0.0, le=1.0)
     batch_size: int = 1
-    target_long_side: int = 768
+    safe_mode: bool = True
+    device_preference: Literal["auto", "cpu", "cuda"] = "auto"
+    target_long_side: Optional[int] = None
+    box_threshold: Optional[float] = None
+    max_detections_per_image: Optional[int] = None
+    sleep_ms_between_images: Optional[int] = None
     max_images: Optional[int] = None
 
 
