@@ -230,10 +230,12 @@ class JobManager:
         session.commit()
 
     def launch_job(self, job: Job):
-        cancel_event = threading.Event()
-        self.active_jobs[job.id] = cancel_event
-        thread = threading.Thread(target=self._run_job, args=(job.id,), daemon=True)
-        thread.start()
+        #cancel_event = threading.Event()
+        #self.active_jobs[job.id] = cancel_event
+        #thread = threading.Thread(target=self._run_job, args=(job.id,), daemon=True)
+        #thread.start()
+        self.active_jobs[job.id] = threading.Event()
+        self._run_job(job.id)
 
     def cancel(self, job_id: int) -> bool:
         event = self.active_jobs.get(job_id)
