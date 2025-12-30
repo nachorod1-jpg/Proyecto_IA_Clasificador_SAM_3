@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: proyecto-ia-backend
+Version: 0.1.0
+Summary: Backend para clasificación jerárquica con SAM-3.
+Requires-Python: >=3.10
+Requires-Dist: fastapi>=0.110.0
+Requires-Dist: uvicorn[standard]>=0.23.0
+Requires-Dist: sqlalchemy>=2.0
+Requires-Dist: pydantic>=2.6
+Requires-Dist: pydantic-settings>=2.2
+Requires-Dist: python-multipart>=0.0.6
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: pillow>=10.2

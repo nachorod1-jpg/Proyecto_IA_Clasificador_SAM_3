@@ -1,0 +1,12 @@
+2025-12-27 18:33:32,532 - INFO - Starting job 1 on device cuda
+2025-12-27 18:33:33,192 - INFO - Processed image 1 (1/10)
+2025-12-27 18:33:33,853 - INFO - Processed image 2 (2/10)
+2025-12-27 18:33:34,193 - INFO - Processed image 3 (3/10)
+2025-12-27 18:33:34,401 - INFO - Processed image 4 (4/10)
+2025-12-27 18:33:34,718 - INFO - Processed image 5 (5/10)
+2025-12-27 18:33:35,224 - INFO - Processed image 6 (6/10)
+2025-12-27 18:33:35,682 - INFO - Processed image 7 (7/10)
+2025-12-27 18:33:36,037 - INFO - Processed image 8 (8/10)
+2025-12-27 18:33:36,398 - INFO - Processed image 9 (9/10)
+2025-12-27 18:33:36,721 - INFO - Processed image 10 (10/10)
+2025-12-27 18:33:36,968 - INFO - Job completed
