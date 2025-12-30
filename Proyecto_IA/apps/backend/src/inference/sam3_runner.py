@@ -152,7 +152,19 @@ class SAM3Runner:
                 model_kwargs["torch_dtype"] = dtype
                 if map_value:
                     model_kwargs["device_map"] = map_value
-                self.model = Sam3Model.from_pretrained(**model_kwargs)
+                try:
+                    self.model = Sam3Model.from_pretrained(**model_kwargs)
+                except TypeError as type_err:
+                    if "device_map" in str(type_err) and map_value:
+                        logger.warning(
+                            "device_map parameter not supported by this Transformers version. "
+                            f"Falling back to manual .to(device). Error: {type_err}"
+                        )
+                        model_kwargs.pop("device_map", None)
+                        self.model = Sam3Model.from_pretrained(**model_kwargs)
+                        self.model.to(self.device)
+                    else:
+                        raise
                 if not map_value:
                     self.model.to(self.device)
                 self.processor = Sam3Processor.from_pretrained(local_dir.as_posix(), local_files_only=True)
@@ -306,4 +318,5 @@ def validate_sam3_load(weights_path: str) -> tuple[bool, str]:
         Sam3Processor.from_pretrained(path.as_posix(), local_files_only=True)
     except Exception as exc:  # pragma: no cover - external dependency
         return False, f"Model metadata validation failed: {exc}"
+    gc.collect()
     return True, "Model load ok"
