@@ -1,4 +1,11 @@
 @echo off
 set SCRIPT_DIR=%~dp0
-set DEFAULT_ENV=sam3_env
-call "%SCRIPT_DIR%run_app.bat" -Mode dev -CondaEnvName %DEFAULT_ENV% %*
+set PS1=%SCRIPT_DIR%run_app.ps1
+
+where pwsh >nul 2>nul
+if %errorlevel%==0 (
+    pwsh -NoProfile -ExecutionPolicy Bypass -File "%PS1%" -Mode dev -CondaEnvName sam3_env -SkipVenv -KillPorts %*
+    goto :eof
+)
+
+powershell -NoProfile -ExecutionPolicy Bypass -File "%PS1%" -Mode dev -CondaEnvName sam3_env -SkipVenv -KillPorts %*
