@@ -4,7 +4,9 @@ Param(
     [string]$BackendPython,
     [string]$CondaEnvName,
     [switch]$SkipVenv,
-    [switch]$InstallBackendEditable
+    [switch]$InstallBackendEditable,
+    [switch]$KillPorts,
+    [switch]$ForceKillPorts
 )
 
 $ErrorActionPreference = 'Stop'
@@ -58,6 +60,86 @@ function Wait-ForEndpoint($Url, $Retries = 60, $DelaySeconds = 1, $ProcessId = $
         }
     }
     return $false
+}
+
+function Get-ListeningPids($Port) {
+    $pids = @()
+
+    if (Get-Command Get-NetTCPConnection -ErrorAction SilentlyContinue) {
+        try {
+            $pids = Get-NetTCPConnection -LocalPort $Port -State Listen | Select-Object -ExpandProperty OwningProcess -Unique
+        } catch {
+            Write-Log "Get-NetTCPConnection falló para el puerto $Port: $_"
+        }
+    }
+
+    if (-not $pids -or $pids.Count -eq 0) {
+        $netstatOutput = netstat -ano | findstr ":$Port"
+        foreach ($line in $netstatOutput) {
+            if ($line -match 'LISTENING\s+(\d+)$') {
+                $pids += $matches[1]
+            }
+        }
+    }
+
+    return $pids | Sort-Object -Unique
+}
+
+function Should-KillProcess($Pid, $Port, $ForceKill, $CommandLine) {
+    if ($ForceKill) { return $true }
+
+    $cmdLine = $CommandLine
+    if (-not $cmdLine) {
+        try {
+            $cmdLine = (Get-CimInstance Win32_Process -Filter "ProcessId=$Pid").CommandLine
+        } catch {
+            Write-Log "No se pudo obtener la CommandLine del PID $Pid (puerto $Port): $_"
+        }
+    }
+
+    if (-not $cmdLine) {
+        Write-Log "Sin CommandLine para PID $Pid en puerto $Port. Usa -ForceKillPorts para forzar."
+        return $false
+    }
+
+    if ($Port -eq 8000) {
+        if ($cmdLine -match '(uvicorn|python)') { return $true }
+    } elseif ($Port -eq 5173) {
+        if ($cmdLine -match '(node|vite)') { return $true }
+    }
+
+    Write-Log "PID $Pid en puerto $Port no coincide con procesos esperados (cmdline: $cmdLine). Use -ForceKillPorts para forzar."
+    return $false
+}
+
+function Kill-Port($Port, $ForceKill) {
+    $pids = Get-ListeningPids -Port $Port
+    if (-not $pids -or $pids.Count -eq 0) {
+        Write-Log "No se encontraron procesos en escucha en el puerto $Port."
+        return
+    }
+
+    foreach ($pid in $pids) {
+        $cmdLine = $null
+        try {
+            $cmdLine = (Get-CimInstance Win32_Process -Filter "ProcessId=$pid").CommandLine
+        } catch {
+            $cmdLine = $null
+        }
+
+        if (Should-KillProcess -Pid $pid -Port $Port -ForceKill $ForceKill -CommandLine $cmdLine) {
+            if ($cmdLine) {
+                Write-Log "Matando PID $pid en puerto $Port (cmdline: $cmdLine)"
+            } else {
+                Write-Log "Matando PID $pid en puerto $Port"
+            }
+            try {
+                taskkill /PID $pid /F | Out-String | Add-Content -Path $launcherLog
+            } catch {
+                Write-Log "No se pudo terminar PID $pid en puerto $Port: $_"
+            }
+        }
+    }
 }
 
 Write-Log "Modo seleccionado: $Mode"
@@ -149,6 +231,7 @@ if (-not $pythonCmd) {
     throw "No se pudo determinar el intérprete de Python. Usa -BackendPython o -CondaEnvName, o permite la creación de .venv."
 }
 
+Write-Log "BackendPython efectivo: $pythonCmd"
 Test-PythonExecutable $pythonCmd
 
 if ($useVenv -and -not $SkipVenv) {
@@ -170,19 +253,36 @@ if (-not (Test-Path (Join-Path $frontendDir 'node_modules'))) {
     Pop-Location
 }
 
-$env:APP_ENV = ($Mode -eq 'dev') ? 'dev' : 'app'
+$env:APP_ENV = 'app'
+if ($Mode -eq 'dev') {
+    $env:APP_ENV = 'dev'
+}
 $env:ENABLE_LOGS_ENDPOINT = 'true'
 $env:UVICORN_WORKERS = '1'
+
+$killPortsEffective = $false
+if ($PSBoundParameters.ContainsKey('KillPorts')) {
+    if ($KillPorts) { $killPortsEffective = $true }
+} elseif ($Mode -eq 'dev') {
+    $killPortsEffective = $true
+}
+
+if ($killPortsEffective) {
+    Write-Log "Liberando puertos previos (8000 y 5173). ForceKillPorts=$ForceKillPorts"
+    Kill-Port -Port 8000 -ForceKill $ForceKillPorts
+    Kill-Port -Port 5173 -ForceKill $ForceKillPorts
+}
 
 if ($Mode -eq 'dev') {
     Write-Log 'Iniciando backend (uvicorn --reload)'
     $backendDir = Join-Path $repoRoot 'apps/backend'
     $backendArgs = "-m","uvicorn","src.main:app","--reload","--host","0.0.0.0","--port","8000","--app-dir","$backendDir","--workers","1"
+    Write-Log "Comando uvicorn: $pythonCmd $($backendArgs -join ' ')"
     $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendOutLog -RedirectStandardError $backendErrLog
     Write-Log "Backend PID: $($backendProc.Id)"
 
-    Write-Log 'Iniciando frontend (npm run dev)'
-    $frontendProc = Start-Process -FilePath 'npm' -ArgumentList 'run','dev','--','--host' -WorkingDirectory $frontendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $frontendOutLog -RedirectStandardError $frontendErrLog
+    Write-Log 'Iniciando frontend (npm run dev -- --host)'
+    $frontendProc = Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', 'npm run dev -- --host' -WorkingDirectory $frontendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $frontendOutLog -RedirectStandardError $frontendErrLog
     Write-Log "Frontend PID: $($frontendProc.Id)"
 
     Start-Sleep -Seconds 1
@@ -221,6 +321,7 @@ if ($Mode -eq 'dev') {
     Write-Log 'Iniciando backend en modo APP (sirviendo build estático)'
     $backendDir = Join-Path $repoRoot 'apps/backend'
     $backendArgs = "-m","uvicorn","src.main:app","--host","0.0.0.0","--port","8000","--app-dir","$backendDir","--workers","1"
+    Write-Log "Comando uvicorn: $pythonCmd $($backendArgs -join ' ')"
     $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendOutLog -RedirectStandardError $backendErrLog
     Write-Log "Backend PID: $($backendProc.Id)"
 
