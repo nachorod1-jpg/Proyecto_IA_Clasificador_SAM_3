@@ -6,6 +6,7 @@ src/api/datasets.py
 src/api/health.py
 src/api/images.py
 src/api/jobs.py
+src/api/logs.py
 src/core/__init__.py
 src/core/config.py
 src/core/database.py
