@@ -155,3 +155,9 @@
 2026-01-02 19:51:31,761 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/datasets HTTP/1.1" 200
 2026-01-02 19:51:31,766 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
 2026-01-02 19:51:32,445 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 23:38:20,567 - INFO - uvicorn.error - Started server process [7124]
+2026-01-02 23:38:20,567 - INFO - uvicorn.error - Started server process [7124]
+2026-01-02 23:38:20,569 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-02 23:38:20,569 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-02 23:38:20,592 - INFO - uvicorn.error - Application startup complete.
+2026-01-02 23:38:20,592 - INFO - uvicorn.error - Application startup complete.
