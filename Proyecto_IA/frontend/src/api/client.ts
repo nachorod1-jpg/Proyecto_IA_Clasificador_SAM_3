@@ -1,5 +1,10 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { API_BASE_URL } from '../config/env';
+
+export interface ApiError extends Error {
+  status?: number;
+  isNetworkError?: boolean;
+}
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL || '/api',
@@ -8,15 +13,26 @@ const apiClient = axios.create({
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.code === 'ECONNABORTED') {
-      return Promise.reject(new Error('La solicitud excedió el tiempo de espera.'));
+  (error: AxiosError) => {
+    if (error.code === 'ECONNABORTED' || error.message === 'Network Error' || !error.response) {
+      const networkError: ApiError = Object.assign(new Error('No se pudo conectar con el servidor.'), {
+        isNetworkError: true
+      });
+      return Promise.reject(networkError);
     }
-    if (error.response) {
-      const message = error.response.data?.message || error.response.data?.detail || error.message;
-      return Promise.reject(new Error(message));
-    }
-    return Promise.reject(error);
+
+    const message = (error.response?.data as Record<string, unknown>)?.message
+      ? String((error.response?.data as Record<string, unknown>).message)
+      : (error.response?.data as Record<string, unknown>)?.detail
+        ? String((error.response?.data as Record<string, unknown>).detail)
+        : error.message;
+
+    const enrichedError: ApiError = Object.assign(new Error(message), {
+      status: error.response?.status,
+      isNetworkError: false
+    });
+
+    return Promise.reject(enrichedError);
   }
 );
 

@@ -17,6 +17,8 @@ Scripts listos para doble clic en `scripts/`:
   - **Modo APP**: `powershell -ExecutionPolicy Bypass -File scripts/run_app.ps1 -Mode app` construye el frontend si falta `frontend/dist/`, levanta solo el backend sirviendo la build estática y abre `http://localhost:8000/`.
 - `stop_app.bat` / `stop_app.ps1`: intenta cerrar procesos en los puertos 8000/5173 y detiene procesos `uvicorn/python/node/npm` activos.
 
+El launcher redirige stdout/stderr del backend y frontend a `logs/backend-dev.log` y `logs/frontend-dev.log` respectivamente (además del log rotado del backend).
+
 Los scripts crean un `venv` en `.venv/` (si no existe), instalan dependencias (`pip install -e apps/backend`, `npm install` si falta `node_modules`) y exportan `APP_ENV`/`ENABLE_LOGS_ENDPOINT=true` para habilitar los endpoints de logs en la UI.
 
 ## Variables de entorno
@@ -181,6 +183,7 @@ Sigue estos pasos en dos terminales distintas. Requiere Python 3.10+ y Node.js 1
 - El backend escribe trazas rotadas en `logs/backend.log` (directorio creado automáticamente).
 - Endpoints de soporte: `GET /api/v1/logs/tail?lines=200` (texto plano) y `GET /api/v1/logs/stream` (SSE). Solo se exponen si `APP_ENV=dev` o `ENABLE_LOGS_ENDPOINT=true`.
 - La UI incluye un acordeón "Logs recientes" en `/system/status` con streaming automático y fallback a polling; permite pausar, copiar y elegir el número de líneas.
+- El banner de "backend offline" en la UI solo se activa si el healthcheck falla o hay un error de conectividad general. Los errores funcionales (por ejemplo, un 404 en `/api/v1/datasets`) se muestran en la sección correspondiente sin marcar el backend como caído.
 
 ### Modo APP (single server)
 - Ejecuta `npm run build` en `frontend/` (el launcher lo hace si falta `dist/`).

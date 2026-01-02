@@ -17,6 +17,7 @@ class DatasetOut(BaseModel):
     name: str
     root_path: str
     created_at: datetime
+    num_images: Optional[int] = None
 
     class Config:
         from_attributes = True
