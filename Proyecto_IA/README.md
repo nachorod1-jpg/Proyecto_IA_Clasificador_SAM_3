@@ -106,3 +106,16 @@ curl -O http://localhost:8000/api/v1/images/10/file
 - El JobManager reutiliza un único runner SAM-3 por ruta de pesos; solo se descarga y recarga si cambian los checkpoints.
 - Antes de cargar el modelo se ejecuta un preflight de RAM (y VRAM si aplica) con psutil/torch; si no hay margen suficiente se aborta rápido con error claro.
 - El post-procesado usa `threshold=box_threshold` para evitar explosiones de candidatos temporales.
+
+## Frontend (Vite + React)
+El frontend de LOD1 vive en `frontend/` y consume el backend vía HTTP.
+
+### Arranque rápido
+```bash
+cd frontend
+cp .env.example .env   # define VITE_API_BASE_URL (p. ej. http://localhost:8000)
+npm install
+npm run dev
+```
+
+En desarrollo, Vite puede hacer proxy de `/api` hacia `VITE_API_BASE_URL`. Si prefieres no usar el proxy, habilita CORS en el backend FastAPI.
