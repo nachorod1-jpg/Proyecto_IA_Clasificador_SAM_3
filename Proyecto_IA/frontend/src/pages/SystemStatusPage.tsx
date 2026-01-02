@@ -1,4 +1,5 @@
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
+import BackendLogPanel from '../components/BackendLogPanel';
 import { useHealthPolling } from '../hooks/useHealthPolling';
 
 const StatCard = ({ label, value }: { label: string; value?: string | number | boolean }) => (
@@ -33,6 +34,18 @@ const SystemStatusPage = () => {
           {data.message && <StatCard label="Mensaje" value={data.message} />}
         </div>
       )}
+      <details className="rounded-lg bg-white shadow-sm" open>
+        <summary className="cursor-pointer list-none rounded-t-lg border-b px-4 py-3 text-lg font-semibold text-gray-900">
+          Logs recientes
+        </summary>
+        <div className="p-4">
+          <p className="mb-3 text-sm text-gray-600">
+            Visualiza los logs del backend sin salir de la aplicación. El panel intenta usar streaming (SSE) y
+            vuelve a modo polling si el endpoint no está disponible.
+          </p>
+          <BackendLogPanel />
+        </div>
+      </details>
     </div>
   );
 };

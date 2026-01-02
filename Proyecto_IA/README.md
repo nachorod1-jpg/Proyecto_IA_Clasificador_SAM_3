@@ -6,6 +6,18 @@ Este backend implementa la fase 1 (Clasificación Jerárquica I · Nivel 1: dete
 - Python 3.10+
 - Dependencias: `pip install -e apps/backend`
 - Pesos de SAM-3 descargados en la máquina local (no se versionan).
+- Node.js 18+ y npm (para el frontend o build embebido en modo APP).
+
+## Arranque rápido (Windows)
+
+Scripts listos para doble clic en `scripts/`:
+
+- `run_app.bat` / `run_app.ps1`: lanza el entorno completo y escribe trazas en `logs/launcher.log`.
+  - **Modo DEV (por defecto)**: `scripts\run_app.bat` abre dos procesos (backend con `uvicorn --reload` y frontend con `npm run dev -- --host`), espera al healthcheck en `http://localhost:8000/api/v1/health` y abre el navegador en `http://localhost:5173/system/status`.
+  - **Modo APP**: `powershell -ExecutionPolicy Bypass -File scripts/run_app.ps1 -Mode app` construye el frontend si falta `frontend/dist/`, levanta solo el backend sirviendo la build estática y abre `http://localhost:8000/`.
+- `stop_app.bat` / `stop_app.ps1`: intenta cerrar procesos en los puertos 8000/5173 y detiene procesos `uvicorn/python/node/npm` activos.
+
+Los scripts crean un `venv` en `.venv/` (si no existe), instalan dependencias (`pip install -e apps/backend`, `npm install` si falta `node_modules`) y exportan `APP_ENV`/`ENABLE_LOGS_ENDPOINT=true` para habilitar los endpoints de logs en la UI.
 
 ## Variables de entorno
 Crea un archivo `.env` basado en `.env.example`:
@@ -164,6 +176,19 @@ Sigue estos pasos en dos terminales distintas. Requiere Python 3.10+ y Node.js 1
    - En `Classification > New job`, selecciona el dataset y los conceptos, ajusta umbral opcionalmente y lanza el job.
    - Al crear, se redirige al monitor del job (`/classification/level1/jobs/{id}`) con polling dinámico; desde allí puedes cancelar/reanudar si el backend lo permite.
    - Cuando el job termine, abre la pestaña de resultados para ver estadísticas y la galería paginada de samples (filtros por concepto/bucket, carga diferida de miniaturas).
+
+### Logs y panel de sistema
+- El backend escribe trazas rotadas en `logs/backend.log` (directorio creado automáticamente).
+- Endpoints de soporte: `GET /api/v1/logs/tail?lines=200` (texto plano) y `GET /api/v1/logs/stream` (SSE). Solo se exponen si `APP_ENV=dev` o `ENABLE_LOGS_ENDPOINT=true`.
+- La UI incluye un acordeón "Logs recientes" en `/system/status` con streaming automático y fallback a polling; permite pausar, copiar y elegir el número de líneas.
+
+### Modo APP (single server)
+- Ejecuta `npm run build` en `frontend/` (el launcher lo hace si falta `dist/`).
+- Inicia el backend sirviendo los estáticos (ejemplo manual):
+  ```bash
+  APP_ENV=app ENABLE_LOGS_ENDPOINT=true UVICORN_WORKERS=1 uvicorn src.main:app --host 0.0.0.0 --port 8000 --app-dir apps/backend
+  ```
+- La SPA queda accesible en `http://localhost:8000/` y las llamadas a la API siguen en `/api/v1/...`.
 
 ## Frontend (Vite + React)
 El frontend de LOD1 vive en `frontend/` y consume el backend vía HTTP.

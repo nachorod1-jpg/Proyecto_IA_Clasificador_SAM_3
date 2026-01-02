@@ -25,6 +25,12 @@ Frontend React (Vite + TypeScript) para consumir el backend FastAPI de clasifica
 
 El `vite.config.ts` incluye un proxy opcional para rutas `/api` si `VITE_API_BASE_URL` está definido. Si el backend no permite CORS, usa el proxy de Vite en desarrollo.
 
+### Panel de logs del backend
+- La página `/system/status` incluye un acordeón "Logs recientes" con el componente `BackendLogPanel`.
+- Intenta consumir `GET /api/v1/logs/stream` (SSE) y hace fallback a `GET /api/v1/logs/tail?lines=200` cada 2s.
+- Puedes pausar el autoscroll, copiar el contenido y elegir 200/500/1000 líneas.
+- Los endpoints solo responden si el backend se arranca con `APP_ENV=dev` o `ENABLE_LOGS_ENDPOINT=true` (los scripts `scripts/run_app.*` ya lo configuran).
+
 ## Scripts
 - `npm run dev`: inicia el servidor de desarrollo.
 - `npm run build`: genera la versión optimizada de producción.
