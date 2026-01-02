@@ -69,7 +69,7 @@ function Get-ListeningPids($Port) {
         try {
             $pids = Get-NetTCPConnection -LocalPort $Port -State Listen | Select-Object -ExpandProperty OwningProcess -Unique
         } catch {
-            Write-Log "Get-NetTCPConnection falló para el puerto $Port: $_"
+            Write-Log "Get-NetTCPConnection falló para el puerto ${Port}: $_"
         }
     }
 
@@ -136,7 +136,7 @@ function Kill-Port($Port, $ForceKill) {
             try {
                 taskkill /PID $pid /F | Out-String | Add-Content -Path $launcherLog
             } catch {
-                Write-Log "No se pudo terminar PID $pid en puerto $Port: $_"
+                Write-Log "No se pudo terminar PID $pid en puerto ${Port}: $_"
             }
         }
     }
