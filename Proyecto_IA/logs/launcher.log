@@ -205,3 +205,230 @@ Run `npm audit` for details.
 2026-01-02 17:05:43 - Frontend PID: 1844
 2026-01-02 17:05:58 - Backend listo, abriendo navegador en http://localhost:5173/system/status
 2026-01-02 17:05:59 - Script finalizado.
+2026-01-02 17:53:47 - Modo seleccionado: dev
+2026-01-02 17:53:47 - Actualizando pip y dependencias del backend
+Requirement already satisfied: pip in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (25.3)
+
+Obtaining file:///C:/Users/nacho/Documents/GitHub/Proyecto_IA_Clasificador_SAM_3/Proyecto_IA/apps/backend
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: fastapi>=0.110.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.128.0)
+Requirement already satisfied: uvicorn>=0.23.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.40.0)
+Requirement already satisfied: sqlalchemy>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.0.45)
+Requirement already satisfied: pydantic>=2.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.5)
+Requirement already satisfied: pydantic-settings>=2.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.0)
+Requirement already satisfied: python-multipart>=0.0.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.0.21)
+Requirement already satisfied: python-dotenv>=1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.2.1)
+Requirement already satisfied: pillow>=10.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (12.1.0)
+Requirement already satisfied: numpy>=1.26 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.4.0)
+Requirement already satisfied: torch>=2.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.9.1)
+Requirement already satisfied: transformers>=4.44 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (4.57.3)
+Requirement already satisfied: accelerate>=0.33 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.12.0)
+Requirement already satisfied: packaging>=20.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (25.0)
+Requirement already satisfied: psutil in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (7.2.1)
+Requirement already satisfied: pyyaml in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (6.0.3)
+Requirement already satisfied: huggingface_hub>=0.21.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.36.0)
+Requirement already satisfied: safetensors>=0.4.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: starlette<0.51.0,>=0.40.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.50.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.15.0)
+Requirement already satisfied: annotated-doc>=0.0.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.0.4)
+Requirement already satisfied: anyio<5,>=3.6.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.12.0)
+Requirement already satisfied: idna>=2.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from anyio<5,>=3.6.2->starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (3.11)
+Requirement already satisfied: filelock in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.20.2)
+Requirement already satisfied: fsspec>=2023.5.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.12.0)
+Requirement already satisfied: requests in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.32.5)
+Requirement already satisfied: tqdm>=4.42.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (4.67.1)
+Requirement already satisfied: annotated-types>=0.6.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.4.2)
+Requirement already satisfied: greenlet>=1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sqlalchemy>=2.0->proyecto-ia-backend==0.1.0) (3.3.0)
+Requirement already satisfied: sympy>=1.13.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (1.14.0)
+Requirement already satisfied: networkx>=2.5.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.6.1)
+Requirement already satisfied: jinja2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.1.6)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sympy>=1.13.3->torch>=2.3->proyecto-ia-backend==0.1.0) (1.3.0)
+Requirement already satisfied: colorama in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from tqdm>=4.42.1->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.4.6)
+Requirement already satisfied: regex!=2019.12.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (2025.11.3)
+Requirement already satisfied: tokenizers<=0.23.0,>=0.22.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (0.22.1)
+Requirement already satisfied: click>=7.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (8.3.1)
+Requirement already satisfied: h11>=0.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.16.0)
+Requirement already satisfied: httptools>=0.6.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.7.1)
+Requirement already satisfied: watchfiles>=0.13 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (1.1.1)
+Requirement already satisfied: websockets>=10.4 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (15.0.1)
+Requirement already satisfied: MarkupSafe>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from jinja2->torch>=2.3->proyecto-ia-backend==0.1.0) (3.0.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.4.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.6.2)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.11.12)
+Building wheels for collected packages: proyecto-ia-backend
+  Building editable for proyecto-ia-backend (pyproject.toml): started
+  Building editable for proyecto-ia-backend (pyproject.toml): finished with status 'done'
+  Created wheel for proyecto-ia-backend: filename=proyecto_ia_backend-0.1.0-0.editable-py3-none-any.whl size=1603 sha256=299b2999f146ddb74edae4e4899cf6bd20daae7af33b33d4090211ff6582596f
+  Stored in directory: C:\Users\nacho\AppData\Local\Temp\pip-ephem-wheel-cache-61_syfxa\wheels\08\d1\b0\510c05311421b90e38d47de1218b879b9534c172a95de5a902
+Successfully built proyecto-ia-backend
+Installing collected packages: proyecto-ia-backend
+  Attempting uninstall: proyecto-ia-backend
+    Found existing installation: proyecto-ia-backend 0.1.0
+    Uninstalling proyecto-ia-backend-0.1.0:
+      Successfully uninstalled proyecto-ia-backend-0.1.0
+Successfully installed proyecto-ia-backend-0.1.0
+
+2026-01-02 17:54:03 - Iniciando backend (uvicorn --reload)
+2026-01-02 18:05:02 - Modo seleccionado: dev
+2026-01-02 18:05:02 - Actualizando pip y dependencias del backend
+Requirement already satisfied: pip in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (25.3)
+
+Obtaining file:///C:/Users/nacho/Documents/GitHub/Proyecto_IA_Clasificador_SAM_3/Proyecto_IA/apps/backend
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: fastapi>=0.110.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.128.0)
+Requirement already satisfied: uvicorn>=0.23.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.40.0)
+Requirement already satisfied: sqlalchemy>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.0.45)
+Requirement already satisfied: pydantic>=2.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.5)
+Requirement already satisfied: pydantic-settings>=2.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.0)
+Requirement already satisfied: python-multipart>=0.0.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.0.21)
+Requirement already satisfied: python-dotenv>=1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.2.1)
+Requirement already satisfied: pillow>=10.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (12.1.0)
+Requirement already satisfied: numpy>=1.26 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.4.0)
+Requirement already satisfied: torch>=2.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.9.1)
+Requirement already satisfied: transformers>=4.44 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (4.57.3)
+Requirement already satisfied: accelerate>=0.33 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.12.0)
+Requirement already satisfied: packaging>=20.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (25.0)
+Requirement already satisfied: psutil in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (7.2.1)
+Requirement already satisfied: pyyaml in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (6.0.3)
+Requirement already satisfied: huggingface_hub>=0.21.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.36.0)
+Requirement already satisfied: safetensors>=0.4.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: starlette<0.51.0,>=0.40.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.50.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.15.0)
+Requirement already satisfied: annotated-doc>=0.0.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.0.4)
+Requirement already satisfied: anyio<5,>=3.6.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.12.0)
+Requirement already satisfied: idna>=2.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from anyio<5,>=3.6.2->starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (3.11)
+Requirement already satisfied: filelock in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.20.2)
+Requirement already satisfied: fsspec>=2023.5.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.12.0)
+Requirement already satisfied: requests in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.32.5)
+Requirement already satisfied: tqdm>=4.42.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (4.67.1)
+Requirement already satisfied: annotated-types>=0.6.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.4.2)
+Requirement already satisfied: greenlet>=1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sqlalchemy>=2.0->proyecto-ia-backend==0.1.0) (3.3.0)
+Requirement already satisfied: sympy>=1.13.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (1.14.0)
+Requirement already satisfied: networkx>=2.5.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.6.1)
+Requirement already satisfied: jinja2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.1.6)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sympy>=1.13.3->torch>=2.3->proyecto-ia-backend==0.1.0) (1.3.0)
+Requirement already satisfied: colorama in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from tqdm>=4.42.1->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.4.6)
+Requirement already satisfied: regex!=2019.12.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (2025.11.3)
+Requirement already satisfied: tokenizers<=0.23.0,>=0.22.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (0.22.1)
+Requirement already satisfied: click>=7.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (8.3.1)
+Requirement already satisfied: h11>=0.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.16.0)
+Requirement already satisfied: httptools>=0.6.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.7.1)
+Requirement already satisfied: watchfiles>=0.13 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (1.1.1)
+Requirement already satisfied: websockets>=10.4 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (15.0.1)
+Requirement already satisfied: MarkupSafe>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from jinja2->torch>=2.3->proyecto-ia-backend==0.1.0) (3.0.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.4.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.6.2)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.11.12)
+Building wheels for collected packages: proyecto-ia-backend
+  Building editable for proyecto-ia-backend (pyproject.toml): started
+  Building editable for proyecto-ia-backend (pyproject.toml): finished with status 'done'
+  Created wheel for proyecto-ia-backend: filename=proyecto_ia_backend-0.1.0-0.editable-py3-none-any.whl size=1603 sha256=6682c819e8818039db20203a3a66326f45c3f31b3db5713adcf3d57a2f0ca2e5
+  Stored in directory: C:\Users\nacho\AppData\Local\Temp\pip-ephem-wheel-cache-xmi1elwd\wheels\08\d1\b0\510c05311421b90e38d47de1218b879b9534c172a95de5a902
+Successfully built proyecto-ia-backend
+Installing collected packages: proyecto-ia-backend
+  Attempting uninstall: proyecto-ia-backend
+    Found existing installation: proyecto-ia-backend 0.1.0
+    Uninstalling proyecto-ia-backend-0.1.0:
+      Successfully uninstalled proyecto-ia-backend-0.1.0
+Successfully installed proyecto-ia-backend-0.1.0
+
+2026-01-02 18:05:16 - Iniciando backend (uvicorn --reload)
+2026-01-02 18:05:16 - Backend PID: 11424
+2026-01-02 18:05:16 - Iniciando frontend (npm run dev)
+==== 2026-01-02 18:15:30 - run_app.ps1 start (mode=dev) ====
+2026-01-02 18:15:30 - Modo seleccionado: dev
+2026-01-02 18:15:30 - Actualizando pip y dependencias del backend
+Requirement already satisfied: pip in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (25.3)
+Obtaining file:///C:/Users/nacho/Documents/GitHub/Proyecto_IA_Clasificador_SAM_3/Proyecto_IA/apps/backend
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: fastapi>=0.110.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.128.0)
+Requirement already satisfied: uvicorn>=0.23.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.40.0)
+Requirement already satisfied: sqlalchemy>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.0.45)
+Requirement already satisfied: pydantic>=2.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.5)
+Requirement already satisfied: pydantic-settings>=2.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.12.0)
+Requirement already satisfied: python-multipart>=0.0.6 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (0.0.21)
+Requirement already satisfied: python-dotenv>=1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.2.1)
+Requirement already satisfied: pillow>=10.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (12.1.0)
+Requirement already satisfied: numpy>=1.26 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.4.0)
+Requirement already satisfied: torch>=2.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (2.9.1)
+Requirement already satisfied: transformers>=4.44 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (4.57.3)
+Requirement already satisfied: accelerate>=0.33 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from proyecto-ia-backend==0.1.0) (1.12.0)
+Requirement already satisfied: packaging>=20.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (25.0)
+Requirement already satisfied: psutil in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (7.2.1)
+Requirement already satisfied: pyyaml in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (6.0.3)
+Requirement already satisfied: huggingface_hub>=0.21.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.36.0)
+Requirement already satisfied: safetensors>=0.4.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: starlette<0.51.0,>=0.40.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.50.0)
+Requirement already satisfied: typing-extensions>=4.8.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.15.0)
+Requirement already satisfied: annotated-doc>=0.0.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (0.0.4)
+Requirement already satisfied: anyio<5,>=3.6.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (4.12.0)
+Requirement already satisfied: idna>=2.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from anyio<5,>=3.6.2->starlette<0.51.0,>=0.40.0->fastapi>=0.110.0->proyecto-ia-backend==0.1.0) (3.11)
+Requirement already satisfied: filelock in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.20.2)
+Requirement already satisfied: fsspec>=2023.5.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.12.0)
+Requirement already satisfied: requests in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.32.5)
+Requirement already satisfied: tqdm>=4.42.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (4.67.1)
+Requirement already satisfied: annotated-types>=0.6.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.7.0)
+Requirement already satisfied: pydantic-core==2.41.5 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (2.41.5)
+Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from pydantic>=2.6->proyecto-ia-backend==0.1.0) (0.4.2)
+Requirement already satisfied: greenlet>=1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sqlalchemy>=2.0->proyecto-ia-backend==0.1.0) (3.3.0)
+Requirement already satisfied: sympy>=1.13.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (1.14.0)
+Requirement already satisfied: networkx>=2.5.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.6.1)
+Requirement already satisfied: jinja2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from torch>=2.3->proyecto-ia-backend==0.1.0) (3.1.6)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from sympy>=1.13.3->torch>=2.3->proyecto-ia-backend==0.1.0) (1.3.0)
+Requirement already satisfied: colorama in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from tqdm>=4.42.1->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (0.4.6)
+Requirement already satisfied: regex!=2019.12.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (2025.11.3)
+Requirement already satisfied: tokenizers<=0.23.0,>=0.22.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from transformers>=4.44->proyecto-ia-backend==0.1.0) (0.22.1)
+Requirement already satisfied: click>=7.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (8.3.1)
+Requirement already satisfied: h11>=0.8 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn>=0.23.0->uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.16.0)
+Requirement already satisfied: httptools>=0.6.3 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (0.7.1)
+Requirement already satisfied: watchfiles>=0.13 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (1.1.1)
+Requirement already satisfied: websockets>=10.4 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from uvicorn[standard]>=0.23.0->proyecto-ia-backend==0.1.0) (15.0.1)
+Requirement already satisfied: MarkupSafe>=2.0 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from jinja2->torch>=2.3->proyecto-ia-backend==0.1.0) (3.0.3)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (3.4.4)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2.6.2)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\nacho\documents\github\proyecto_ia_clasificador_sam_3\proyecto_ia\.venv\lib\site-packages (from requests->huggingface_hub>=0.21.0->accelerate>=0.33->proyecto-ia-backend==0.1.0) (2025.11.12)
+Building wheels for collected packages: proyecto-ia-backend
+  Building editable for proyecto-ia-backend (pyproject.toml): started
+  Building editable for proyecto-ia-backend (pyproject.toml): finished with status 'done'
+  Created wheel for proyecto-ia-backend: filename=proyecto_ia_backend-0.1.0-0.editable-py3-none-any.whl size=1603 sha256=a0ccb754a3ab5b75a6e66799992788c48debf055b302ebebdbd082c0b6470b54
+  Stored in directory: C:\Users\nacho\AppData\Local\Temp\pip-ephem-wheel-cache-z48emhom\wheels\08\d1\b0\510c05311421b90e38d47de1218b879b9534c172a95de5a902
+Successfully built proyecto-ia-backend
+Installing collected packages: proyecto-ia-backend
+  Attempting uninstall: proyecto-ia-backend
+    Found existing installation: proyecto-ia-backend 0.1.0
+    Uninstalling proyecto-ia-backend-0.1.0:
+      Successfully uninstalled proyecto-ia-backend-0.1.0
+Successfully installed proyecto-ia-backend-0.1.0
+2026-01-02 18:15:42 - Iniciando backend (uvicorn --reload)
+2026-01-02 18:15:42 - Backend PID: 10016
+2026-01-02 18:15:42 - Iniciando frontend (npm run dev)
+2026-01-02 18:15:42 - Frontend PID: 5680
+2026-01-02 18:16:02 - Backend listo (healthcheck OK).
+2026-01-02 18:16:02 - Esperando a que el frontend responda en http://localhost:5173/
+2026-01-02 18:16:02 - Frontend listo, abriendo navegador en http://localhost:5173/system/status
+2026-01-02 18:16:02 - Script finalizado.
