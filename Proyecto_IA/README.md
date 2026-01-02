@@ -106,3 +106,74 @@ curl -O http://localhost:8000/api/v1/images/10/file
 - El JobManager reutiliza un único runner SAM-3 por ruta de pesos; solo se descarga y recarga si cambian los checkpoints.
 - Antes de cargar el modelo se ejecuta un preflight de RAM (y VRAM si aplica) con psutil/torch; si no hay margen suficiente se aborta rápido con error claro.
 - El post-procesado usa `threshold=box_threshold` para evitar explosiones de candidatos temporales.
+
+## Cómo funciona el sistema (LOD1)
+
+1. **Backend FastAPI** (carpeta `apps/backend`) expone la API REST y administra:
+   - Registro/listado de datasets (`/api/v1/datasets`).
+   - Gestión de conceptos de nivel 1 (`/api/v1/concepts`).
+   - Lanzamiento y monitorización de jobs de clasificación nivel 1 (`/api/v1/jobs/level1`, `/api/v1/jobs/{job_id}`).
+   - Consulta de estadísticas y samples (`/api/v1/jobs/{job_id}/stats`, `/api/v1/jobs/{job_id}/samples`).
+   - Servicio de imágenes siempre por HTTP (`/api/v1/images/{image_id}/file`).
+2. **Modelo SAM-3**: el backend carga de forma segura los pesos (safe_load) y ejecuta inferencia con parámetros conservadores (safe_mode) si se solicita.
+3. **Base de datos SQLite**: persiste datasets, conceptos, jobs y resultados. Se crea automáticamente en `data/app.db`.
+4. **Frontend React (Vite + TypeScript)** en `frontend/` consume la API y ofrece:
+   - Panel de salud/hardware.
+   - Altas y listado de datasets/conceptos.
+   - Creación y seguimiento de jobs con polling adaptativo.
+   - Resultados con estadísticas y galería paginada de samples (imágenes siempre por HTTP, nunca `file://`).
+
+## Probar en local (backend + frontend)
+
+Sigue estos pasos en dos terminales distintas. Requiere Python 3.10+ y Node.js 18+.
+
+1. **Backend**
+   ```bash
+   cd apps/backend
+   cp ../.env.example ../.env        # configura rutas de pesos SAM-3 y DB
+   pip install -e .
+   UVICORN_WORKERS=1 uvicorn main:app --reload --port 8000
+   ```
+   - Comprueba salud en http://localhost:8000/api/v1/health (o vía `/docs`).
+   - Registra un dataset de prueba (ajusta la ruta `root_path` a tu carpeta de imágenes):
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/datasets \
+       -H "Content-Type: application/json" \
+       -d '{"name": "demo", "root_path": "/ruta/a/imagenes"}'
+     ```
+   - Crea un concepto L1 mínimo:
+     ```bash
+     curl -X POST http://localhost:8000/api/v1/concepts \
+       -H "Content-Type: application/json" \
+       -d '{"name": "roof", "prompt": "roof", "level": 1}'
+     ```
+
+2. **Frontend**
+   ```bash
+   cd frontend
+   cp .env.example .env   # define VITE_API_BASE_URL (p. ej. http://localhost:8000)
+   npm install
+   npm run dev            # Vite en http://localhost:5173
+   ```
+   - El `vite.config.ts` ya incluye proxy opcional de `/api` hacia `VITE_API_BASE_URL`. Si no lo usas, habilita CORS en el backend.
+
+3. **Flujo de prueba en la UI**
+   - Ve a `http://localhost:5173/system/status` para comprobar el health (polling cada 10s con degradación si falta información).
+   - En `Datasets`, registra el dataset (usa el mismo nombre y ruta del paso 1) y verifica que aparezca listado.
+   - En `Concepts`, crea/edita conceptos de nivel 1.
+   - En `Classification > New job`, selecciona el dataset y los conceptos, ajusta umbral opcionalmente y lanza el job.
+   - Al crear, se redirige al monitor del job (`/classification/level1/jobs/{id}`) con polling dinámico; desde allí puedes cancelar/reanudar si el backend lo permite.
+   - Cuando el job termine, abre la pestaña de resultados para ver estadísticas y la galería paginada de samples (filtros por concepto/bucket, carga diferida de miniaturas).
+
+## Frontend (Vite + React)
+El frontend de LOD1 vive en `frontend/` y consume el backend vía HTTP.
+
+### Arranque rápido solo frontend
+```bash
+cd frontend
+cp .env.example .env   # define VITE_API_BASE_URL (p. ej. http://localhost:8000)
+npm install
+npm run dev
+```
+
+En desarrollo, Vite puede hacer proxy de `/api` hacia `VITE_API_BASE_URL`. Si prefieres no usar el proxy, habilita CORS en el backend FastAPI.

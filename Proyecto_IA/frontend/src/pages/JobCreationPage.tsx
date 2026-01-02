@@ -1,0 +1,166 @@
+import { FormEvent, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import ApiErrorDisplay from '../components/ApiErrorDisplay';
+import { createLevel1Job, fetchConcepts, fetchDatasets } from '../api';
+import { Concept, Dataset } from '../types';
+
+const JobCreationPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const stateDatasetId = (location.state as { datasetId?: number })?.datasetId;
+
+  const datasetsQuery = useQuery<Dataset[], Error>({ queryKey: ['datasets'], queryFn: fetchDatasets });
+  const conceptsQuery = useQuery<Concept[], Error>({ queryKey: ['concepts'], queryFn: fetchConcepts });
+
+  const [form, setForm] = useState({
+    dataset_id: stateDatasetId || 0,
+    conceptIds: [] as number[],
+    target_long_side: 512,
+    box_threshold: 0.6,
+    safe_mode: true,
+    safe_load: true
+  });
+
+  const mutation = useMutation({
+    mutationFn: () =>
+      createLevel1Job({
+        dataset_id: form.dataset_id,
+        concepts: form.conceptIds.map((id) => {
+          const concept = conceptsQuery.data?.find((c) => c.id === id);
+          return { concept_id: id, prompt_text: concept?.prompt || concept?.name };
+        }),
+        target_long_side: form.target_long_side,
+        box_threshold: form.box_threshold,
+        safe_mode: form.safe_mode,
+        safe_load: form.safe_load
+      }),
+    onSuccess: (job) => navigate(`/classification/level1/jobs/${job.id}`)
+  });
+
+  const isSubmitDisabled = useMemo(
+    () => !form.dataset_id || !form.conceptIds.length || mutation.isLoading,
+    [form.dataset_id, form.conceptIds.length, mutation.isLoading]
+  );
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    mutation.mutate();
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Nuevo job Nivel 1</h1>
+        <p className="text-sm text-gray-600">Configura y lanza una inferencia nivel 1 sobre un dataset.</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4 rounded-lg bg-white p-5 shadow-sm">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Dataset</label>
+          <select
+            required
+            value={form.dataset_id}
+            onChange={(e) => setForm((prev) => ({ ...prev, dataset_id: Number(e.target.value) }))}
+            className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+          >
+            <option value={0}>Selecciona un dataset</option>
+            {(datasetsQuery.data || []).map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Conceptos nivel 1</label>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            {(conceptsQuery.data || []).map((concept) => {
+              const selected = form.conceptIds.includes(concept.id || 0);
+              return (
+                <label key={concept.id} className="flex items-center gap-2 rounded border border-gray-200 bg-gray-50 px-3 py-2">
+                  <input
+                    type="checkbox"
+                    checked={selected}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        conceptIds: e.target.checked
+                          ? [...prev.conceptIds, concept.id || 0]
+                          : prev.conceptIds.filter((c) => c !== concept.id)
+                      }))
+                    }
+                  />
+                  <span className="text-sm text-gray-800">{concept.name}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">target_long_side</label>
+            <select
+              value={form.target_long_side}
+              onChange={(e) => setForm((prev) => ({ ...prev, target_long_side: Number(e.target.value) }))}
+              className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            >
+              {[384, 512, 768].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">box_threshold</label>
+            <input
+              type="number"
+              min="0"
+              max="1"
+              step="0.05"
+              value={form.box_threshold}
+              onChange={(e) => setForm((prev) => ({ ...prev, box_threshold: Number(e.target.value) }))}
+              className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={form.safe_mode}
+              onChange={(e) => setForm((prev) => ({ ...prev, safe_mode: e.target.checked }))}
+            />
+            safe_mode
+          </label>
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={form.safe_load}
+              onChange={(e) => setForm((prev) => ({ ...prev, safe_load: e.target.checked }))}
+            />
+            safe_load
+          </label>
+        </div>
+
+        <ApiErrorDisplay error={mutation.error ?? null} />
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitDisabled}
+            className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+          >
+            Lanzar job
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default JobCreationPage;
