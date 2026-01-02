@@ -87,3 +87,71 @@
 2026-01-02 18:29:38,473 - INFO - uvicorn.access - 127.0.0.1:35137 - "GET /api/v1/health HTTP/1.1" 200
 2026-01-02 18:31:08,240 - INFO - uvicorn.access - 127.0.0.1:35156 - "GET /api/v1/health HTTP/1.1" 200
 2026-01-02 18:38:19,152 - INFO - uvicorn.access - 127.0.0.1:35207 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:07,727 - INFO - uvicorn.error - Started server process [7316]
+2026-01-02 19:35:07,727 - INFO - uvicorn.error - Started server process [7316]
+2026-01-02 19:35:07,731 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-02 19:35:07,731 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-02 19:35:07,756 - INFO - uvicorn.error - Application startup complete.
+2026-01-02 19:35:07,756 - INFO - uvicorn.error - Application startup complete.
+2026-01-02 19:35:15,991 - INFO - uvicorn.access - 127.0.0.1:36088 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:18,866 - INFO - uvicorn.access - 127.0.0.1:36100 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-02 19:35:19,151 - INFO - uvicorn.access - 127.0.0.1:36102 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:20,169 - INFO - uvicorn.access - 127.0.0.1:36102 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:22,202 - INFO - uvicorn.access - 127.0.0.1:36102 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:26,290 - INFO - uvicorn.access - 127.0.0.1:36102 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:36,637 - INFO - uvicorn.access - 127.0.0.1:36103 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:37,650 - INFO - uvicorn.access - 127.0.0.1:36103 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:39,662 - INFO - uvicorn.access - 127.0.0.1:36103 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:43,693 - INFO - uvicorn.access - 127.0.0.1:36103 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:35:49,702 - INFO - uvicorn.access - 127.0.0.1:36113 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:35:49,727 - INFO - uvicorn.access - 127.0.0.1:36114 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:35:50,716 - INFO - uvicorn.access - 127.0.0.1:36114 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:35:50,752 - INFO - uvicorn.access - 127.0.0.1:36114 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:35:52,742 - INFO - uvicorn.access - 127.0.0.1:36114 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:35:52,773 - INFO - uvicorn.access - 127.0.0.1:36114 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:36:03,956 - INFO - uvicorn.access - 127.0.0.1:36115 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:36:03,962 - INFO - uvicorn.access - 127.0.0.1:36115 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:36:03,969 - INFO - uvicorn.access - 127.0.0.1:36115 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:36:04,983 - INFO - uvicorn.access - 127.0.0.1:36115 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:36:06,993 - INFO - uvicorn.access - 127.0.0.1:36115 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:36:54,213 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:36:54,217 - INFO - uvicorn.access - 127.0.0.1:36121 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:36:54,221 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:36:55,243 - INFO - uvicorn.access - 127.0.0.1:36121 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:36:55,245 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:36:57,258 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:36:57,261 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:36:59,131 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:00,142 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:01,312 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:37:01,325 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:37:02,113 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:02,123 - INFO - uvicorn.access - 127.0.0.1:36130 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:37:02,127 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:37:03,143 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:03,143 - INFO - uvicorn.access - 127.0.0.1:36130 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:37:03,209 - INFO - uvicorn.access - 127.0.0.1:36130 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:37:05,165 - INFO - uvicorn.access - 127.0.0.1:36130 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:05,166 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:37:05,234 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:37:07,322 - INFO - uvicorn.access - 127.0.0.1:36143 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-02 19:37:09,174 - INFO - uvicorn.access - 127.0.0.1:36120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:37:28,076 - INFO - uvicorn.access - 127.0.0.1:36146 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:39:33,466 - INFO - uvicorn.access - 127.0.0.1:36171 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:39:34,504 - INFO - uvicorn.access - 127.0.0.1:36171 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:39:36,523 - INFO - uvicorn.access - 127.0.0.1:36171 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:39:40,536 - INFO - uvicorn.access - 127.0.0.1:36171 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:44:47,117 - INFO - uvicorn.access - 127.0.0.1:36233 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:44:48,139 - INFO - uvicorn.access - 127.0.0.1:36233 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:44:50,168 - INFO - uvicorn.access - 127.0.0.1:36233 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:44:54,188 - INFO - uvicorn.access - 127.0.0.1:36233 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:51:25,390 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:51:26,410 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:51:28,430 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-02 19:51:28,706 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:51:28,708 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:51:29,736 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:51:29,740 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:51:31,761 - INFO - uvicorn.access - 127.0.0.1:36307 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-02 19:51:31,766 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-02 19:51:32,445 - INFO - uvicorn.access - 127.0.0.1:36308 - "GET /api/v1/health HTTP/1.1" 200

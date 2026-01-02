@@ -432,3 +432,37 @@ Successfully installed proyecto-ia-backend-0.1.0
 2026-01-02 18:16:02 - Esperando a que el frontend responda en http://localhost:5173/
 2026-01-02 18:16:02 - Frontend listo, abriendo navegador en http://localhost:5173/system/status
 2026-01-02 18:16:02 - Script finalizado.
+2026-01-02 19:04:38 - Modo seleccionado: dev
+2026-01-02 19:08:50 - Modo seleccionado: dev
+2026-01-02 19:08:56 - Modo seleccionado: dev
+2026-01-02 19:09:00 - Modo seleccionado: dev
+2026-01-02 19:13:16 - Modo seleccionado: dev
+2026-01-02 19:13:40 - Modo seleccionado: dev
+2026-01-02 19:14:41 - Modo seleccionado: dev
+2026-01-02 19:14:41 - Usando BackendPython proporcionado: C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+2026-01-02 19:14:41 - Se omitirá la creación de .venv porque se definió un intérprete externo.
+2026-01-02 19:14:41 - Validando Python en C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+[python-version] 3.11.14 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 18:30:03) [MSC v.1929 64 bit (AMD64)]
+[sam3-check] Sam3Model OK
+2026-01-02 19:17:31 - Se asume que el entorno ya tiene las dependencias del backend (sin pip install).
+2026-01-02 19:17:31 - Iniciando backend (uvicorn --reload)
+2026-01-02 19:17:31 - Backend PID: 6380
+2026-01-02 19:17:31 - Iniciando frontend (npm run dev)
+2026-01-02 19:34:40 - Modo seleccionado: dev
+2026-01-02 19:34:40 - Usando BackendPython proporcionado: C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+2026-01-02 19:34:40 - Se omitirá la creación de .venv porque se definió un intérprete externo.
+2026-01-02 19:34:40 - Validando Python en C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+3.11.14 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 18:30:03) [MSC v.1929 64 bit (AMD64)]
+C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+
+Sam3Model OK
+
+2026-01-02 19:35:01 - Se asume que el entorno ya tiene las dependencias del backend (sin pip install).
+2026-01-02 19:35:01 - Iniciando backend (uvicorn --reload)
+2026-01-02 19:35:01 - Backend PID: 13024
+2026-01-02 19:35:01 - Iniciando frontend (npm run dev)
+2026-01-02 19:35:01 - Frontend PID: 8164
+2026-01-02 19:35:16 - Backend listo (healthcheck OK).
+2026-01-02 19:35:16 - Esperando a que el frontend responda en http://localhost:5173/
+2026-01-02 19:35:16 - Frontend listo, abriendo navegador en http://localhost:5173/system/status
+2026-01-02 19:35:16 - Script finalizado.
