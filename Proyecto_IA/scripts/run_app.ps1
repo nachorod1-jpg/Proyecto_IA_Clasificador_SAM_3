@@ -1,6 +1,10 @@
 Param(
     [ValidateSet('dev', 'app')]
-    [string]$Mode = 'dev'
+    [string]$Mode = 'dev',
+    [string]$BackendPython,
+    [string]$CondaEnvName,
+    [switch]$SkipVenv,
+    [switch]$InstallBackendEditable
 )
 
 $ErrorActionPreference = 'Stop'
@@ -8,8 +12,10 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $repoRoot = Split-Path -Parent $scriptPath
 $logsDir = Join-Path $repoRoot 'logs'
 $launcherLog = Join-Path $logsDir 'launcher.log'
-$frontendLog = Join-Path $logsDir 'frontend-dev.log'
-$backendLog = Join-Path $logsDir 'backend-dev.log'
+$frontendOutLog = Join-Path $logsDir "frontend-$Mode.out.log"
+$frontendErrLog = Join-Path $logsDir "frontend-$Mode.err.log"
+$backendOutLog = Join-Path $logsDir "backend-$Mode.out.log"
+$backendErrLog = Join-Path $logsDir "backend-$Mode.err.log"
 
 if (-not (Test-Path $logsDir)) { New-Item -ItemType Directory -Path $logsDir | Out-Null }
 
@@ -55,24 +61,106 @@ function Wait-ForEndpoint($Url, $Retries = 60, $DelaySeconds = 1, $ProcessId = $
 }
 
 Write-Log "Modo seleccionado: $Mode"
-Require-Command python
 Require-Command npm
 Require-Command node
 
-$venvPath = Join-Path $repoRoot '.venv'
-$pythonCmd = 'python'
-if (-not (Test-Path $venvPath)) {
-    Write-Log "Creando entorno virtual en $venvPath"
-    & $pythonCmd -m venv $venvPath
-}
-$pythonCmd = Join-Path $venvPath 'Scripts/python.exe'
-if (-not (Test-Path $pythonCmd)) {
-    $pythonCmd = Join-Path $venvPath 'bin/python'
+function Test-PythonExecutable($Path) {
+    if (-not (Test-Path $Path)) {
+        throw "Python no encontrado en '$Path'. Usa -BackendPython para especificar la ruta correcta."
+    }
+
+    Write-Log "Validando Python en $Path"
+    $versionOutput = & $Path -c "import sys; print(sys.version)" 2>&1
+    Add-Content -Path $launcherLog -Value "[python-version] $versionOutput"
+
+    try {
+        $sam3Output = & $Path -c "from transformers import Sam3Model; print('Sam3Model OK')" 2>&1
+        Add-Content -Path $launcherLog -Value "[sam3-check] $sam3Output"
+    } catch {
+        $message = "El entorno de Python no puede importar transformers.Sam3Model. Usa -BackendPython apuntando a 'sam3_env' o instala las dependencias."
+        Add-Content -Path $launcherLog -Value "[sam3-check-error] $_"
+        throw $message
+    }
 }
 
-Write-Log "Actualizando pip y dependencias del backend"
-& $pythonCmd -m pip install --upgrade pip | Out-String | Add-Content -Path $launcherLog
-& $pythonCmd -m pip install -e (Join-Path $repoRoot 'apps/backend') | Out-String | Add-Content -Path $launcherLog
+function Resolve-CondaPython($EnvName) {
+    $condaCmd = $env:CONDA_EXE
+    if (-not $condaCmd) {
+        $condaCmd = (Get-Command conda -ErrorAction SilentlyContinue)?.Source
+    }
+    if (-not $condaCmd) {
+        $condaCmd = (Get-Command conda.bat -ErrorAction SilentlyContinue)?.Source
+    }
+    if (-not $condaCmd) {
+        throw "No se encontró 'conda'. Proporciona -BackendPython con la ruta de python.exe en sam3_env."
+    }
+
+    Write-Log "Resolviendo python de conda para el entorno '$EnvName'"
+    $tempFile = New-TemporaryFile
+    $cmd = "`"$condaCmd`" run -n $EnvName python -c ""import sys; print(sys.executable)"""
+    & cmd.exe /c $cmd | Out-File -FilePath $tempFile -Encoding utf8
+    $pythonPath = (Get-Content $tempFile -Raw).Trim()
+    Remove-Item $tempFile -ErrorAction SilentlyContinue
+
+    if (-not $pythonPath) {
+        throw "No se pudo resolver el python del entorno conda '$EnvName'."
+    }
+
+    return $pythonPath
+}
+
+$backendPythonExplicit = $false
+$pythonCmd = $null
+
+if ($BackendPython) {
+    $pythonCmd = (Resolve-Path $BackendPython).Path
+    $backendPythonExplicit = $true
+    Write-Log "Usando BackendPython proporcionado: $pythonCmd"
+} elseif ($CondaEnvName) {
+    $pythonCmd = Resolve-CondaPython $CondaEnvName
+    $backendPythonExplicit = $true
+    Write-Log "Usando python de conda ($CondaEnvName): $pythonCmd"
+}
+
+$useVenv = -not $backendPythonExplicit
+if ($SkipVenv -and $backendPythonExplicit) {
+    Write-Log "Se omitirá la creación de .venv porque se definió un intérprete externo."
+}
+
+if ($useVenv -and -not $SkipVenv) {
+    Require-Command python
+    $venvPath = Join-Path $repoRoot '.venv'
+    $pythonCmd = 'python'
+    if (-not (Test-Path $venvPath)) {
+        Write-Log "Creando entorno virtual en $venvPath"
+        & $pythonCmd -m venv $venvPath
+    }
+    $pythonCmd = Join-Path $venvPath 'Scripts/python.exe'
+    if (-not (Test-Path $pythonCmd)) {
+        $pythonCmd = Join-Path $venvPath 'bin/python'
+    }
+} elseif (-not $backendPythonExplicit) {
+    Require-Command python
+    $pythonCmd = 'python'
+    Write-Log "Usando el intérprete de Python disponible en PATH sin crear .venv (SkipVenv)."
+}
+
+if (-not $pythonCmd) {
+    throw "No se pudo determinar el intérprete de Python. Usa -BackendPython o -CondaEnvName, o permite la creación de .venv."
+}
+
+Test-PythonExecutable $pythonCmd
+
+if ($useVenv -and -not $SkipVenv) {
+    Write-Log "Actualizando pip y dependencias del backend en .venv"
+    & $pythonCmd -m pip install --upgrade pip | Out-String | Add-Content -Path $launcherLog
+    & $pythonCmd -m pip install -e (Join-Path $repoRoot 'apps/backend') | Out-String | Add-Content -Path $launcherLog
+} elseif ($InstallBackendEditable) {
+    Write-Log "Instalando apps/backend en el entorno proporcionado (InstallBackendEditable)."
+    & $pythonCmd -m pip install -e (Join-Path $repoRoot 'apps/backend') | Out-String | Add-Content -Path $launcherLog
+} else {
+    Write-Log "Se asume que el entorno ya tiene las dependencias del backend (sin pip install)."
+}
 
 $frontendDir = Join-Path $repoRoot 'frontend'
 if (-not (Test-Path (Join-Path $frontendDir 'node_modules'))) {
@@ -84,21 +172,22 @@ if (-not (Test-Path (Join-Path $frontendDir 'node_modules'))) {
 
 $env:APP_ENV = ($Mode -eq 'dev') ? 'dev' : 'app'
 $env:ENABLE_LOGS_ENDPOINT = 'true'
+$env:UVICORN_WORKERS = '1'
 
 if ($Mode -eq 'dev') {
     Write-Log 'Iniciando backend (uvicorn --reload)'
     $backendDir = Join-Path $repoRoot 'apps/backend'
     $backendArgs = "-m","uvicorn","src.main:app","--reload","--host","0.0.0.0","--port","8000","--app-dir","$backendDir","--workers","1"
-    $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendLog -RedirectStandardError $backendLog
+    $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendOutLog -RedirectStandardError $backendErrLog
     Write-Log "Backend PID: $($backendProc.Id)"
 
     Write-Log 'Iniciando frontend (npm run dev)'
-    $frontendProc = Start-Process -FilePath 'npm' -ArgumentList 'run','dev','--','--host' -WorkingDirectory $frontendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $frontendLog -RedirectStandardError $frontendLog
+    $frontendProc = Start-Process -FilePath 'npm' -ArgumentList 'run','dev','--','--host' -WorkingDirectory $frontendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $frontendOutLog -RedirectStandardError $frontendErrLog
     Write-Log "Frontend PID: $($frontendProc.Id)"
 
     Start-Sleep -Seconds 1
     if ($frontendProc.HasExited) {
-        Write-Log "El proceso de frontend terminó inmediatamente. Revisa $frontendLog."
+        Write-Log "El proceso de frontend terminó inmediatamente. Revisa $frontendErrLog."
         exit 1
     }
 
@@ -118,7 +207,7 @@ if ($Mode -eq 'dev') {
     } elseif ($frontendReady) {
         Write-Log 'Frontend respondió pero el backend no pasó el healthcheck. Revisa los logs antes de continuar.'
     } else {
-        Write-Log "El frontend no respondió en el tiempo esperado. Revisa $frontendLog."
+        Write-Log "El frontend no respondió en el tiempo esperado. Revisa $frontendErrLog."
     }
 } else {
     $distDir = Join-Path $frontendDir 'dist'
@@ -132,7 +221,7 @@ if ($Mode -eq 'dev') {
     Write-Log 'Iniciando backend en modo APP (sirviendo build estático)'
     $backendDir = Join-Path $repoRoot 'apps/backend'
     $backendArgs = "-m","uvicorn","src.main:app","--host","0.0.0.0","--port","8000","--app-dir","$backendDir","--workers","1"
-    $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendLog -RedirectStandardError $backendLog
+    $backendProc = Start-Process -FilePath $pythonCmd -ArgumentList $backendArgs -WorkingDirectory $backendDir -PassThru -WindowStyle Normal -RedirectStandardOutput $backendOutLog -RedirectStandardError $backendErrLog
     Write-Log "Backend PID: $($backendProc.Id)"
 
     if (Wait-ForHealth 'http://localhost:8000/api/v1/health') {
