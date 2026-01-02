@@ -100,3 +100,10 @@ class HealthStatus(BaseModel):
     vram_mb: Optional[int] = None
     sam3_weights_ready: bool
     sam3_message: str
+    sam3_import_ok: bool
+    sam3_import_error: Optional[str] = None
+    sam3_import_traceback: Optional[str] = None
+    python_executable: str
+    transformers_version: Optional[str] = None
+    transformers_file: Optional[str] = None
+    sam3_symbols: list[str] = Field(default_factory=list)
