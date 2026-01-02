@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
 import { createLevel1Job, fetchConcepts, fetchDatasets } from '../api';
 import { Concept, Dataset } from '../types';
+import { useHealthPolling } from '../hooks/useHealthPolling';
 
 const JobCreationPage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const JobCreationPage = () => {
 
   const datasetsQuery = useQuery<Dataset[], Error>({ queryKey: ['datasets'], queryFn: fetchDatasets });
   const conceptsQuery = useQuery<Concept[], Error>({ queryKey: ['concepts'], queryFn: fetchConcepts });
+  const healthQuery = useHealthPolling();
 
   const [form, setForm] = useState({
     dataset_id: stateDatasetId || 0,
@@ -38,9 +40,13 @@ const JobCreationPage = () => {
     onSuccess: (job) => navigate(`/classification/level1/jobs/${job.id}`)
   });
 
+  const sam3Unavailable = Boolean(
+    healthQuery.data && (!healthQuery.data.sam3_import_ok || !healthQuery.data.sam3_weights_ready)
+  );
+
   const isSubmitDisabled = useMemo(
-    () => !form.dataset_id || !form.conceptIds.length || mutation.isLoading,
-    [form.dataset_id, form.conceptIds.length, mutation.isLoading]
+    () => !form.dataset_id || !form.conceptIds.length || mutation.isLoading || sam3Unavailable,
+    [form.dataset_id, form.conceptIds.length, mutation.isLoading, sam3Unavailable]
   );
 
   const handleSubmit = (e: FormEvent) => {
@@ -56,6 +62,13 @@ const JobCreationPage = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4 rounded-lg bg-white p-5 shadow-sm">
+        {healthQuery.data && sam3Unavailable && (
+          <div className="rounded border border-yellow-400 bg-yellow-50 p-3 text-sm text-yellow-900">
+            <p className="font-semibold">SAM-3 no disponible.</p>
+            <p>{healthQuery.data.sam3_message || healthQuery.data.sam3_import_error}</p>
+          </div>
+        )}
+        <ApiErrorDisplay error={healthQuery.error ?? null} />
         <div>
           <label className="block text-sm font-medium text-gray-700">Dataset</label>
           <select

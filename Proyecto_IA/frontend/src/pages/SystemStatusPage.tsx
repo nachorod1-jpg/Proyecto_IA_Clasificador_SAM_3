@@ -22,16 +22,27 @@ const SystemStatusPage = () => {
       <ApiErrorDisplay error={error ?? null} />
       {data && (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <StatCard label="Backend" value={data.status} />
-          <StatCard label="Modelo" value={data.model_status} />
-          <StatCard label="Modo seguro" value={String(data.safe_mode ?? '')} />
-          <StatCard label="Safe load" value={String(data.safe_load ?? '')} />
-          <StatCard label="Dispositivo" value={data.device} />
-          <StatCard label="VRAM (GB)" value={data.vram_gb} />
-          <StatCard label="RAM (GB)" value={data.ram_gb} />
+          <StatCard label="GPU disponible" value={data.gpu_available ? 'Sí' : 'No'} />
           <StatCard label="GPU" value={data.gpu_name} />
-          <StatCard label="Uptime (s)" value={data.uptime} />
-          {data.message && <StatCard label="Mensaje" value={data.message} />}
+          <StatCard label="VRAM (MB)" value={data.vram_mb} />
+          <StatCard label="SAM-3 import" value={data.sam3_import_ok ? 'OK' : 'Fallo'} />
+          <StatCard label="SAM-3 pesos" value={data.sam3_weights_ready ? 'Listos' : 'Pendiente'} />
+          <StatCard label="Mensaje SAM-3" value={data.sam3_message} />
+          <StatCard label="Python" value={data.python_executable} />
+          <StatCard label="Transformers" value={data.transformers_version} />
+          <StatCard label="Ruta transformers" value={data.transformers_file} />
+        </div>
+      )}
+      {data && !data.sam3_import_ok && (
+        <div className="rounded border border-yellow-400 bg-yellow-50 p-4 text-sm text-yellow-900">
+          <p className="font-semibold">SAM-3 no disponible (import).</p>
+          <p>{data.sam3_import_error || data.sam3_message}</p>
+          {data.sam3_import_traceback && (
+            <details className="mt-2">
+              <summary className="cursor-pointer font-medium">Ver traceback</summary>
+              <pre className="mt-2 overflow-auto whitespace-pre-wrap text-xs">{data.sam3_import_traceback}</pre>
+            </details>
+          )}
         </div>
       )}
       <details className="rounded-lg bg-white shadow-sm" open>

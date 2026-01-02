@@ -369,7 +369,8 @@ def validate_sam3_load(weights_path: str) -> tuple[bool, str]:
     try:
         from transformers import Sam3Model, Sam3Processor
     except Exception as exc:  # pragma: no cover - optional dependency
-        return False, f"Transformers SAM-3 not available: {exc}"
+        logger.exception("Failed to import SAM-3 classes from transformers")
+        return False, f"SAM-3 import failed: {exc}"
 
     if path.is_dir():
         config_file = path / "config.json"
@@ -383,6 +384,7 @@ def validate_sam3_load(weights_path: str) -> tuple[bool, str]:
         Sam3Model.from_pretrained(path.as_posix(), local_files_only=True, device_map="meta")
         Sam3Processor.from_pretrained(path.as_posix(), local_files_only=True)
     except Exception as exc:  # pragma: no cover - external dependency
+        logger.exception("Model metadata validation failed during SAM-3 validation")
         return False, f"Model metadata validation failed: {exc}"
     gc.collect()
     return True, "Model load ok"

@@ -80,14 +80,16 @@ export interface PaginatedResponse<T> {
 }
 
 export interface HealthInfo {
-  status: string;
-  message?: string;
-  model_status?: string;
-  safe_mode?: boolean;
-  safe_load?: boolean;
-  device?: string;
-  vram_gb?: number;
-  ram_gb?: number;
+  gpu_available: boolean;
   gpu_name?: string;
-  uptime?: number;
+  vram_mb?: number;
+  sam3_weights_ready: boolean;
+  sam3_message: string;
+  sam3_import_ok: boolean;
+  sam3_import_error?: string;
+  sam3_import_traceback?: string;
+  python_executable: string;
+  transformers_version?: string;
+  transformers_file?: string;
+  sam3_symbols: string[];
 }
