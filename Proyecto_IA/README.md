@@ -15,11 +15,27 @@ Scripts listos para doble clic en `scripts/`:
 - `run_app.bat` / `run_app.ps1`: lanza el entorno completo y escribe trazas en `logs/launcher.log`.
   - **Modo DEV (por defecto)**: `scripts\run_app.bat` abre dos procesos (backend con `uvicorn --reload` y frontend con `npm run dev -- --host`), espera al healthcheck en `http://localhost:8000/api/v1/health` y abre el navegador en `http://localhost:5173/system/status`.
   - **Modo APP**: `powershell -ExecutionPolicy Bypass -File scripts/run_app.ps1 -Mode app` construye el frontend si falta `frontend/dist/`, levanta solo el backend sirviendo la build estática y abre `http://localhost:8000/`.
+- `run_app_sam3_env.bat`: wrapper opcional que delega en `run_app.ps1` con `-CondaEnvName sam3_env` (útil si ya tienes el entorno con las dependencias de SAM-3).
 - `stop_app.bat` / `stop_app.ps1`: intenta cerrar procesos en los puertos 8000/5173 y detiene procesos `uvicorn/python/node/npm` activos.
 
-El launcher redirige stdout/stderr del backend y frontend a `logs/backend-dev.log` y `logs/frontend-dev.log` respectivamente (además del log rotado del backend).
+El launcher redirige stdout/stderr del backend y frontend a `logs/backend-dev.out.log`, `logs/backend-dev.err.log`, `logs/frontend-dev.out.log` y `logs/frontend-dev.err.log` respectivamente (además del log rotado del backend).
 
-Los scripts crean un `venv` en `.venv/` (si no existe), instalan dependencias (`pip install -e apps/backend`, `npm install` si falta `node_modules`) y exportan `APP_ENV`/`ENABLE_LOGS_ENDPOINT=true` para habilitar los endpoints de logs en la UI.
+Los scripts crean un `venv` en `.venv/` (si no existe), instalan dependencias (`pip install -e apps/backend`, `npm install` si falta `node_modules`) y exportan `APP_ENV`/`ENABLE_LOGS_ENDPOINT=true` para habilitar los endpoints de logs en la UI. Si ya tienes un entorno externo con SAM-3 (por ejemplo `sam3_env`), puedes usarlo sin crear `.venv` pasando `-BackendPython` o `-CondaEnvName` al launcher.
+
+### Ejecutar en modo DEV usando el entorno `sam3_env`
+
+- Recomendada: especifica la ruta a `python.exe` del entorno existente (no necesita activación previa):
+  ```powershell
+  pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_app.ps1 -Mode dev -BackendPython "C:\ruta\a\sam3_env\python.exe"
+  ```
+- Alternativa con conda (el script resuelve la ruta interna y valida `transformers.Sam3Model`):
+  ```powershell
+  pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_app.ps1 -Mode dev -CondaEnvName sam3_env
+  ```
+
+Notas:
+- El script valida el intérprete elegido con `python -c "from transformers import Sam3Model; ..."` y aborta si falta la dependencia.
+- En estos modos no se ejecuta `pip install` sobre el entorno externo, salvo que se indique `-InstallBackendEditable` explícitamente.
 
 ## Variables de entorno
 Crea un archivo `.env` basado en `.env.example`:
