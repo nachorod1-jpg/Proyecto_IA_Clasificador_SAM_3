@@ -1,0 +1,4 @@
+2025-12-30 21:08:25,376 - INFO - Starting job 5 on device cpu
+2025-12-30 21:10:49,138 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2025-12-30 21:10:49,362 - INFO - Processed image 21 (1/1)
+2025-12-30 21:10:49,712 - INFO - Job completed
