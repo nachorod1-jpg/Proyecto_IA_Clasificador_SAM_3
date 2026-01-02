@@ -1,12 +1,18 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDatasets } from '../api';
+import { ApiError } from '../api/client';
 import { Dataset } from '../types';
 
 const DatasetDetailPage = () => {
   const { datasetId } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading, error } = useQuery<Dataset[], Error>({ queryKey: ['datasets'], queryFn: fetchDatasets });
+  const { data, isLoading, error } = useQuery<Dataset[], ApiError>({ queryKey: ['datasets'], queryFn: fetchDatasets });
+
+  const datasetsErrorMessage = error?.status === 404
+    ? 'El endpoint /api/v1/datasets no está disponible (404).'
+    : error?.message;
+  const datasetsError = datasetsErrorMessage ? new Error(datasetsErrorMessage) : null;
 
   const dataset = data?.find((d) => String(d.id) === datasetId);
 
@@ -17,7 +23,7 @@ const DatasetDetailPage = () => {
         <p className="text-sm text-gray-600">Información básica del dataset seleccionado.</p>
       </div>
       {isLoading && <div className="text-sm text-gray-600">Cargando dataset...</div>}
-      {error && <div className="rounded bg-red-50 p-3 text-sm text-red-700">{error.message}</div>}
+      {datasetsError && <div className="rounded bg-red-50 p-3 text-sm text-red-700">{datasetsError.message}</div>}
       {!dataset && !isLoading && <div className="text-sm text-gray-600">Dataset no encontrado.</div>}
       {dataset && (
         <div className="rounded-lg bg-white p-5 shadow-sm">

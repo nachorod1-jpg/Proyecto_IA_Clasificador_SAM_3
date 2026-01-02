@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
 import DataTable from '../components/DataTable';
 import { createDataset, fetchConcepts, fetchDatasets, upsertConcept } from '../api';
+import { ApiError } from '../api/client';
 import { Concept, Dataset } from '../types';
 
 const DatasetsPage = () => {
@@ -11,8 +12,13 @@ const DatasetsPage = () => {
   const [datasetForm, setDatasetForm] = useState({ name: '', root_path: '' });
   const [conceptForm, setConceptForm] = useState<Concept>({ name: '', prompt: '', level: 1 });
 
-  const datasetsQuery = useQuery<Dataset[], Error>({ queryKey: ['datasets'], queryFn: fetchDatasets });
-  const conceptsQuery = useQuery<Concept[], Error>({ queryKey: ['concepts'], queryFn: fetchConcepts });
+  const datasetsQuery = useQuery<Dataset[], ApiError>({ queryKey: ['datasets'], queryFn: fetchDatasets });
+  const conceptsQuery = useQuery<Concept[], ApiError>({ queryKey: ['concepts'], queryFn: fetchConcepts });
+
+  const datasetErrorMessage = datasetsQuery.error?.status === 404
+    ? 'El endpoint /api/v1/datasets no está disponible (404).'
+    : datasetsQuery.error?.message;
+  const datasetError = datasetErrorMessage ? new Error(datasetErrorMessage) : null;
 
   const createDatasetMutation = useMutation({
     mutationFn: () => createDataset(datasetForm),
@@ -84,7 +90,7 @@ const DatasetsPage = () => {
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-gray-800">Listado</h2>
-        <ApiErrorDisplay error={datasetsQuery.error ?? null} />
+        <ApiErrorDisplay error={datasetError} />
         <DataTable
           data={datasetsQuery.data || []}
           columns={[
