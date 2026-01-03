@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchJobSamples } from '../api';
 import { DEFAULT_PAGE_SIZE } from '../config/env';
 import { Sample } from '../types';
+import ApiErrorDisplay from './ApiErrorDisplay';
+import { ApiError } from '../api/client';
 
 interface Props {
   jobId: string;
@@ -22,7 +24,10 @@ const SamplesGallery = ({ jobId }: Props) => {
   const [concept, setConcept] = useState<number | undefined>();
   const [bucket, setBucket] = useState('');
 
-  const { data, isLoading, error, refetch, isFetching } = useQuery({
+  const { data, isLoading, error, refetch, isFetching } = useQuery<
+    Awaited<ReturnType<typeof fetchJobSamples>>,
+    ApiError
+  >({
     queryKey: ['samples', jobId, offset, limit, concept, bucket],
     queryFn: () => fetchJobSamples(jobId, { offset, limit, concept_id: concept, bucket }),
     keepPreviousData: true
@@ -96,7 +101,10 @@ const SamplesGallery = ({ jobId }: Props) => {
         </button>
       </div>
 
-      {error && <div className="rounded bg-red-50 p-3 text-sm text-red-700">{error.message}</div>}
+      {error && <ApiErrorDisplay error={error} />}
+      {error?.status === 404 && !isLoading && (
+        <div className="text-sm text-gray-600">Aún no hay resultados para este job.</div>
+      )}
       {isLoading && <div className="text-sm text-gray-600">Cargando samples...</div>}
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">

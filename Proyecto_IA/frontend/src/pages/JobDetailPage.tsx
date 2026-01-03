@@ -5,10 +5,14 @@ import JobStateIndicator from '../components/JobStateIndicator';
 import ProgressBar from '../components/ProgressBar';
 import { cancelJob, resumeJob } from '../api';
 import { useJobPolling } from '../hooks/useJobPolling';
+import { ApiError } from '../api/client';
 
 const JobDetailPage = () => {
   const { jobId = '' } = useParams();
   const { data, isLoading, error } = useJobPolling(jobId);
+
+  const apiError = error as ApiError | null;
+  const jobNotFound = apiError?.status === 404;
 
   const cancelMutation = useMutation({
     mutationFn: () => cancelJob(jobId)
@@ -35,9 +39,12 @@ const JobDetailPage = () => {
       </div>
 
       {isLoading && <div className="text-sm text-gray-600">Cargando job...</div>}
-      <ApiErrorDisplay error={error ?? null} />
+      {jobNotFound && (
+        <div className="rounded-md bg-yellow-50 p-4 text-sm text-yellow-800">Job no encontrado.</div>
+      )}
+      {!jobNotFound && <ApiErrorDisplay error={error ?? null} />}
 
-      {data && (
+      {data && !jobNotFound && (
         <div className="space-y-4 rounded-lg bg-white p-5 shadow-sm">
           <div className="flex flex-wrap items-center gap-4">
             {status && <JobStateIndicator status={status} />}
