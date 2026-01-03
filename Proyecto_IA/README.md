@@ -93,6 +93,25 @@ curl -X POST http://localhost:8000/api/v1/jobs/level1 \
   -d '{"dataset_id":1, "concepts":[{"concept_id":1,"prompt_text":"roof"}], "user_confidence":0.5, "batch_size":1, "target_long_side":768}'
 ```
 
+PowerShell con payload completo (usa siempre `concepts`, no `concept_ids`):
+```powershell
+$body = @{ \
+  dataset_id = 1 \
+  concepts = @(@{ concept_id = 1; prompt_text = "roof" }) \
+  batch_size = 1 \
+  safe_mode = $true \
+  safe_load = $true \
+  device_preference = "auto" \
+  target_long_side = 384 \
+  box_threshold = 0.6 \
+  max_detections_per_image = 20 \
+  sleep_ms_between_images = 0 \
+  max_images = 100 \
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/v1/jobs/level1" -ContentType "application/json" -Body $body
+```
+
 ### Safe Mode vs Safe Load
 
 - `safe_load` (nuevo, por defecto `true`): controla la estrategia de carga del modelo para minimizar picos de RAM/VRAM (usa `device_map="auto"`, `low_cpu_mem_usage` y fp16 cuando hay CUDA). No fuerza CPU y evita recargas innecesarias.

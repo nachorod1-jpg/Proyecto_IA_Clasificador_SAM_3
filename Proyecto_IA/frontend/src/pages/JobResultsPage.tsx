@@ -4,14 +4,35 @@ import ApiErrorDisplay from '../components/ApiErrorDisplay';
 import { fetchJob, fetchJobStats } from '../api';
 import SamplesGallery from '../components/SamplesGallery';
 import JobStateIndicator from '../components/JobStateIndicator';
+import { ApiError } from '../api/client';
+import { Job } from '../types';
 
 const JobResultsPage = () => {
   const { jobId = '' } = useParams();
 
-  const jobQuery = useQuery({ queryKey: ['job', jobId], queryFn: () => fetchJob(jobId) });
-  const statsQuery = useQuery({ queryKey: ['stats', jobId], queryFn: () => fetchJobStats(jobId) });
+  const jobQuery = useQuery<Job, ApiError>({
+    queryKey: ['job', jobId],
+    queryFn: () => fetchJob(jobId),
+  });
+  const statsQuery = useQuery<Awaited<ReturnType<typeof fetchJobStats>>, ApiError>({
+    queryKey: ['stats', jobId],
+    queryFn: () => fetchJobStats(jobId),
+  });
 
   const stats = statsQuery.data;
+  const jobError = jobQuery.error as ApiError | undefined;
+  const statsError = statsQuery.error as ApiError | undefined;
+  const jobNotFound = jobError?.status === 404;
+  const statsNotFound = statsError?.status === 404;
+
+  if (jobNotFound) {
+    return (
+      <div className="space-y-4">
+        <div className="rounded-md bg-yellow-50 p-4 text-sm text-yellow-800">Job no encontrado.</div>
+        <ApiErrorDisplay error={jobError ?? null} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -25,7 +46,7 @@ const JobResultsPage = () => {
         </Link>
       </div>
 
-      <ApiErrorDisplay error={jobQuery.error ?? null} />
+      <ApiErrorDisplay error={jobError ?? null} />
       {jobQuery.data && jobQuery.data.status && <JobStateIndicator status={jobQuery.data.status} />}
 
       <section className="space-y-3">
@@ -33,7 +54,7 @@ const JobResultsPage = () => {
           <h2 className="text-lg font-semibold text-gray-800">Estadísticas</h2>
           {statsQuery.isFetching && <span className="text-xs text-gray-500">Actualizando...</span>}
         </div>
-        <ApiErrorDisplay error={statsQuery.error ?? null} />
+        {!statsNotFound && <ApiErrorDisplay error={statsError ?? null} />}
         {stats && (
           <div className="grid gap-4 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-2">
             <div>
@@ -74,7 +95,12 @@ const JobResultsPage = () => {
             </div>
           </div>
         )}
-        {!stats && !statsQuery.isLoading && <div className="text-sm text-gray-600">No hay estadísticas disponibles.</div>}
+        {!stats && !statsQuery.isLoading && statsNotFound && (
+          <div className="text-sm text-gray-600">Aún no hay resultados.</div>
+        )}
+        {!stats && !statsQuery.isLoading && !statsNotFound && (
+          <div className="text-sm text-gray-600">No hay estadísticas disponibles.</div>
+        )}
       </section>
 
       <section>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchJob } from '../api';
 import { Job } from '../types';
+import { ApiError } from '../api/client';
 
 const getInterval = (status?: string) => {
   if (status === 'running') return 1000;
@@ -12,7 +13,7 @@ const getInterval = (status?: string) => {
 export const useJobPolling = (jobId: string) => {
   const maxProgressRef = useRef<number>(0);
 
-  const query = useQuery<Job, Error>({
+  const query = useQuery<Job, ApiError>({
     queryKey: ['job', jobId],
     queryFn: () => fetchJob(jobId),
     refetchInterval: (data) => getInterval(data?.status || data?.state),

@@ -17,7 +17,8 @@ const OfflineBanner = () => {
     };
   }, []);
 
-  const isOffline = Boolean(error) || isNavigatorOffline || Boolean(error?.isNetworkError);
+  const isHealthDown = Boolean(error?.isNetworkError || error?.status);
+  const isOffline = isNavigatorOffline || isHealthDown;
 
   if (!isOffline && data && (!data.sam3_import_ok || !data.sam3_weights_ready)) {
     return (

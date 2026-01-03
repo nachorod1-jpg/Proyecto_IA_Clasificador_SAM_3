@@ -3,7 +3,8 @@ import { ReactNode } from 'react';
 interface Column<T> {
   key: keyof T | string;
   header: string;
-  render?: (item: T) => ReactNode;
+  // eslint-disable-next-line no-unused-vars
+  render?: (_item: T) => ReactNode;
 }
 
 interface Props<T> {
