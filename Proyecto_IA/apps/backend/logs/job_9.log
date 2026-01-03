@@ -1,0 +1,42 @@
+2026-01-03 14:57:01,853 - INFO - Starting job 9 on device cuda
+2026-01-03 14:57:21,295 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:21,841 - INFO - Processed image 21 (1/20)
+2026-01-03 14:57:26,768 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:27,859 - INFO - Processed image 22 (2/20)
+2026-01-03 14:57:32,804 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with more than one value is ambiguous
+2026-01-03 14:57:33,048 - INFO - Processed image 23 (3/20)
+2026-01-03 14:57:37,720 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:38,057 - INFO - Processed image 24 (4/20)
+2026-01-03 14:57:42,952 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:43,291 - INFO - Processed image 25 (5/20)
+2026-01-03 14:57:48,201 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:48,386 - INFO - Processed image 26 (6/20)
+2026-01-03 14:57:53,288 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:53,470 - INFO - Processed image 27 (7/20)
+2026-01-03 14:57:58,390 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:57:58,620 - INFO - Processed image 28 (8/20)
+2026-01-03 14:58:03,526 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:03,866 - INFO - Processed image 29 (9/20)
+2026-01-03 14:58:08,617 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:08,846 - INFO - Processed image 30 (10/20)
+2026-01-03 14:58:13,755 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:13,972 - INFO - Processed image 31 (11/20)
+2026-01-03 14:58:18,840 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:19,065 - INFO - Processed image 32 (12/20)
+2026-01-03 14:58:23,787 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:23,983 - INFO - Processed image 33 (13/20)
+2026-01-03 14:58:28,679 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:28,880 - INFO - Processed image 34 (14/20)
+2026-01-03 14:58:33,563 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:33,768 - INFO - Processed image 35 (15/20)
+2026-01-03 14:58:38,651 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:38,869 - INFO - Processed image 36 (16/20)
+2026-01-03 14:58:43,560 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:43,733 - INFO - Processed image 37 (17/20)
+2026-01-03 14:58:48,418 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with more than one value is ambiguous
+2026-01-03 14:58:48,597 - INFO - Processed image 38 (18/20)
+2026-01-03 14:58:53,458 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with more than one value is ambiguous
+2026-01-03 14:58:53,665 - INFO - Processed image 39 (19/20)
+2026-01-03 14:58:58,550 - ERROR - Error during inference: SAM-3 inference failed: Boolean value of Tensor with no values is ambiguous
+2026-01-03 14:58:58,773 - INFO - Processed image 40 (20/20)
+2026-01-03 14:58:58,869 - INFO - Job completed

@@ -376,3 +376,89 @@
 2026-01-03 01:00:08,480 - INFO - uvicorn.access - 127.0.0.1:38817 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
 2026-01-03 01:00:08,530 - INFO - uvicorn.access - 127.0.0.1:38817 - "GET /api/v1/datasets HTTP/1.1" 200
 2026-01-03 01:00:09,278 - INFO - uvicorn.access - 127.0.0.1:38817 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:46:10,305 - INFO - uvicorn.error - Started server process [11392]
+2026-01-03 14:46:10,305 - INFO - uvicorn.error - Started server process [11392]
+2026-01-03 14:46:10,338 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-03 14:46:10,338 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-03 14:46:10,694 - INFO - uvicorn.error - Application startup complete.
+2026-01-03 14:46:10,694 - INFO - uvicorn.error - Application startup complete.
+2026-01-03 14:47:25,286 - INFO - uvicorn.access - 127.0.0.1:41245 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:47:37,110 - INFO - uvicorn.access - 127.0.0.1:41253 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-03 14:47:37,504 - INFO - uvicorn.access - 127.0.0.1:41255 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:47:38,688 - INFO - uvicorn.access - 127.0.0.1:41255 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:47:41,402 - INFO - uvicorn.access - 127.0.0.1:41255 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:47:45,596 - INFO - uvicorn.access - 127.0.0.1:41255 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:48:02,865 - INFO - uvicorn.access - 127.0.0.1:41256 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:48:04,048 - INFO - uvicorn.access - 127.0.0.1:41256 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:48:06,245 - INFO - uvicorn.access - 127.0.0.1:41256 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:48:45,511 - INFO - uvicorn.access - 127.0.0.1:41263 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-03 14:48:45,521 - INFO - jobs.manager - Created SAM-3 runner for weights at C:\Users\nacho\Documents\GitHub\Proyecto_IA_Clasificador_SAM_3\Proyecto_IA\checkpoints\sam3
+2026-01-03 14:48:45,909 - INFO - inference.sam3_runner - VRAM check: free=3.28GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-03 14:48:45,915 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.64GB weights_est=3.20GB status=ok
+2026-01-03 14:48:45,917 - INFO - inference.sam3_runner - Loading SAM-3 (1/4) with strategy=device_map_auto_fp16, device=cuda, dtype=torch.float16, device_map=auto
+2026-01-03 14:48:45,918 - INFO - inference.sam3_runner - Before load RAM: 0.77 GB, VRAM: 0.00 GB
+2026-01-03 14:49:14,104 - INFO - uvicorn.access - 127.0.0.1:41268 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:49:16,137 - INFO - uvicorn.access - 127.0.0.1:41272 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:49:16,140 - INFO - uvicorn.access - 127.0.0.1:41269 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:49:16,143 - INFO - uvicorn.access - 127.0.0.1:41268 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:49:17,386 - INFO - uvicorn.access - 127.0.0.1:41269 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:49:17,390 - INFO - uvicorn.access - 127.0.0.1:41272 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:49:17,392 - INFO - uvicorn.access - 127.0.0.1:41268 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:49:19,597 - INFO - uvicorn.access - 127.0.0.1:41269 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:49:19,603 - INFO - uvicorn.access - 127.0.0.1:41268 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:49:19,606 - INFO - uvicorn.access - 127.0.0.1:41272 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:49:23,795 - INFO - uvicorn.access - 127.0.0.1:41272 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:49:23,797 - INFO - uvicorn.access - 127.0.0.1:41268 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:49:23,801 - INFO - uvicorn.access - 127.0.0.1:41269 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:54:10,752 - INFO - uvicorn.error - Started server process [8448]
+2026-01-03 14:54:10,752 - INFO - uvicorn.error - Started server process [8448]
+2026-01-03 14:54:10,755 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-03 14:54:10,755 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-03 14:54:10,782 - INFO - uvicorn.error - Application startup complete.
+2026-01-03 14:54:10,782 - INFO - uvicorn.error - Application startup complete.
+2026-01-03 14:55:01,020 - INFO - uvicorn.access - 127.0.0.1:41353 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:55:03,528 - INFO - uvicorn.access - 127.0.0.1:41364 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-03 14:55:04,043 - INFO - uvicorn.access - 127.0.0.1:41366 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:55:05,455 - INFO - uvicorn.access - 127.0.0.1:41366 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:55:18,370 - INFO - uvicorn.access - 127.0.0.1:41367 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:55:40,583 - INFO - uvicorn.access - 127.0.0.1:41375 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-03 14:55:40,596 - INFO - jobs.manager - Created SAM-3 runner for weights at C:\Users\nacho\Documents\GitHub\Proyecto_IA_Clasificador_SAM_3\Proyecto_IA\checkpoints\sam3
+2026-01-03 14:55:40,715 - INFO - inference.sam3_runner - VRAM check: free=3.28GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-03 14:55:40,721 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=7.97GB weights_est=3.20GB status=ok
+2026-01-03 14:55:40,722 - INFO - inference.sam3_runner - Loading SAM-3 (1/4) with strategy=device_map_auto_fp16, device=cuda, dtype=torch.float16, device_map=auto
+2026-01-03 14:55:40,723 - INFO - inference.sam3_runner - Before load RAM: 0.71 GB, VRAM: 0.00 GB
+2026-01-03 14:55:45,295 - INFO - uvicorn.access - 127.0.0.1:41381 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:55:45,299 - INFO - uvicorn.access - 127.0.0.1:41383 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:55:45,306 - INFO - uvicorn.access - 127.0.0.1:41382 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:56:02,672 - INFO - uvicorn.access - 127.0.0.1:41388 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 14:56:22,598 - INFO - uvicorn.access - 127.0.0.1:41389 - "GET /api/v1/jobs/8/stats HTTP/1.1" 404
+2026-01-03 14:56:42,151 - INFO - uvicorn.access - 127.0.0.1:41392 - "GET /api/v1/jobs/8/samples HTTP/1.1" 200
+2026-01-03 14:56:54,403 - INFO - uvicorn.access - 127.0.0.1:41397 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 14:57:01,850 - INFO - inference.sam3_runner - After load RAM: 0.73 GB, VRAM: 1.58 GB
+2026-01-03 14:57:01,852 - INFO - inference.sam3_runner - Memory load: RAM: 0.71 -> 0.73 GB (+0.02), VRAM: 0.00 -> 1.58 GB (+1.58), device=cuda, dtype=torch.float16, device_map=auto
+2026-01-03 14:57:08,129 - INFO - uvicorn.access - 127.0.0.1:41398 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 14:57:32,257 - INFO - uvicorn.access - 127.0.0.1:41400 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 14:59:09,635 - INFO - uvicorn.access - 127.0.0.1:41408 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:59:10,208 - INFO - uvicorn.access - 127.0.0.1:41409 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:59:10,223 - INFO - uvicorn.access - 127.0.0.1:41408 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:59:11,253 - INFO - uvicorn.access - 127.0.0.1:41408 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:59:11,261 - INFO - uvicorn.access - 127.0.0.1:41409 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:59:24,438 - INFO - uvicorn.access - 127.0.0.1:41414 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:59:24,441 - INFO - uvicorn.access - 127.0.0.1:41416 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-03 14:59:24,443 - INFO - uvicorn.access - 127.0.0.1:41415 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-03 14:59:25,660 - INFO - uvicorn.access - 127.0.0.1:41415 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:59:27,267 - INFO - uvicorn.access - 127.0.0.1:41420 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-03 14:59:27,852 - INFO - uvicorn.access - 127.0.0.1:41415 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 14:59:32,077 - INFO - uvicorn.access - 127.0.0.1:41415 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 15:00:15,913 - INFO - uvicorn.access - 127.0.0.1:41423 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 15:00:22,695 - INFO - uvicorn.access - 127.0.0.1:41424 - "GET /api/v1/jobs/8/stats HTTP/1.1" 404
+2026-01-03 15:00:24,811 - INFO - uvicorn.access - 127.0.0.1:41425 - "GET /api/v1/jobs/8/samples HTTP/1.1" 200
+2026-01-03 15:24:02,187 - INFO - uvicorn.access - 127.0.0.1:41501 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 15:24:53,973 - INFO - uvicorn.access - 127.0.0.1:41510 - "GET /api/v1/jobs/8/stats HTTP/1.1" 404
+2026-01-03 15:24:56,127 - INFO - uvicorn.access - 127.0.0.1:41511 - "GET /api/v1/jobs/8/samples HTTP/1.1" 200
+2026-01-03 15:24:59,912 - INFO - uvicorn.access - 127.0.0.1:41512 - "GET /api/v1/jobs/8 HTTP/1.1" 200
+2026-01-03 15:25:16,942 - INFO - uvicorn.access - 127.0.0.1:41522 - "GET /api/v1/logs/tail?lines=200 HTTP/1.1" 200
+2026-01-03 15:25:16,994 - INFO - uvicorn.access - 127.0.0.1:41522 - "GET /favicon.ico HTTP/1.1" 404
+2026-01-03 16:38:03,067 - INFO - uvicorn.access - 127.0.0.1:42895 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-03 16:39:17,863 - INFO - uvicorn.access - 127.0.0.1:42910 - "GET /docs HTTP/1.1" 200
+2026-01-03 16:39:18,420 - INFO - uvicorn.access - 127.0.0.1:42910 - "GET /openapi.json HTTP/1.1" 200
