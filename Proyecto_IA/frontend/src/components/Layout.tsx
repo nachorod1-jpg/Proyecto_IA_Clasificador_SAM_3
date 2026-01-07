@@ -4,7 +4,8 @@ import OfflineBanner from './OfflineBanner';
 const navLinks = [
   { to: '/system/status', label: 'Estado del sistema' },
   { to: '/datasets', label: 'Datasets' },
-  { to: '/classification/level1/new', label: 'Clasificar L1' }
+  { to: '/classification/level1/new', label: 'Clasificar L1' },
+  { to: '/classification/level1/jobs', label: 'Jobs L1' }
 ];
 
 const Layout = () => {

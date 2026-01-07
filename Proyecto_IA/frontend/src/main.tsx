@@ -8,6 +8,7 @@ import DatasetsPage from './pages/DatasetsPage';
 import JobCreationPage from './pages/JobCreationPage';
 import JobDetailPage from './pages/JobDetailPage';
 import JobResultsPage from './pages/JobResultsPage';
+import JobsL1Page from './pages/JobsL1Page';
 import DatasetDetailPage from './pages/DatasetDetailPage';
 import SampleViewerPage from './pages/SampleViewerPage';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
               <Route path="/datasets" element={<DatasetsPage />} />
               <Route path="/datasets/:datasetId" element={<DatasetDetailPage />} />
               <Route path="/classification/level1/new" element={<JobCreationPage />} />
+              <Route path="/classification/level1/jobs" element={<JobsL1Page />} />
               <Route path="/classification/level1/jobs/:jobId" element={<JobDetailPage />} />
               <Route path="/classification/level1/jobs/:jobId/results" element={<JobResultsPage />} />
               <Route path="/classification/level1/jobs/:jobId/samples/:sampleId" element={<SampleViewerPage />} />

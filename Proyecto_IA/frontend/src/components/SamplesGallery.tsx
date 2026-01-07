@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchJobSamples } from '../api';
+import { fetchConcepts, fetchJobSamples } from '../api';
 import { DEFAULT_PAGE_SIZE } from '../config/env';
-import { Sample } from '../types';
+import { Concept, Sample } from '../types';
 import ApiErrorDisplay from './ApiErrorDisplay';
 import { ApiError } from '../api/client';
 
@@ -19,49 +19,60 @@ const buckets = [
 ];
 
 const SamplesGallery = ({ jobId }: Props) => {
-  const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE);
   const [concept, setConcept] = useState<number | undefined>();
   const [bucket, setBucket] = useState('');
 
-  const { data, isLoading, error, refetch, isFetching } = useQuery<
-    Awaited<ReturnType<typeof fetchJobSamples>>,
-    ApiError
-  >({
-    queryKey: ['samples', jobId, offset, limit, concept, bucket],
-    queryFn: () => fetchJobSamples(jobId, { offset, limit, concept_id: concept, bucket }),
-    keepPreviousData: true
+  const { data: concepts } = useQuery<Concept[], ApiError>({
+    queryKey: ['concepts'],
+    queryFn: fetchConcepts
   });
 
-  const items = data?.items || [];
-  const total = data?.total ?? items.length;
-  const totalPages = useMemo(() => (limit ? Math.ceil(total / limit) : 1), [limit, total]);
-  const currentPage = limit ? Math.floor(offset / limit) + 1 : 1;
+  const { data, isLoading, error, refetch, isFetching } = useQuery<Awaited<ReturnType<typeof fetchJobSamples>>, ApiError>({
+    queryKey: ['samples', jobId, limit, concept, bucket],
+    queryFn: () => fetchJobSamples(jobId, { limit, concept_id: concept, bucket })
+  });
 
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setOffset((page - 1) * limit);
-  };
+  const items = data || [];
 
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit);
-    setOffset(0);
   };
 
   const isNotFound = error?.status === 404;
+  const hasNoSamples = !isLoading && !error && items.length === 0;
+
+  const resolveImageSrc = (sample: Sample) => {
+    const candidate = sample.abs_path || sample.rel_path;
+    if (!candidate) return null;
+    const trimmed = candidate.trim();
+    if (/^(https?:|data:|blob:)/i.test(trimmed)) {
+      return trimmed;
+    }
+    return null;
+  };
+
+  const conceptsOptions = useMemo(
+    () => [{ id: undefined, name: 'Todos' }, ...(concepts || [])],
+    [concepts]
+  );
 
   return (
     <div className="mt-6 space-y-4">
       <div className="flex flex-wrap gap-4">
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Concepto</label>
-          <input
-            type="number"
+          <select
             value={concept ?? ''}
             onChange={(e) => setConcept(e.target.value ? Number(e.target.value) : undefined)}
-            className="w-32 rounded border border-gray-300 px-3 py-2 text-sm"
-            placeholder="ID"
-          />
+            className="w-40 rounded border border-gray-300 px-3 py-2 text-sm"
+          >
+            {conceptsOptions.map((c) => (
+              <option key={c.id ?? 'all'} value={c.id ?? ''}>
+                {c.name ?? c.id}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">Bucket</label>
@@ -94,62 +105,85 @@ const SamplesGallery = ({ jobId }: Props) => {
         <button
           type="button"
           onClick={() => {
-            setOffset(0);
             refetch();
           }}
           className="self-end rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
         >
           Aplicar filtros
         </button>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          className="self-end rounded border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100"
+        >
+          Refrescar
+        </button>
       </div>
 
       {!isNotFound && error && <ApiErrorDisplay error={error} />}
-      {isNotFound && !isLoading && <div className="text-sm text-gray-600">Sin muestras todavía.</div>}
+      {isNotFound && !isLoading && <div className="text-sm text-gray-600">No hay samples para este job (aún).</div>}
       {isLoading && <div className="text-sm text-gray-600">Cargando samples...</div>}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((sample: Sample) => {
-          const imgSrc = sample.image_url || `/api/v1/images/${sample.image_id}`;
+          const imgSrc = resolveImageSrc(sample);
           return (
-            <div key={sample.sample_id ?? `${sample.image_id}-${sample.concept_id}`} className="overflow-hidden rounded-lg border bg-white shadow-sm">
-              <img src={imgSrc} alt={`sample-${sample.image_id}`} className="h-40 w-full object-cover" loading="lazy" />
-              <div className="p-3 text-xs text-gray-700">
-                <div className="font-semibold">Concepto: {sample.concept_name || sample.concept_id || 'N/A'}</div>
-                <div>Bucket: {sample.bucket || 'N/D'}</div>
-                {typeof sample.score === 'number' && <div>Score: {sample.score.toFixed(2)}</div>}
+            <div key={`${sample.image_id}-${sample.rel_path ?? sample.abs_path ?? 'sample'}`} className="overflow-hidden rounded-lg border bg-white shadow-sm">
+              {imgSrc ? (
+                <img src={imgSrc} alt={`sample-${sample.image_id}`} className="h-48 w-full object-cover" loading="lazy" />
+              ) : (
+                <div className="flex h-48 items-center justify-center bg-gray-100 text-center text-xs text-gray-500">
+                  Imagen no accesible vía HTTP.
+                </div>
+              )}
+              <div className="space-y-2 p-3 text-xs text-gray-700">
+                <div className="font-semibold">Imagen #{sample.image_id}</div>
+                {sample.rel_path && (
+                  <div className="break-all">
+                    <span className="font-semibold">rel_path:</span> {sample.rel_path}
+                  </div>
+                )}
+                {sample.abs_path && (
+                  <div className="break-all">
+                    <span className="font-semibold">abs_path:</span> {sample.abs_path}
+                  </div>
+                )}
+                {!imgSrc && (
+                  <div className="rounded border border-yellow-200 bg-yellow-50 p-2 text-[11px] text-yellow-800">
+                    La imagen no es accesible vía HTTP; se requiere endpoint de serving o descarga.
+                  </div>
+                )}
+                <div>
+                  <div className="font-semibold text-gray-800">Regiones</div>
+                  <ul className="mt-1 space-y-1">
+                    {(sample.regions || []).map((region, idx) => (
+                      <li key={`${sample.image_id}-region-${idx}`} className="rounded border border-gray-200 px-2 py-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-semibold">{region.concept_name || 'Concepto'}</span>
+                          {typeof region.score === 'number' && <span>Score: {region.score.toFixed(2)}</span>}
+                          {region.color_hex && (
+                            <span
+                              className="rounded px-2 py-0.5 text-[10px] font-semibold text-white"
+                              style={{ backgroundColor: region.color_hex }}
+                            >
+                              {region.color_hex}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-gray-600">BBox: {region.bbox.join(', ')}</div>
+                      </li>
+                    ))}
+                    {!(sample.regions || []).length && <li className="text-gray-500">Sin regiones.</li>}
+                  </ul>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
 
-      {!items.length && !isLoading && !isNotFound && (
-        <div className="text-sm text-gray-600">No hay samples para los filtros seleccionados.</div>
-      )}
-
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1 || isFetching}
-            className="rounded border border-gray-300 px-3 py-2 text-sm disabled:opacity-50"
-          >
-            Anterior
-          </button>
-          <div className="text-sm text-gray-700">
-            Página {currentPage} de {totalPages}
-          </div>
-          <button
-            type="button"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages || isFetching}
-            className="rounded border border-gray-300 px-3 py-2 text-sm disabled:opacity-50"
-          >
-            Siguiente
-          </button>
-        </div>
-      )}
+      {hasNoSamples && <div className="text-sm text-gray-600">No hay samples para este job (aún).</div>}
+      {isFetching && !isLoading && <div className="text-xs text-gray-500">Actualizando samples...</div>}
     </div>
   );
 };

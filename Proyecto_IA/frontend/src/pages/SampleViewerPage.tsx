@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { fetchSampleById } from '../api';
-import { Region } from '../types';
+import { SampleRegion } from '../types';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
 
 const renderBbox = (bbox: [number, number, number, number]) => {
@@ -26,7 +26,11 @@ const SampleViewerPage = () => {
   const { sampleId = '' } = useParams();
   const { data, isLoading, error } = useQuery({ queryKey: ['sample', sampleId], queryFn: () => fetchSampleById(sampleId) });
 
-  const imageUrl = data?.image_url || (data?.image_id ? `/api/v1/images/${data.image_id}` : undefined);
+  const candidatePath = data?.abs_path || data?.rel_path;
+  const imageUrl =
+    candidatePath && /^(https?:|data:|blob:)/i.test(candidatePath)
+      ? candidatePath
+      : data?.image_url || (data?.image_id ? `/api/v1/images/${data.image_id}` : undefined);
 
   return (
     <div className="space-y-4">
@@ -41,7 +45,7 @@ const SampleViewerPage = () => {
           <div className="relative">
             <img src={imageUrl} alt={`sample-${sampleId}`} className="w-full object-contain" />
             <svg className="absolute inset-0 h-full w-full">
-              {data.regions?.map((region: Region, idx: number) => (
+              {data.regions?.map((region: SampleRegion, idx: number) => (
                 <g key={idx}>
                   {renderBbox(region.bbox)}
                   <text x={region.bbox[0] + 4} y={region.bbox[1] + 14} fill="#111827" fontSize="12" fontWeight="bold" stroke="white" strokeWidth="0.5">

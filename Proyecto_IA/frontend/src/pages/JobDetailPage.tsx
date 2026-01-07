@@ -6,6 +6,8 @@ import ProgressBar from '../components/ProgressBar';
 import { cancelJob, resumeJob } from '../api';
 import { useJobPolling } from '../hooks/useJobPolling';
 import { ApiError } from '../api/client';
+import { getRequestedMaxImages, setCurrentLevel1JobId } from '../utils/jobRegistry';
+import { useEffect, useMemo } from 'react';
 
 const JobDetailPage = () => {
   const { jobId = '' } = useParams();
@@ -24,7 +26,11 @@ const JobDetailPage = () => {
 
   const status = data?.status || data?.state;
   const canCancel = status === 'running';
-  const canResume = status === 'cancelled' || status === 'failed' || status === 'paused';
+  const canResume = status === 'cancelled' || status === 'failed' || status === 'paused' || status === 'pending';
+  const requestedMaxImages = useMemo(
+    () => (jobId ? getRequestedMaxImages(Number(jobId)) : undefined),
+    [jobId]
+  );
   const statusMessage =
     status === 'pending'
       ? 'Job pendiente, esperando ejecución...'
@@ -40,6 +46,18 @@ const JobDetailPage = () => {
                 ? 'El job está pausado.'
                 : null;
 
+  const processed = data?.processed_images ?? 0;
+  const total = data?.total_images ?? 0;
+  const progressLabel =
+    total > 0 && processed > total
+      ? `${processed} procesadas (total reportado: ${total})`
+      : `${processed} / ${total}`;
+
+  useEffect(() => {
+    if (!jobId) return;
+    setCurrentLevel1JobId(Number(jobId));
+  }, [jobId]);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -47,9 +65,10 @@ const JobDetailPage = () => {
           <h1 className="text-2xl font-bold text-gray-900">Job #{jobId}</h1>
           <p className="text-sm text-gray-600">Monitorea el progreso y estado.</p>
         </div>
-        <Link to={`/classification/level1/jobs/${jobId}/results`} className="text-sm font-semibold text-blue-700">
-          Ver resultados
-        </Link>
+        <div className="flex flex-wrap gap-3 text-sm font-semibold text-blue-700">
+          <Link to={`/classification/level1/jobs/${jobId}/results`}>Ver resultados</Link>
+          <Link to={`/classification/level1/jobs/${jobId}/results#samples`}>Cargar samples</Link>
+        </div>
       </div>
 
       {isLoading && <div className="text-sm text-gray-600">Cargando job...</div>}
@@ -65,7 +84,10 @@ const JobDetailPage = () => {
             {data.error_message && <div className="text-sm text-red-700">{data.error_message}</div>}
           </div>
           {statusMessage && <div className="text-sm text-gray-600">{statusMessage}</div>}
-          <ProgressBar processed={data.processed_images} total={data.total_images} />
+          <div className="text-sm text-gray-700">
+            <span className="font-semibold">Progreso:</span> {progressLabel}
+          </div>
+          <ProgressBar processed={processed} total={total} />
           <div className="grid gap-3 text-sm text-gray-700 sm:grid-cols-2">
             <div>
               <span className="font-semibold">Creado:</span> {data.created_at || 'N/D'}
@@ -78,6 +100,10 @@ const JobDetailPage = () => {
             </div>
             <div>
               <span className="font-semibold">Fin:</span> {data.finished_at || 'N/D'}
+            </div>
+            <div>
+              <span className="font-semibold">Límite solicitado:</span>{' '}
+              {typeof requestedMaxImages === 'number' ? requestedMaxImages : 'N/D'}
             </div>
             <div>
               <span className="font-semibold">safe_mode:</span> {String(data.safe_mode)}
@@ -101,7 +127,7 @@ const JobDetailPage = () => {
               onClick={() => resumeMutation.mutate()}
               className="rounded border border-blue-600 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 disabled:opacity-50"
             >
-              Reanudar
+              {status === 'pending' ? 'Reintentar resume' : 'Reanudar'}
             </button>
           </div>
         </div>

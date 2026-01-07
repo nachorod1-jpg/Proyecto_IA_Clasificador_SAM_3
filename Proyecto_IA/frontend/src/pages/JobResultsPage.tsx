@@ -6,6 +6,8 @@ import SamplesGallery from '../components/SamplesGallery';
 import JobStateIndicator from '../components/JobStateIndicator';
 import { ApiError } from '../api/client';
 import { Job } from '../types';
+import { useEffect } from 'react';
+import { setCurrentLevel1JobId } from '../utils/jobRegistry';
 
 const JobResultsPage = () => {
   const { jobId = '' } = useParams();
@@ -24,6 +26,12 @@ const JobResultsPage = () => {
   const statsError = statsQuery.error as ApiError | undefined;
   const jobNotFound = jobError?.status === 404;
   const statsNotFound = statsError?.status === 404;
+
+  useEffect(() => {
+    if (jobId) {
+      setCurrentLevel1JobId(Number(jobId));
+    }
+  }, [jobId]);
 
   if (jobNotFound) {
     return (
@@ -47,7 +55,25 @@ const JobResultsPage = () => {
       </div>
 
       <ApiErrorDisplay error={jobError ?? null} />
-      {jobQuery.data && jobQuery.data.status && <JobStateIndicator status={jobQuery.data.status} />}
+      {jobQuery.data && (
+        <div className="space-y-2 rounded-lg bg-white p-4 shadow-sm">
+          <div className="flex flex-wrap items-center gap-3">
+            {jobQuery.data.status && <JobStateIndicator status={jobQuery.data.status} />}
+            <span className="text-sm text-gray-600">
+              {jobQuery.data.processed_images ?? 0} / {jobQuery.data.total_images ?? 0}
+            </span>
+          </div>
+          <div className="grid gap-2 text-xs text-gray-600 sm:grid-cols-2">
+            <div>Creado: {jobQuery.data.created_at || 'N/D'}</div>
+            <div>Actualizado: {jobQuery.data.updated_at || 'N/D'}</div>
+            <div>Inicio: {jobQuery.data.started_at || 'N/D'}</div>
+            <div>Fin: {jobQuery.data.finished_at || 'N/D'}</div>
+          </div>
+          {jobQuery.data.error_message && (
+            <div className="text-xs font-semibold text-red-700">{jobQuery.data.error_message}</div>
+          )}
+        </div>
+      )}
 
       <section className="space-y-3">
         <div className="flex items-center justify-between">
@@ -103,7 +129,7 @@ const JobResultsPage = () => {
         )}
       </section>
 
-      <section>
+      <section id="samples">
         <h2 className="text-lg font-semibold text-gray-800">Samples</h2>
         <SamplesGallery jobId={jobId} />
       </section>

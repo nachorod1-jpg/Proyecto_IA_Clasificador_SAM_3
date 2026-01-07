@@ -1,11 +1,22 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
-import { createLevel1Job, fetchConcepts, fetchDatasets, fetchJob, resumeJob } from '../api';
+import { createLevel1Job, fetchConcepts, fetchDatasets, resumeJob } from '../api';
 import { ApiError } from '../api/client';
 import { Concept, Dataset, JobStatus } from '../types';
 import { useHealthPolling } from '../hooks/useHealthPolling';
+import { useJobPolling } from '../hooks/useJobPolling';
+import {
+  addLevel1JobId,
+  getCurrentLevel1JobId,
+  getLevel1JobMeta,
+  getLevel1JobRegistryKey,
+  getRecentLevel1JobIds,
+  getRequestedMaxImages,
+  setCurrentLevel1JobId,
+  updateLevel1JobMeta
+} from '../utils/jobRegistry';
 
 type DevicePreference = 'auto' | 'cpu' | 'cuda';
 type ActivityStatus = 'info' | 'success' | 'error';
@@ -42,8 +53,8 @@ const JobCreationPage = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: () =>
-      createLevel1Job({
+    mutationFn: () => {
+      const payload: Record<string, unknown> = {
         dataset_id: form.dataset_id,
         concepts: form.conceptIds.map((id) => {
           const concept = conceptsQuery.data?.find((c) => c.id === id);
@@ -57,25 +68,35 @@ const JobCreationPage = () => {
         target_long_side: form.target_long_side,
         box_threshold: form.box_threshold,
         max_detections_per_image: form.max_detections_per_image ?? 0,
-        sleep_ms_between_images: form.sleep_ms_between_images ?? 0,
-        max_images: form.max_images ?? 0
-      })
+        sleep_ms_between_images: form.sleep_ms_between_images ?? 0
+      };
+      if (typeof form.max_images === 'number') {
+        payload.max_images = form.max_images;
+      }
+      return createLevel1Job(payload);
+    }
   });
 
-  const [createdJobId, setCreatedJobId] = useState<number | null>(null);
+  const [activeJobId, setActiveJobId] = useState<number | null>(() => {
+    const current = getCurrentLevel1JobId();
+    if (current) return current;
+    const recent = getRecentLevel1JobIds();
+    return recent.length ? recent[0] : null;
+  });
   const [resumeError, setResumeError] = useState<ApiError | null>(null);
   const [activityLog, setActivityLog] = useState<ActivityEntry[]>([]);
   const [isLogOpen, setIsLogOpen] = useState(true);
-  const [pollingJobId, setPollingJobId] = useState<number | null>(null);
+  const [logSeeded, setLogSeeded] = useState(false);
   const lastProgressRef = useRef<{ status?: JobStatus; processed?: number; total?: number } | null>(null);
+  const jobQuery = useJobPolling(activeJobId ? String(activeJobId) : '');
 
   const resumeMutation = useMutation({
     mutationFn: (jobId: number) => resumeJob(String(jobId))
   });
 
-  const appendLog = (message: string, status: ActivityStatus = 'info') => {
+  const appendLog = useCallback((message: string, status: ActivityStatus = 'info') => {
     setActivityLog((prev) => [...prev, { id: Date.now() + Math.random(), message, status }]);
-  };
+  }, []);
 
   const formatErrorMessage = (error: unknown) => {
     if (error instanceof Error) {
@@ -89,16 +110,20 @@ const JobCreationPage = () => {
 
   const launchJob = async () => {
     setResumeError(null);
-    setCreatedJobId(null);
-    setPollingJobId(null);
     setActivityLog([]);
+    setLogSeeded(true);
     appendLog('Creando job…');
+    if (typeof form.max_images === 'number') {
+      appendLog(`Solicitado max_images=${form.max_images}`, 'info');
+    }
     let newJobId: number | null = null;
 
     try {
       const job = await mutation.mutateAsync();
       newJobId = job.id;
-      setCreatedJobId(job.id);
+      addLevel1JobId(job.id, form.max_images);
+      setCurrentLevel1JobId(job.id);
+      setActiveJobId(job.id);
       appendLog(`Job creado con id=${job.id}`, 'success');
     } catch (error) {
       appendLog(`Error en create job: ${formatErrorMessage(error)}`, 'error');
@@ -113,7 +138,6 @@ const JobCreationPage = () => {
     try {
       await resumeMutation.mutateAsync(newJobId);
       appendLog('Job en ejecución…', 'success');
-      setPollingJobId(newJobId);
     } catch (error) {
       setResumeError(error as ApiError);
       appendLog(`Error en resume: ${formatErrorMessage(error)}`, 'error');
@@ -136,64 +160,79 @@ const JobCreationPage = () => {
   };
 
   useEffect(() => {
-    if (!pollingJobId) {
+    if (!activeJobId || logSeeded) {
       return;
     }
+    const meta = getLevel1JobMeta(activeJobId);
+    const requestedMax = getRequestedMaxImages(activeJobId);
+    appendLog(`Job detectado: #${activeJobId}`, 'info');
+    if (typeof requestedMax === 'number') {
+      appendLog(`Límite solicitado max_images=${requestedMax}`, 'info');
+    }
+    if (meta?.status) {
+      appendLog(`Estado actual: ${meta.status}`, 'info');
+    }
+    setLogSeeded(true);
+  }, [activeJobId, appendLog, logSeeded]);
 
-    let isCancelled = false;
-    const pollJob = async () => {
-      try {
-        const job = await fetchJob(String(pollingJobId));
-        if (isCancelled) {
-          return;
-        }
-        const status = job.status || job.state;
-        const processed = job.processed_images ?? 0;
-        const total = job.total_images ?? 0;
-        const lastProgress = lastProgressRef.current;
-        const statusChanged = status && status !== lastProgress?.status;
-        const progressChanged = processed !== lastProgress?.processed || total !== lastProgress?.total;
+  useEffect(() => {
+    if (!jobQuery.data || !activeJobId) {
+      return;
+    }
+    const job = jobQuery.data;
+    const status = job.status || job.state;
+    const processed = job.processed_images ?? 0;
+    const total = job.total_images ?? 0;
+    updateLevel1JobMeta(activeJobId, {
+      status,
+      processed_images: processed,
+      total_images: total
+    });
+    const lastProgress = lastProgressRef.current;
+    const statusChanged = status && status !== lastProgress?.status;
+    const progressChanged = processed !== lastProgress?.processed || total !== lastProgress?.total;
+    const progressLabel =
+      total > 0 && processed > total
+        ? `${processed} procesadas (total reportado: ${total})`
+        : `${processed}/${total}`;
 
-        if (statusChanged || progressChanged) {
-          if (status === 'running') {
-            appendLog(`Job en ejecución… ${processed}/${total}`, 'info');
-          }
-          if (status === 'completed') {
-            appendLog(`Job completado (${processed}/${total}).`, 'success');
-          }
-          if (status === 'failed') {
-            appendLog(`Job falló: ${job.error_message || 'Error desconocido'}`, 'error');
-          }
-          if (status === 'cancelled') {
-            appendLog('Job cancelado.', 'error');
-          }
-          if (status === 'paused') {
-            appendLog('Job pausado.', 'info');
-          }
-          lastProgressRef.current = { status, processed, total };
-        }
+    if (statusChanged || progressChanged) {
+      if (status === 'running') {
+        appendLog(`Job running: ${progressLabel}`, 'info');
+      }
+      if (status === 'completed') {
+        appendLog(`Job completed (${progressLabel}).`, 'success');
+      }
+      if (status === 'failed') {
+        appendLog(`Job falló: ${job.error_message || 'Error desconocido'}`, 'error');
+      }
+      if (status === 'cancelled') {
+        appendLog('Job cancelado.', 'error');
+      }
+      if (status === 'paused') {
+        appendLog('Job pausado.', 'info');
+      }
+      if (status === 'pending') {
+        appendLog('Job pendiente, esperando ejecución…', 'info');
+      }
+      lastProgressRef.current = { status, processed, total };
+    }
+  }, [jobQuery.data, activeJobId]);
 
-        if (status && ['completed', 'failed', 'cancelled'].includes(status)) {
-          setPollingJobId(null);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          appendLog(`Error en polling: ${formatErrorMessage(error)}`, 'error');
-          setPollingJobId(null);
-        }
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== getLevel1JobRegistryKey()) {
+        return;
+      }
+      const updatedCurrent = getCurrentLevel1JobId();
+      if (updatedCurrent && updatedCurrent !== activeJobId) {
+        setActiveJobId(updatedCurrent);
+        setLogSeeded(false);
       }
     };
-
-    void pollJob();
-    const interval = window.setInterval(() => {
-      void pollJob();
-    }, 5000);
-
-    return () => {
-      isCancelled = true;
-      window.clearInterval(interval);
-    };
-  }, [pollingJobId]);
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [activeJobId]);
 
   return (
     <div className="space-y-6">
@@ -211,10 +250,12 @@ const JobCreationPage = () => {
         )}
         <ApiErrorDisplay error={healthQuery.error ?? null} />
         {isLaunching && <div className="text-sm text-gray-600">Preparando job y conectando con el backend…</div>}
-        {createdJobId && !resumeError && !isLaunching && (
-          <div className="text-sm text-gray-600">Job #{createdJobId} creado en estado pendiente.</div>
+        {activeJobId && !resumeError && !isLaunching && (
+          <div className="text-sm text-gray-600">
+            Job #{activeJobId} {jobQuery.data?.status ? `(${jobQuery.data.status})` : 'creado'}.
+          </div>
         )}
-        {createdJobId && resumeError && (
+        {activeJobId && resumeError && (
           <div className="rounded border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-900">
             <p className="font-semibold">El job se creó pero no pudo iniciarse.</p>
             <p>Reintenta la ejecución desde el botón de abajo o visita el detalle del job.</p>
@@ -224,8 +265,8 @@ const JobCreationPage = () => {
                 onClick={async () => {
                   setResumeError(null);
                   try {
-                    await resumeMutation.mutateAsync(createdJobId);
-                    navigate(`/classification/level1/jobs/${createdJobId}`);
+                    await resumeMutation.mutateAsync(activeJobId);
+                    navigate(`/classification/level1/jobs/${activeJobId}`);
                   } catch (error) {
                     setResumeError(error as ApiError);
                   }
@@ -236,7 +277,7 @@ const JobCreationPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate(`/classification/level1/jobs/${createdJobId}`)}
+                onClick={() => navigate(`/classification/level1/jobs/${activeJobId}`)}
                 className="rounded border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-100"
               >
                 Ver detalle del job
@@ -247,16 +288,29 @@ const JobCreationPage = () => {
           </div>
         </div>
         )}
-        {createdJobId && (
+        {activeJobId && (
           <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600">
-            <span>Job actual: #{createdJobId}</span>
+            <span>Job actual: #{activeJobId}</span>
             <button
               type="button"
-              onClick={() => navigate(`/classification/level1/jobs/${createdJobId}`)}
+              onClick={() => navigate(`/classification/level1/jobs/${activeJobId}`)}
               className="rounded border border-gray-300 px-2 py-1 font-semibold text-gray-700 hover:bg-gray-100"
             >
               Ver detalle
             </button>
+            <button
+              type="button"
+              onClick={() => navigate(`/classification/level1/jobs/${activeJobId}/results`)}
+              className="rounded border border-gray-300 px-2 py-1 font-semibold text-gray-700 hover:bg-gray-100"
+            >
+              Ver resultados
+            </button>
+            {jobQuery.data && (
+              <span>
+                Estado: {jobQuery.data.status || jobQuery.data.state} ·{' '}
+                {(jobQuery.data.processed_images ?? 0)}/{jobQuery.data.total_images ?? 0}
+              </span>
+            )}
           </div>
         )}
         <div className="rounded border border-gray-200 bg-gray-50 p-3">

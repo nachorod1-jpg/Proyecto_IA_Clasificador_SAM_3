@@ -30,6 +30,7 @@ export interface Job {
   error_message?: string;
   processed_images?: number;
   total_images?: number;
+  max_images?: number;
   stats?: Stats;
   safe_mode?: boolean;
   safe_load?: boolean;
@@ -60,16 +61,22 @@ export interface Region {
   concept_name?: string;
 }
 
-export interface Sample {
-  sample_id?: number;
-  id?: number;
-  image_id: number;
-  concept_id?: number;
-  concept_name?: string;
-  bucket?: string;
+export interface SampleRegion {
+  bbox: [number, number, number, number];
   score?: number;
-  regions: Region[];
+  color_hex?: string;
+  concept_name?: string;
+  concept_id?: number;
+  mask_ref?: string;
+}
+
+export interface Sample {
+  image_id: number;
+  rel_path?: string;
+  abs_path?: string;
+  regions: SampleRegion[];
   image_url?: string;
+  concept_id?: number;
 }
 
 export interface PaginatedResponse<T> {

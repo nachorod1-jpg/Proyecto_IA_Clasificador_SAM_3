@@ -1,5 +1,5 @@
 import apiClient from './client';
-import { Concept, Dataset, HealthInfo, Job, PaginatedResponse, Sample, Stats } from '../types';
+import { Concept, Dataset, HealthInfo, Job, Sample, Stats } from '../types';
 
 export const fetchHealth = async (): Promise<HealthInfo> => {
   const { data } = await apiClient.get('/api/v1/health');
@@ -52,14 +52,11 @@ export const fetchJobStats = async (jobId: string): Promise<Stats> => {
 
 export const fetchJobSamples = async (
   jobId: string,
-  params: { limit?: number; offset?: number; concept_id?: number; bucket?: string }
-): Promise<PaginatedResponse<Sample>> => {
+  params: { limit?: number; concept_id?: number; bucket?: string }
+): Promise<Sample[]> => {
   const { data } = await apiClient.get(`/api/v1/jobs/${jobId}/samples`, {
     params
   });
-  if (Array.isArray(data)) {
-    return { items: data };
-  }
   return data;
 };
 
