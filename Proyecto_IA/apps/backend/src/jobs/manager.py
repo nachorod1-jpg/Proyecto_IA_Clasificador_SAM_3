@@ -7,14 +7,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, List, Optional
 
-from PIL import UnidentifiedImageError
+from PIL import Image, UnidentifiedImageError
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
 from core.config import get_settings
 from core.logging_config import configure_job_logger
 from core.models import Concept, Image, Job, JobStat, Region
-from core.utils import load_image, serialize_bbox
+from core.utils import ensure_dir, load_image, serialize_bbox
+from inference.sam3_methods import run_auto_mask, run_pcs_box, run_pcs_combined, run_pcs_text
 from inference.sam3_runner import SAM3Runner
 from stats.buckets import BucketDefinition, build_buckets, select_bucket
 
@@ -98,6 +99,14 @@ class JobManager:
             else (0.5 if safe_mode else 0.3)
         )
 
+        thresholds = params.get("thresholds") or {}
+        confidence_threshold = float(thresholds.get("confidence_threshold", box_threshold))
+        mask_threshold = float(thresholds.get("mask_threshold", 0.5))
+        min_area_pixels = int(thresholds.get("min_area_pixels", 0))
+        output_controls = params.get("output_controls") or {}
+        return_masks = bool(output_controls.get("return_masks", True))
+        return_boxes = bool(output_controls.get("return_boxes", True))
+
         max_detections_param = params.get("max_detections_per_image")
         max_detections = (
             int(max_detections_param)
@@ -116,6 +125,15 @@ class JobManager:
         buckets = build_buckets(user_confidence)
 
         concept_prompts = {int(c["concept_id"]): c["prompt_text"] for c in params.get("concepts", [])}
+        inference_method = params.get("inference_method") or "PCS_TEXT"
+        prompt_payload = params.get("prompt_payload") or {}
+        if inference_method == "AUTO_MASK" and len(concept_prompts) > 1:
+            first_concept_id = next(iter(concept_prompts))
+            job_logger.info(
+                "AUTO_MASK only supports a single concept. Using concept_id=%s",
+                first_concept_id,
+            )
+            concept_prompts = {first_concept_id: concept_prompts[first_concept_id]}
 
         weights_path = self._get_weights_path()
         if not weights_path or not weights_path.exists():
@@ -133,7 +151,8 @@ class JobManager:
                 safe_load=safe_load,
                 device_preference=device_preference,
                 dtype_preference=params.get("dtype_preference", "auto"),
-                box_threshold=box_threshold,
+                box_threshold=confidence_threshold,
+                mask_threshold=mask_threshold,
             )
         except Exception as exc:  # pragma: no cover - external dependency
             job.status = "failed"
@@ -179,31 +198,113 @@ class JobManager:
                 continue
 
             for concept_id, prompt in concept_prompts.items():
-                detections = []
                 try:
-                    detections = runner.run_pcs(
-                        pil_img,
-                        prompt,
-                        target_long_side=target_long_side,
-                        box_threshold=box_threshold,
-                        max_detections=max_detections,
-                    )
+                    detections = []
+                    debug = None
+                    prompt_text = str(prompt_payload.get("text") or prompt)
+                    if inference_method == "PCS_TEXT":
+                        detections, debug = run_pcs_text(
+                            image=pil_img,
+                            text=prompt_text,
+                            processor=runner.processor,
+                            model=runner.model,
+                            device=runner.device,
+                            confidence_threshold=confidence_threshold,
+                            mask_threshold=mask_threshold,
+                            min_area_pixels=min_area_pixels,
+                        )
+                    elif inference_method == "PCS_BOX":
+                        boxes = prompt_payload.get("input_boxes") or []
+                        labels = prompt_payload.get("input_boxes_labels")
+                        if not boxes:
+                            raise RuntimeError("PCS_BOX requires input_boxes in prompt_payload")
+                        detections, debug = run_pcs_box(
+                            image=pil_img,
+                            boxes=boxes,
+                            labels=labels,
+                            processor=runner.processor,
+                            model=runner.model,
+                            device=runner.device,
+                            confidence_threshold=confidence_threshold,
+                            mask_threshold=mask_threshold,
+                            min_area_pixels=min_area_pixels,
+                        )
+                    elif inference_method == "PCS_COMBINED":
+                        boxes = prompt_payload.get("input_boxes") or []
+                        labels = prompt_payload.get("input_boxes_labels")
+                        if not boxes:
+                            raise RuntimeError("PCS_COMBINED requires input_boxes in prompt_payload")
+                        detections, debug = run_pcs_combined(
+                            image=pil_img,
+                            text=prompt_text,
+                            boxes=boxes,
+                            labels=labels,
+                            processor=runner.processor,
+                            model=runner.model,
+                            device=runner.device,
+                            confidence_threshold=confidence_threshold,
+                            mask_threshold=mask_threshold,
+                            min_area_pixels=min_area_pixels,
+                        )
+                    elif inference_method == "AUTO_MASK":
+                        detections, debug = run_auto_mask(
+                            image=pil_img,
+                            points_per_batch=prompt_payload.get("points_per_batch"),
+                            confidence_threshold=confidence_threshold,
+                            min_area_pixels=min_area_pixels,
+                        )
+                    else:
+                        raise RuntimeError(f"Inference method not supported: {inference_method}")
+
+                    if debug:
+                        job_logger.info(
+                            "SAM3 debug: method=%s prompt=%s threshold=%.2f mask_threshold=%.2f min_area=%s original_sizes=%s "
+                            "candidates=%s filtered=%s max_pred_sigmoid=%s max_presence_sigmoid=%s",
+                            inference_method,
+                            prompt_text,
+                            debug.used_threshold,
+                            mask_threshold,
+                            min_area_pixels,
+                            debug.original_sizes,
+                            debug.candidate_count,
+                            debug.filtered_count,
+                            debug.max_pred_sigmoid,
+                            debug.max_presence_sigmoid,
+                        )
                 except Exception as exc:
                     job_logger.error(f"Error during inference: {exc}")
                     img.status = "error"
                     session.commit()
                     continue
 
+                detections.sort(key=lambda det: det.score, reverse=True)
+                if max_detections:
+                    detections = detections[:max_detections]
+
                 for det in detections:
+                    bbox_xyxy = det.bbox_xyxy
+                    if return_boxes:
+                        x0, y0, x1, y1 = bbox_xyxy
+                        bbox = [x0, y0, max(0.0, x1 - x0), max(0.0, y1 - y0)]
+                    else:
+                        bbox = [0.0, 0.0, 0.0, 0.0]
                     region = Region(
                         job_id=job.id,
                         image_id=img.id,
                         concept_id=concept_id,
-                        bbox_json=serialize_bbox(det.bbox),
+                        bbox_json=serialize_bbox(bbox),
                         score=float(det.score),
-                        mask_ref=str(det.mask_path) if det.mask_path else None,
+                        mask_ref=None,
                     )
                     session.add(region)
+                    session.flush()
+                    if return_masks and det.mask is not None:
+                        masks_dir = settings.resolve_masks_dir() / str(job.id) / str(img.id)
+                        ensure_dir(masks_dir)
+                        mask_path = masks_dir / f"{region.id}.png"
+                        mask = (det.mask > 0).astype("uint8") * 255
+                        Image.fromarray(mask).save(mask_path)
+                        region.mask_ref = str(mask_path.relative_to(settings.resolve_masks_dir()))
                 session.commit()
 
             job.processed_images += 1

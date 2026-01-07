@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { fetchConcepts, fetchJobImages, fetchJobSamples, getSampleImageUrl } from '../api';
+import { fetchConcepts, fetchJobImages, fetchJobSamples } from '../api';
 import { Concept, JobImage, Sample } from '../types';
 import ApiErrorDisplay from './ApiErrorDisplay';
 import { ApiError } from '../api/client';
+import SampleOverlayImage from './SampleOverlayImage';
+import { getRegionColor } from '../utils/maskOverlay';
 
 interface Props {
   jobId: string;
@@ -25,6 +27,9 @@ const SamplesGallery = ({ jobId }: Props) => {
   const [concept, setConcept] = useState<number | undefined>();
   const [bucket, setBucket] = useState('max');
   const [showProcessedImages, setShowProcessedImages] = useState(false);
+  const [showBboxes, setShowBboxes] = useState(true);
+  const [showMasks, setShowMasks] = useState(true);
+  const [maskOpacity, setMaskOpacity] = useState(0.35);
 
   const { data: concepts } = useQuery<Concept[], ApiError>({
     queryKey: ['concepts'],
@@ -80,7 +85,16 @@ const SamplesGallery = ({ jobId }: Props) => {
     return Array.from(summary.entries()).map(([name, count]) => `${name}: ${count}`);
   };
 
-  const getImageUrl = (sample: Sample | JobImage) => getSampleImageUrl(sample.image_id);
+  const legendItems = useMemo(() => {
+    const map = new Map<string, string>();
+    galleryItems.forEach((sample) => {
+      (sample.regions || []).forEach((region) => {
+        const name = region.concept_name || 'Concepto';
+        map.set(name, getRegionColor(region));
+      });
+    });
+    return Array.from(map.entries());
+  }, [galleryItems]);
 
   return (
     <div className="mt-6 space-y-4">
@@ -141,7 +155,37 @@ const SamplesGallery = ({ jobId }: Props) => {
         >
           Refrescar
         </button>
+        <label className="flex items-center gap-2 self-end text-sm text-gray-700">
+          <input type="checkbox" checked={showBboxes} onChange={(e) => setShowBboxes(e.target.checked)} />
+          Mostrar cajas
+        </label>
+        <label className="flex items-center gap-2 self-end text-sm text-gray-700">
+          <input type="checkbox" checked={showMasks} onChange={(e) => setShowMasks(e.target.checked)} />
+          Mostrar máscaras
+        </label>
+        <label className="flex items-center gap-2 self-end text-sm text-gray-700">
+          Opacidad
+          <input
+            type="range"
+            min={0.1}
+            max={0.8}
+            step={0.05}
+            value={maskOpacity}
+            onChange={(e) => setMaskOpacity(Number(e.target.value))}
+          />
+        </label>
       </div>
+
+      {legendItems.length > 0 && (
+        <div className="flex flex-wrap gap-2 text-xs text-gray-600">
+          {legendItems.map(([name, color]) => (
+            <span key={name} className="flex items-center gap-1 rounded border border-gray-200 bg-white px-2 py-1">
+              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
+              {name}
+            </span>
+          ))}
+        </div>
+      )}
 
       {!isNotFound && error && <ApiErrorDisplay error={error} />}
       {isNotFound && !isLoading && <div className="text-sm text-gray-600">No hay samples para este job (aún).</div>}
@@ -166,7 +210,6 @@ const SamplesGallery = ({ jobId }: Props) => {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {galleryItems.map((sample: Sample) => {
-          const imageUrl = getImageUrl(sample);
           const detectionCount = sample.regions?.length ?? 0;
           const conceptSummary = summarizeConcepts(sample);
           return (
@@ -174,7 +217,13 @@ const SamplesGallery = ({ jobId }: Props) => {
               key={`${sample.image_id}-${sample.rel_path ?? sample.abs_path ?? 'sample'}`}
               className="overflow-hidden rounded-lg border bg-white shadow-sm"
             >
-              <img src={imageUrl} alt={`sample-${sample.image_id}`} className="h-48 w-full object-cover" loading="lazy" />
+              <SampleOverlayImage
+                sample={sample}
+                jobId={jobId}
+                showBboxes={showBboxes}
+                showMasks={showMasks}
+                maskOpacity={maskOpacity}
+              />
               <div className="space-y-2 p-3 text-xs text-gray-700">
                 <div className="flex items-center justify-between">
                   <div className="font-semibold">Imagen #{sample.image_id}</div>
@@ -201,7 +250,7 @@ const SamplesGallery = ({ jobId }: Props) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="mt-1 text-gray-500">Sin detecciones.</div>
+                    <div className="mt-1 text-gray-500">No detecciones: pruebe threshold menor / prompt en inglés.</div>
                   )}
                 </div>
                 {detectionCount > 0 && (

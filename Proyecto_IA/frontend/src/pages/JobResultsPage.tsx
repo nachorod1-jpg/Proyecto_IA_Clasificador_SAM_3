@@ -62,6 +62,9 @@ const JobResultsPage = () => {
             <span className="text-sm text-gray-600">
               {jobQuery.data.processed_images ?? 0} / {jobQuery.data.total_images ?? 0}
             </span>
+            <span className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700">
+              {jobQuery.data.inference_method || 'PCS_TEXT'}
+            </span>
           </div>
           <div className="grid gap-2 text-xs text-gray-600 sm:grid-cols-2">
             <div>Creado: {jobQuery.data.created_at || 'N/D'}</div>

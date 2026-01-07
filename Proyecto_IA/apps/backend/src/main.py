@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 
 from api import concepts as concepts_router
 from api import datasets as datasets_router
+from api import debug as debug_router
 from api import health as health_router
 from api import images as images_router
 from api import jobs as jobs_router
@@ -73,6 +74,7 @@ def _seed_concepts():
 
 
 app.include_router(health_router.router)
+app.include_router(debug_router.router)
 app.include_router(datasets_router.router)
 app.include_router(concepts_router.router)
 app.include_router(jobs_router.router)

@@ -84,6 +84,7 @@ const JobsL1Page = () => {
             <thead className="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500">
               <tr>
                 <th className="px-4 py-3">Job ID</th>
+                <th className="px-4 py-3">Método</th>
                 <th className="px-4 py-3">Estado</th>
                 <th className="px-4 py-3">Progreso</th>
                 <th className="px-4 py-3">Timestamps</th>
@@ -107,6 +108,7 @@ const JobsL1Page = () => {
                       #{jobId}
                       {currentJobId === jobId && <span className="ml-2 rounded bg-blue-50 px-2 py-0.5 text-xs text-blue-700">Actual</span>}
                     </td>
+                    <td className="px-4 py-3 text-xs text-gray-700">{data?.inference_method || 'PCS_TEXT'}</td>
                     <td className="px-4 py-3">
                       {status ? <JobStateIndicator status={status} /> : <span className="text-gray-500">N/D</span>}
                       {query.isFetching && <div className="text-[10px] text-gray-400">Actualizando...</div>}

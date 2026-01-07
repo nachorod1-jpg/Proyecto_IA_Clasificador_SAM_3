@@ -1,18 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
-import { fetchJobSamples, getMaskUrl, getSampleImageUrl } from '../api';
+import { fetchJobSamples, getSampleImageUrl } from '../api';
 import { Sample, SampleRegion } from '../types';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
 import { normalizeBBox } from '../utils/bbox';
-
-const loadMaskImage = (url: string): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = url;
-  });
+import { drawMaskOverlays, getRegionColor } from '../utils/maskOverlay';
 
 const SampleViewerPage = () => {
   const { jobId = '', sampleId = '' } = useParams();
@@ -22,6 +15,7 @@ const SampleViewerPage = () => {
   const [conceptFilter, setConceptFilter] = useState<string>('all');
   const imageRef = useRef<HTMLImageElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
   const { data, isLoading, error } = useQuery<Sample[], Error>({
     queryKey: ['sample', jobId, sampleId],
@@ -77,56 +71,20 @@ const SampleViewerPage = () => {
     }
     ctx.clearRect(0, 0, rect.width, rect.height);
 
-    const scaleX = rect.width / image.naturalWidth;
-    const scaleY = rect.height / image.naturalHeight;
-
     if (showMasks) {
-      const maskRegions = filteredRegions.filter((region) => region.mask_ref);
-      for (const region of maskRegions) {
-        if (!region.mask_ref) {
-          continue;
-        }
-        try {
-          const maskUrl = getMaskUrl(jobId, region.mask_ref);
-          const maskImage = await loadMaskImage(maskUrl);
-          ctx.save();
-          ctx.globalAlpha = maskOpacity;
-          ctx.drawImage(maskImage, 0, 0, rect.width, rect.height);
-          ctx.restore();
-        } catch (err) {
-          if (import.meta.env.DEV) {
-            console.debug('[samples] mask load failed', region.mask_ref, err);
-          }
-        }
-      }
+      await drawMaskOverlays(ctx, filteredRegions, jobId, rect.width, rect.height, maskOpacity);
     }
-
-    if (showBboxes) {
-      filteredRegions.forEach((region) => {
-        const normalized = normalizeBBox(region.bbox, image.naturalWidth, image.naturalHeight);
-        if (!normalized) {
-          return;
-        }
-        const x = normalized.x * scaleX;
-        const y = normalized.y * scaleY;
-        const width = normalized.width * scaleX;
-        const height = normalized.height * scaleY;
-        ctx.strokeStyle = region.color_hex || '#10b981';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, width, height);
-        const label = `${region.concept_name ?? 'Concepto'}${region.score !== undefined ? ` (${region.score.toFixed(2)})` : ''}`;
-        ctx.fillStyle = region.color_hex || '#10b981';
-        ctx.font = '12px sans-serif';
-        const textWidth = ctx.measureText(label).width;
-        ctx.fillRect(x, Math.max(0, y - 16), textWidth + 6, 16);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(label, x + 3, Math.max(12, y - 4));
-      });
-    }
-  }, [filteredRegions, jobId, maskOpacity, sample, showBboxes, showMasks]);
+  }, [filteredRegions, jobId, maskOpacity, sample, showMasks]);
 
   useEffect(() => {
-    void drawOverlays();
+    if (!imageRef.current) {
+      return;
+    }
+    const observer = new ResizeObserver(() => {
+      void drawOverlays();
+    });
+    observer.observe(imageRef.current);
+    return () => observer.disconnect();
   }, [drawOverlays]);
 
   return (
@@ -198,10 +156,47 @@ const SampleViewerPage = () => {
                     alt={`sample-${sampleId}-overlay`}
                     className="w-full rounded border"
                     onLoad={() => {
+                      const image = imageRef.current;
+                      if (image) {
+                        setImageSize({ width: image.naturalWidth, height: image.naturalHeight });
+                      }
                       void drawOverlays();
                     }}
                   />
                   <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+                  {showBboxes && imageSize.width > 0 && (
+                    <svg
+                      className="absolute inset-0 h-full w-full"
+                      viewBox={`0 0 ${imageSize.width} ${imageSize.height}`}
+                      preserveAspectRatio="xMidYMid meet"
+                    >
+                      {filteredRegions.map((region) => {
+                        const normalized = normalizeBBox(region.bbox, imageSize.width, imageSize.height);
+                        if (!normalized) {
+                          return null;
+                        }
+                        const color = getRegionColor(region);
+                        return (
+                          <g key={`${region.region_id ?? 'region'}-${normalized.x}-${normalized.y}`}>
+                            <rect
+                              x={normalized.x}
+                              y={normalized.y}
+                              width={normalized.width}
+                              height={normalized.height}
+                              fill="none"
+                              stroke={color}
+                              strokeWidth={2}
+                            >
+                              <title>
+                                {(region.concept_name || 'Concepto') +
+                                  ` · score ${region.score?.toFixed(2) ?? 'N/A'} · id ${region.region_id ?? 'N/D'}`}
+                              </title>
+                            </rect>
+                          </g>
+                        );
+                      })}
+                    </svg>
+                  )}
                 </div>
               </div>
             </div>
@@ -229,7 +224,7 @@ const SampleViewerPage = () => {
                 {filteredRegions.length === 0 && (
                   <tr>
                     <td className="px-3 py-2 text-sm text-gray-600" colSpan={3}>
-                      No se detectaron regiones para esta imagen.
+                      No detecciones: pruebe threshold menor / prompt en inglés.
                     </td>
                   </tr>
                 )}
