@@ -10,7 +10,7 @@ Frontend React (Vite + TypeScript) para consumir el backend FastAPI de clasifica
 1. Copia el archivo de entorno y ajusta la URL base del backend:
    ```bash
    cp .env.example .env
-   # edita .env y define VITE_API_BASE_URL (por ejemplo http://localhost:8000)
+   # en DEV usa VITE_API_BASE_URL=/api (proxy de Vite)
    ```
 
 2. Instala dependencias:
@@ -23,7 +23,7 @@ Frontend React (Vite + TypeScript) para consumir el backend FastAPI de clasifica
    npm run dev
    ```
 
-El `vite.config.ts` incluye un proxy opcional para rutas `/api` si `VITE_API_BASE_URL` está definido. Si el backend no permite CORS, usa el proxy de Vite en desarrollo.
+El `vite.config.ts` incluye un proxy de `/api` hacia el backend en desarrollo (por defecto `http://localhost:8000`). Si necesitas un host distinto, define `VITE_API_BASE_URL` con una URL absoluta.
 
 ### Panel de logs del backend
 - La página `/system/status` incluye un acordeón "Logs recientes" con el componente `BackendLogPanel`.
