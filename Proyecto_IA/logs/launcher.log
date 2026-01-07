@@ -554,3 +554,25 @@ Sam3Model OK
 2026-01-03 14:55:01 - Esperando a que el frontend responda en http://localhost:5173/
 2026-01-03 14:55:01 - Frontend listo, abriendo navegador en http://localhost:5173/system/status
 2026-01-03 14:55:01 - Script finalizado.
+2026-01-03 17:00:33 - Modo seleccionado: dev
+2026-01-03 17:00:33 - Usando BackendPython proporcionado: C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+2026-01-03 17:00:33 - Se omitirá la creación de .venv porque se definió un intérprete externo.
+2026-01-03 17:00:33 - BackendPython efectivo: C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+2026-01-03 17:00:33 - Validando Python en C:\ProgramData\anaconda3\envs\sam3_env\python.exe
+[python-version] 3.11.14 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 18:30:03) [MSC v.1929 64 bit (AMD64)]
+[sam3-check] Sam3Model OK
+2026-01-03 17:02:15 - Se asume que el entorno ya tiene las dependencias del backend (sin pip install).
+2026-01-03 17:02:15 - Liberando puertos previos (8000 y 5173). ForceKillPorts=False
+2026-01-03 17:02:19 - Get-NetTCPConnection falló para el puerto 8000: No matching MSFT_NetTCPConnection objects found by CIM query for instances of the ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE ((LocalPort = 8000)) AND ((State = 2)). Verify query parameters and retry.
+2026-01-03 17:02:19 - No se encontraron procesos en escucha en el puerto 8000.
+2026-01-03 17:02:19 - Get-NetTCPConnection falló para el puerto 5173: No matching MSFT_NetTCPConnection objects found by CIM query for instances of the ROOT/StandardCimv2/MSFT_NetTCPConnection class on the  CIM server: SELECT * FROM MSFT_NetTCPConnection  WHERE ((LocalPort = 5173)) AND ((State = 2)). Verify query parameters and retry.
+2026-01-03 17:02:19 - No se encontraron procesos en escucha en el puerto 5173.
+2026-01-03 17:02:19 - Iniciando backend (uvicorn --reload)
+2026-01-03 17:02:19 - Comando uvicorn: C:\ProgramData\anaconda3\envs\sam3_env\python.exe -m uvicorn src.main:app --reload --host 0.0.0.0 --port 8000 --app-dir C:\Users\nacho\Documents\GitHub\Proyecto_IA_Clasificador_SAM_3\Proyecto_IA\apps\backend --workers 1
+2026-01-03 17:02:20 - Backend PID: 13068
+2026-01-03 17:02:20 - Iniciando frontend (npm run dev -- --host)
+2026-01-03 17:02:20 - Frontend PID: 6540
+2026-01-03 17:04:02 - Backend listo (healthcheck OK).
+2026-01-03 17:04:02 - Esperando a que el frontend responda en http://localhost:5173/
+2026-01-03 17:04:02 - Frontend listo, abriendo navegador en http://localhost:5173/system/status
+2026-01-03 17:04:03 - Script finalizado.
