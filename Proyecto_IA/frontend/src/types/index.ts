@@ -54,15 +54,17 @@ export interface Stats {
   buckets?: StatsBucket[];
 }
 
+export type BBox = Array<number | string>;
+
 export interface Region {
-  bbox: [number, number, number, number];
+  bbox: BBox;
   score?: number;
   concept_id?: number;
   concept_name?: string;
 }
 
 export interface SampleRegion {
-  bbox: [number, number, number, number];
+  bbox: BBox;
   score?: number;
   color_hex?: string;
   concept_name?: string;
@@ -77,6 +79,12 @@ export interface Sample {
   regions: SampleRegion[];
   image_url?: string;
   concept_id?: number;
+}
+
+export interface JobImage {
+  image_id: number;
+  rel_path?: string;
+  abs_path?: string;
 }
 
 export interface PaginatedResponse<T> {

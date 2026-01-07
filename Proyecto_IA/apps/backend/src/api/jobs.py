@@ -1,14 +1,18 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
+from core.config import get_settings
 from core.database import get_db
 from core.models import Concept, Image, Job, JobStat, Region
-from core.schemas import CancelResponse, JobLevel1Request, JobResponse, SampleImage
+from core.schemas import CancelResponse, JobImage, JobLevel1Request, JobResponse, SampleImage
+from core.utils import resolve_safe_path
 from jobs.manager import JobManager
 from stats.buckets import build_buckets, select_bucket
 
@@ -122,6 +126,7 @@ def get_samples(
     concept_id: Optional[int] = Query(None),
     bucket: Optional[str] = Query(None),
     limit: int = Query(10, gt=0, le=100),
+    image_id: Optional[int] = Query(None),
     db: Session = Depends(get_db),
 ):
     job = db.get(Job, job_id)
@@ -134,6 +139,12 @@ def get_samples(
     regions_query = regions_query.filter(Region.job_id == job_id)
     if concept_id:
         regions_query = regions_query.filter(Region.concept_id == concept_id)
+    target_image = None
+    if image_id is not None:
+        target_image = db.get(Image, image_id)
+        if not target_image or target_image.dataset_id != job.dataset_id:
+            raise HTTPException(status_code=404, detail="Image not found for job")
+        regions_query = regions_query.filter(Region.image_id == image_id)
 
     regions = regions_query.all()
 
@@ -166,4 +177,47 @@ def get_samples(
             }
         )
 
-    return [SampleImage(**value) for value in images_map.values()][:limit]
+    samples = [SampleImage(**value) for value in images_map.values()][:limit]
+    if image_id is not None and target_image and not samples:
+        samples = [
+            SampleImage(
+                image_id=target_image.id,
+                rel_path=target_image.rel_path,
+                abs_path=target_image.abs_path,
+                regions=[],
+            )
+        ]
+    return samples
+
+
+@router.get("/jobs/{job_id}/images", response_model=list[JobImage])
+def get_job_images(
+    job_id: int,
+    limit: int = Query(50, gt=0, le=200),
+    db: Session = Depends(get_db),
+):
+    job = db.get(Job, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    query = db.query(Image).filter(Image.dataset_id == job.dataset_id).order_by(Image.id)
+    if job.cursor_image_id:
+        query = query.filter(Image.id < job.cursor_image_id)
+    elif job.processed_images:
+        query = query.limit(job.processed_images)
+    images = query.limit(limit).all()
+    return [JobImage(image_id=img.id, rel_path=img.rel_path, abs_path=img.abs_path) for img in images]
+
+
+@router.get("/jobs/{job_id}/masks/{mask_ref:path}")
+def get_job_mask(job_id: int, mask_ref: str, db: Session = Depends(get_db)):
+    job = db.get(Job, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    settings = get_settings()
+    candidate = Path(mask_ref)
+    if not candidate.is_absolute():
+        candidate = settings.resolve_masks_dir() / candidate
+    resolved = resolve_safe_path(candidate, [settings.resolve_masks_dir(), settings.output_dir])
+    if not resolved or not resolved.exists():
+        raise HTTPException(status_code=404, detail="Mask not found")
+    return FileResponse(resolved)

@@ -1,5 +1,5 @@
 import apiClient from './client';
-import { Concept, Dataset, HealthInfo, Job, Sample, Stats } from '../types';
+import { Concept, Dataset, HealthInfo, Job, JobImage, Sample, Stats } from '../types';
 
 export const fetchHealth = async (): Promise<HealthInfo> => {
   const { data } = await apiClient.get('/api/v1/health');
@@ -52,11 +52,17 @@ export const fetchJobStats = async (jobId: string): Promise<Stats> => {
 
 export const fetchJobSamples = async (
   jobId: string,
-  params: { limit?: number; concept_id?: number; bucket?: string }
+  params: { limit?: number; concept_id?: number; bucket?: string; image_id?: number }
 ): Promise<Sample[]> => {
-  const { data } = await apiClient.get(`/api/v1/jobs/${jobId}/samples`, {
-    params
-  });
+  const url = `/api/v1/jobs/${jobId}/samples`;
+  if (import.meta.env.DEV) {
+    const resolved = apiClient.getUri({ url, params });
+    console.debug('[samples] request', resolved, params);
+  }
+  const { data } = await apiClient.get(url, { params });
+  if (import.meta.env.DEV) {
+    console.debug('[samples] response length', Array.isArray(data) ? data.length : 0);
+  }
   return data;
 };
 
@@ -64,3 +70,21 @@ export const fetchSampleById = async (sampleId: string): Promise<Sample> => {
   const { data } = await apiClient.get(`/api/v1/samples/${sampleId}`);
   return data;
 };
+
+export const fetchJobImages = async (jobId: string, params: { limit?: number }): Promise<JobImage[]> => {
+  const url = `/api/v1/jobs/${jobId}/images`;
+  if (import.meta.env.DEV) {
+    const resolved = apiClient.getUri({ url, params });
+    console.debug('[job-images] request', resolved, params);
+  }
+  const { data } = await apiClient.get(url, { params });
+  if (import.meta.env.DEV) {
+    console.debug('[job-images] response length', Array.isArray(data) ? data.length : 0);
+  }
+  return data;
+};
+
+export const getSampleImageUrl = (imageId: number) => `/api/v1/images/${imageId}/file`;
+
+export const getMaskUrl = (jobId: string, maskRef: string) =>
+  `/api/v1/jobs/${jobId}/masks/${encodeURI(maskRef)}`;
