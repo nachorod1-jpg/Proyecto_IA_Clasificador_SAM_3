@@ -94,6 +94,12 @@ class SampleImage(BaseModel):
     regions: List[SampleRegion]
 
 
+class JobImage(BaseModel):
+    image_id: int
+    rel_path: str
+    abs_path: str
+
+
 class HealthStatus(BaseModel):
     gpu_available: bool
     gpu_name: Optional[str] = None
