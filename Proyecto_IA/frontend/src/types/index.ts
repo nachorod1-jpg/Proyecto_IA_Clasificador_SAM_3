@@ -34,6 +34,7 @@ export interface Job {
   stats?: Stats;
   safe_mode?: boolean;
   safe_load?: boolean;
+  inference_method?: string;
 }
 
 export interface StatsBucket {
@@ -70,6 +71,9 @@ export interface SampleRegion {
   concept_name?: string;
   concept_id?: number;
   mask_ref?: string;
+  mask_url?: string;
+  bbox_xyxy?: BBox;
+  region_id?: number;
 }
 
 export interface Sample {

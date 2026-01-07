@@ -26,6 +26,7 @@ def set_job_manager(manager: JobManager):
 
 
 def _job_to_response(job: Job, stats: Optional[dict] = None) -> JobResponse:
+    params = job.params()
     return JobResponse(
         id=job.id,
         status=job.status,
@@ -38,6 +39,7 @@ def _job_to_response(job: Job, stats: Optional[dict] = None) -> JobResponse:
         processed_images=job.processed_images,
         total_images=job.total_images,
         stats=stats,
+        inference_method=params.get("inference_method") or "PCS_TEXT",
     )
 
 
@@ -158,6 +160,10 @@ def get_samples(
 
     images_map = {}
     for region, image, concept in filtered:
+        bbox = region.bbox()
+        bbox_xyxy = None
+        if len(bbox) == 4:
+            bbox_xyxy = [bbox[0], bbox[1], bbox[0] + bbox[2], bbox[1] + bbox[3]]
         img_entry = images_map.setdefault(
             image.id,
             {
@@ -169,11 +175,15 @@ def get_samples(
         )
         img_entry["regions"].append(
             {
-                "bbox": region.bbox(),
+                "bbox": bbox,
                 "score": region.score,
                 "color_hex": concept.color_hex,
                 "concept_name": concept.name,
+                "concept_id": concept.id,
+                "region_id": region.id,
                 "mask_ref": region.mask_ref,
+                "mask_url": f"/api/v1/masks/{job_id}/{image.id}/{region.id}.png" if region.mask_ref else None,
+                "bbox_xyxy": bbox_xyxy,
             }
         )
 
@@ -217,6 +227,24 @@ def get_job_mask(job_id: int, mask_ref: str, db: Session = Depends(get_db)):
     candidate = Path(mask_ref)
     if not candidate.is_absolute():
         candidate = settings.resolve_masks_dir() / candidate
+    resolved = resolve_safe_path(candidate, [settings.resolve_masks_dir(), settings.output_dir])
+    if not resolved or not resolved.exists():
+        raise HTTPException(status_code=404, detail="Mask not found")
+    return FileResponse(resolved)
+
+
+@router.get("/masks/{job_id}/{image_id}/{region_id}.png")
+def get_mask_by_region(job_id: int, image_id: int, region_id: int, db: Session = Depends(get_db)):
+    job = db.get(Job, job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    region = db.get(Region, region_id)
+    if not region or region.job_id != job_id or region.image_id != image_id:
+        raise HTTPException(status_code=404, detail="Region not found")
+    if not region.mask_ref:
+        raise HTTPException(status_code=404, detail="Mask not available")
+    settings = get_settings()
+    candidate = settings.resolve_masks_dir() / region.mask_ref
     resolved = resolve_safe_path(candidate, [settings.resolve_masks_dir(), settings.output_dir])
     if not resolved or not resolved.exists():
         raise HTTPException(status_code=404, detail="Mask not found")

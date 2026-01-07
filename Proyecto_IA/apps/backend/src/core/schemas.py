@@ -46,6 +46,38 @@ class ConceptPrompt(BaseModel):
     prompt_text: str
 
 
+InferenceMethod = Literal[
+    "PCS_TEXT",
+    "PCS_BOX",
+    "PCS_COMBINED",
+    "AUTO_MASK",
+    "TRACKER_POINT",
+    "TRACKER_BOX",
+]
+
+
+class PromptPayload(BaseModel):
+    text: Optional[str] = None
+    language: Optional[Literal["en", "es"]] = None
+    input_boxes: Optional[List[List[float]]] = None
+    input_boxes_labels: Optional[List[int]] = None
+    input_points: Optional[List[List[float]]] = None
+    input_labels: Optional[List[int]] = None
+    points_per_batch: Optional[int] = None
+
+
+class ThresholdsPayload(BaseModel):
+    confidence_threshold: Optional[float] = Field(None, ge=0.0, le=1.0)
+    mask_threshold: Optional[float] = Field(None, ge=0.0, le=1.0)
+    min_area_pixels: Optional[int] = Field(None, ge=0)
+
+
+class OutputControlsPayload(BaseModel):
+    return_masks: Optional[bool] = True
+    return_boxes: Optional[bool] = True
+    return_polygons: Optional[bool] = False
+
+
 class JobLevel1Request(BaseModel):
     dataset_id: int
     concepts: List[ConceptPrompt]
@@ -58,6 +90,10 @@ class JobLevel1Request(BaseModel):
     max_detections_per_image: Optional[int] = None
     sleep_ms_between_images: Optional[int] = None
     max_images: Optional[int] = None
+    inference_method: Optional[InferenceMethod] = None
+    prompt_payload: Optional[PromptPayload] = None
+    thresholds: Optional[ThresholdsPayload] = None
+    output_controls: Optional[OutputControlsPayload] = None
 
 
 class JobResponse(BaseModel):
@@ -72,6 +108,7 @@ class JobResponse(BaseModel):
     processed_images: int
     total_images: int
     stats: Optional[dict] = None
+    inference_method: Optional[InferenceMethod] = None
 
 
 class CancelResponse(BaseModel):
@@ -84,7 +121,11 @@ class SampleRegion(BaseModel):
     score: float
     color_hex: str
     concept_name: str
+    concept_id: Optional[int] = None
+    region_id: Optional[int] = None
     mask_ref: Optional[str]
+    mask_url: Optional[str] = None
+    bbox_xyxy: Optional[list] = None
 
 
 class SampleImage(BaseModel):

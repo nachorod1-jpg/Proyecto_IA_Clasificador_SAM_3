@@ -28,6 +28,17 @@ interface ActivityEntry {
 }
 
 const parseOptionalNumber = (value: string) => (value === '' ? undefined : Number(value));
+const parseOptionalJson = (value: string) => {
+  if (!value) return undefined;
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.debug('[jobs] invalid JSON payload', error);
+    }
+    return undefined;
+  }
+};
 
 const JobCreationPage = () => {
   const navigate = useNavigate();
@@ -43,38 +54,28 @@ const JobCreationPage = () => {
     conceptIds: [] as number[],
     target_long_side: 384,
     box_threshold: 0.6,
+    mask_threshold: 0.5,
+    min_area_pixels: 0,
     batch_size: 1,
     user_confidence: undefined as number | undefined,
     device_preference: 'auto' as DevicePreference,
     max_detections_per_image: undefined as number | undefined,
     sleep_ms_between_images: undefined as number | undefined,
     max_images: undefined as number | undefined,
-    safe_mode: true
+    safe_mode: true,
+    inference_method: 'PCS_TEXT',
+    prompt_text: '',
+    prompt_language: 'en',
+    input_boxes_text: '',
+    input_boxes_labels_text: '',
+    points_per_batch: undefined as number | undefined,
+    return_masks: true,
+    return_boxes: true,
+    return_polygons: false
   });
 
   const mutation = useMutation({
-    mutationFn: () => {
-      const payload: Record<string, unknown> = {
-        dataset_id: form.dataset_id,
-        concepts: form.conceptIds.map((id) => {
-          const concept = conceptsQuery.data?.find((c) => c.id === id);
-          const promptText = concept?.prompt?.trim() || concept?.name?.trim() || '';
-          return { concept_id: id, prompt_text: promptText };
-        }),
-        user_confidence: form.user_confidence ?? 0.5,
-        batch_size: form.batch_size,
-        safe_mode: form.safe_mode,
-        device_preference: form.device_preference,
-        target_long_side: form.target_long_side,
-        box_threshold: form.box_threshold,
-        max_detections_per_image: form.max_detections_per_image ?? 0,
-        sleep_ms_between_images: form.sleep_ms_between_images ?? 0
-      };
-      if (typeof form.max_images === 'number') {
-        payload.max_images = form.max_images;
-      }
-      return createLevel1Job(payload);
-    }
+    mutationFn: (payload: Record<string, unknown>) => createLevel1Job(payload)
   });
 
   const [activeJobId, setActiveJobId] = useState<number | null>(() => {
@@ -108,20 +109,63 @@ const JobCreationPage = () => {
     return 'Error inesperado';
   };
 
-  const launchJob = async () => {
+  const buildPayload = (override?: Partial<typeof form>) => {
+    const snapshot = { ...form, ...override };
+    const payload: Record<string, unknown> = {
+      dataset_id: snapshot.dataset_id,
+      concepts: snapshot.conceptIds.map((id) => {
+        const concept = conceptsQuery.data?.find((c) => c.id === id);
+        const promptText = concept?.prompt?.trim() || concept?.name?.trim() || '';
+        return { concept_id: id, prompt_text: promptText };
+      }),
+      user_confidence: snapshot.user_confidence ?? 0.5,
+      batch_size: snapshot.batch_size,
+      safe_mode: snapshot.safe_mode,
+      device_preference: snapshot.device_preference,
+      target_long_side: snapshot.target_long_side,
+      box_threshold: snapshot.box_threshold,
+      max_detections_per_image: snapshot.max_detections_per_image ?? 0,
+      sleep_ms_between_images: snapshot.sleep_ms_between_images ?? 0,
+      inference_method: snapshot.inference_method,
+      prompt_payload: {
+        text: snapshot.prompt_text || undefined,
+        language: snapshot.prompt_language || undefined,
+        input_boxes: parseOptionalJson(snapshot.input_boxes_text),
+        input_boxes_labels: parseOptionalJson(snapshot.input_boxes_labels_text),
+        points_per_batch: snapshot.points_per_batch
+      },
+      thresholds: {
+        confidence_threshold: snapshot.box_threshold,
+        mask_threshold: snapshot.mask_threshold,
+        min_area_pixels: snapshot.min_area_pixels
+      },
+      output_controls: {
+        return_masks: snapshot.return_masks,
+        return_boxes: snapshot.return_boxes,
+        return_polygons: snapshot.return_polygons
+      }
+    };
+    if (typeof snapshot.max_images === 'number') {
+      payload.max_images = snapshot.max_images;
+    }
+    return payload;
+  };
+
+  const launchJob = async (override?: Partial<typeof form>) => {
     setResumeError(null);
     setActivityLog([]);
     setLogSeeded(true);
     appendLog('Creando job…');
-    if (typeof form.max_images === 'number') {
-      appendLog(`Solicitado max_images=${form.max_images}`, 'info');
+    const payload = buildPayload(override);
+    if (typeof payload.max_images === 'number') {
+      appendLog(`Solicitado max_images=${payload.max_images}`, 'info');
     }
     let newJobId: number | null = null;
 
     try {
-      const job = await mutation.mutateAsync();
+      const job = await mutation.mutateAsync(payload);
       newJobId = job.id;
-      addLevel1JobId(job.id, form.max_images);
+      addLevel1JobId(job.id, payload.max_images as number | undefined);
       setCurrentLevel1JobId(job.id);
       setActiveJobId(job.id);
       appendLog(`Job creado con id=${job.id}`, 'success');
@@ -387,6 +431,88 @@ const JobCreationPage = () => {
           </div>
         </div>
 
+        <div className="rounded border border-gray-200 bg-gray-50 p-4">
+          <div className="mb-3 text-sm font-semibold text-gray-700">Modo de inferencia</div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Método</label>
+              <select
+                value={form.inference_method}
+                onChange={(e) => setForm((prev) => ({ ...prev, inference_method: e.target.value }))}
+                className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+              >
+                <option value="PCS_TEXT">PCS (Texto)</option>
+                <option value="PCS_BOX">PCS (Caja)</option>
+                <option value="PCS_COMBINED">PCS (Combinado)</option>
+                <option value="AUTO_MASK">AutoMask</option>
+              </select>
+            </div>
+            {form.inference_method !== 'AUTO_MASK' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Prompt (texto)</label>
+                <input
+                  type="text"
+                  value={form.prompt_text}
+                  onChange={(e) => setForm((prev) => ({ ...prev, prompt_text: e.target.value }))}
+                  placeholder='e.g. "person"'
+                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+                />
+                <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
+                  <span>Idioma:</span>
+                  <select
+                    value={form.prompt_language}
+                    onChange={(e) => setForm((prev) => ({ ...prev, prompt_language: e.target.value }))}
+                    className="rounded border border-gray-300 px-2 py-1 text-xs"
+                  >
+                    <option value="en">en</option>
+                    <option value="es">es</option>
+                  </select>
+                  <span className="text-gray-500">(recomendado en inglés)</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {(form.inference_method === 'PCS_BOX' || form.inference_method === 'PCS_COMBINED') && (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">input_boxes (JSON)</label>
+                <textarea
+                  value={form.input_boxes_text}
+                  onChange={(e) => setForm((prev) => ({ ...prev, input_boxes_text: e.target.value }))}
+                  placeholder='[[x1,y1,x2,y2], [x1,y1,x2,y2]]'
+                  className="mt-1 h-24 w-full rounded border border-gray-300 px-3 py-2 text-xs"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">input_boxes_labels (JSON)</label>
+                <textarea
+                  value={form.input_boxes_labels_text}
+                  onChange={(e) => setForm((prev) => ({ ...prev, input_boxes_labels_text: e.target.value }))}
+                  placeholder="[1, 0]"
+                  className="mt-1 h-24 w-full rounded border border-gray-300 px-3 py-2 text-xs"
+                />
+              </div>
+            </div>
+          )}
+
+          {form.inference_method === 'AUTO_MASK' && (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">points_per_batch (opcional)</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={form.points_per_batch ?? ''}
+                  onChange={(e) => setForm((prev) => ({ ...prev, points_per_batch: parseOptionalNumber(e.target.value) }))}
+                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+                />
+                <div className="mt-1 text-xs text-gray-500">AutoMask puede ser lento en datasets grandes.</div>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-gray-700">target_long_side</label>
@@ -413,6 +539,57 @@ const JobCreationPage = () => {
               onChange={(e) => setForm((prev) => ({ ...prev, box_threshold: Number(e.target.value) }))}
               className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
             />
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">mask_threshold</label>
+            <input
+              type="number"
+              min="0"
+              max="1"
+              step="0.05"
+              value={form.mask_threshold}
+              onChange={(e) => setForm((prev) => ({ ...prev, mask_threshold: Number(e.target.value) }))}
+              className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">min_area_pixels</label>
+            <input
+              type="number"
+              min="0"
+              value={form.min_area_pixels}
+              onChange={(e) => setForm((prev) => ({ ...prev, min_area_pixels: Number(e.target.value) }))}
+              className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
+            />
+          </div>
+          <div className="grid items-center gap-2">
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={form.return_masks}
+                onChange={(e) => setForm((prev) => ({ ...prev, return_masks: e.target.checked }))}
+              />
+              return_masks
+            </label>
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={form.return_boxes}
+                onChange={(e) => setForm((prev) => ({ ...prev, return_boxes: e.target.checked }))}
+              />
+              return_boxes
+            </label>
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={form.return_polygons}
+                onChange={(e) => setForm((prev) => ({ ...prev, return_polygons: e.target.checked }))}
+              />
+              return_polygons
+            </label>
           </div>
         </div>
 
@@ -512,7 +689,23 @@ const JobCreationPage = () => {
 
         <ApiErrorDisplay error={mutation.error ?? null} />
 
-        <div className="flex justify-end">
+        <div className="flex flex-wrap justify-between gap-3">
+          <button
+            type="button"
+            disabled={isSubmitDisabled}
+            onClick={() =>
+              launchJob({
+                inference_method: 'PCS_TEXT',
+                prompt_text: 'person',
+                max_images: form.max_images ?? 10,
+                box_threshold: 0.5,
+                mask_threshold: 0.5
+              })
+            }
+            className="rounded border border-blue-600 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 disabled:opacity-50"
+          >
+            Ejecutar demo
+          </button>
           <button
             type="submit"
             disabled={isSubmitDisabled}

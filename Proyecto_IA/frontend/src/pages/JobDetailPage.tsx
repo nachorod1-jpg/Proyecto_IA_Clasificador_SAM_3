@@ -111,6 +111,9 @@ const JobDetailPage = () => {
             <div>
               <span className="font-semibold">safe_load:</span> {String(data.safe_load)}
             </div>
+            <div>
+              <span className="font-semibold">Método:</span> {data.inference_method || 'PCS_TEXT'}
+            </div>
           </div>
           <div className="flex gap-3">
             <button
