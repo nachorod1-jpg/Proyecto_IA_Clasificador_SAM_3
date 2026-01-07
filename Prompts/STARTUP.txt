@@ -1,1 +1,3 @@
 pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\run_app.ps1 -Mode dev -BackendPython "C:\ProgramData\anaconda3\envs\sam3_env\python.exe" -SkipVenv
+
+http://localhost:8000/docs
