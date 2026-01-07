@@ -207,11 +207,12 @@ Sigue estos pasos en dos terminales distintas. Requiere Python 3.10+ y Node.js 1
 2. **Frontend**
    ```bash
    cd frontend
-   cp .env.example .env   # define VITE_API_BASE_URL (p. ej. http://localhost:8000)
+   cp .env.example .env   # en DEV usa VITE_API_BASE_URL=/api (proxy de Vite)
    npm install
    npm run dev            # Vite en http://localhost:5173
    ```
-   - El `vite.config.ts` ya incluye proxy opcional de `/api` hacia `VITE_API_BASE_URL`. Si no lo usas, habilita CORS en el backend.
+   - El `vite.config.ts` incluye proxy de `/api` hacia el backend en desarrollo (por defecto `http://localhost:8000`).
+   - Si necesitas un host distinto, ajusta `VITE_API_BASE_URL` a una URL absoluta; en producción respeta `.env.production` si existe.
 
 3. **Flujo de prueba en la UI**
    - Ve a `http://localhost:5173/system/status` para comprobar el health (polling cada 10s con degradación si falta información).
@@ -241,9 +242,23 @@ El frontend de LOD1 vive en `frontend/` y consume el backend vía HTTP.
 ### Arranque rápido solo frontend
 ```bash
 cd frontend
-cp .env.example .env   # define VITE_API_BASE_URL (p. ej. http://localhost:8000)
+cp .env.example .env   # en DEV usa VITE_API_BASE_URL=/api (proxy de Vite)
 npm install
 npm run dev
 ```
 
-En desarrollo, Vite puede hacer proxy de `/api` hacia `VITE_API_BASE_URL`. Si prefieres no usar el proxy, habilita CORS en el backend FastAPI.
+En desarrollo, Vite hace proxy de `/api` hacia el backend (por defecto `http://localhost:8000`). Si necesitas un host distinto, define `VITE_API_BASE_URL` con una URL absoluta.
+
+## Verificación rápida de CORS en desarrollo
+
+1. Abre la UI en `http://localhost:5173`.
+2. Confirma que desaparecen los errores CORS en la consola del navegador.
+3. Verifica que estas llamadas ya no quedan bloqueadas:
+   - `GET /api/v1/concepts?level=1`
+   - `GET /api/v1/datasets`
+   - `POST /api/v1/jobs/level1`
+4. Comprueba los headers CORS del backend:
+   ```bash
+   curl -i -H "Origin: http://localhost:5173" http://localhost:8000/api/v1/health
+   ```
+   Debe incluir `access-control-allow-origin: http://localhost:5173` (o el origin configurado).
