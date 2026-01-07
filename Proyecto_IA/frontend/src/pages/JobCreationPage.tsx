@@ -1,13 +1,20 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
-import { createLevel1Job, fetchConcepts, fetchDatasets, resumeJob } from '../api';
+import { createLevel1Job, fetchConcepts, fetchDatasets, fetchJob, resumeJob } from '../api';
 import { ApiError } from '../api/client';
-import { Concept, Dataset } from '../types';
+import { Concept, Dataset, JobStatus } from '../types';
 import { useHealthPolling } from '../hooks/useHealthPolling';
 
 type DevicePreference = 'auto' | 'cpu' | 'cuda';
+type ActivityStatus = 'info' | 'success' | 'error';
+
+interface ActivityEntry {
+  id: number;
+  message: string;
+  status: ActivityStatus;
+}
 
 const parseOptionalNumber = (value: string) => (value === '' ? undefined : Number(value));
 
@@ -31,8 +38,7 @@ const JobCreationPage = () => {
     max_detections_per_image: undefined as number | undefined,
     sleep_ms_between_images: undefined as number | undefined,
     max_images: undefined as number | undefined,
-    safe_mode: true,
-    safe_load: true
+    safe_mode: true
   });
 
   const mutation = useMutation({
@@ -41,43 +47,76 @@ const JobCreationPage = () => {
         dataset_id: form.dataset_id,
         concepts: form.conceptIds.map((id) => {
           const concept = conceptsQuery.data?.find((c) => c.id === id);
-          return { concept_id: id, prompt_text: concept?.prompt || concept?.name };
+          const promptText = concept?.prompt?.trim() || concept?.name?.trim() || '';
+          return { concept_id: id, prompt_text: promptText };
         }),
-        user_confidence: form.user_confidence,
+        user_confidence: form.user_confidence ?? 0.5,
         batch_size: form.batch_size,
         safe_mode: form.safe_mode,
-        safe_load: form.safe_load,
         device_preference: form.device_preference,
         target_long_side: form.target_long_side,
         box_threshold: form.box_threshold,
-        max_detections_per_image: form.max_detections_per_image,
-        sleep_ms_between_images: form.sleep_ms_between_images,
-        max_images: form.max_images
+        max_detections_per_image: form.max_detections_per_image ?? 0,
+        sleep_ms_between_images: form.sleep_ms_between_images ?? 0,
+        max_images: form.max_images ?? 0
       })
   });
 
   const [createdJobId, setCreatedJobId] = useState<number | null>(null);
   const [resumeError, setResumeError] = useState<ApiError | null>(null);
+  const [activityLog, setActivityLog] = useState<ActivityEntry[]>([]);
+  const [isLogOpen, setIsLogOpen] = useState(true);
+  const [pollingJobId, setPollingJobId] = useState<number | null>(null);
+  const lastProgressRef = useRef<{ status?: JobStatus; processed?: number; total?: number } | null>(null);
 
   const resumeMutation = useMutation({
     mutationFn: (jobId: number) => resumeJob(String(jobId))
   });
 
+  const appendLog = (message: string, status: ActivityStatus = 'info') => {
+    setActivityLog((prev) => [...prev, { id: Date.now() + Math.random(), message, status }]);
+  };
+
+  const formatErrorMessage = (error: unknown) => {
+    if (error instanceof Error) {
+      return error.message.replace(/\n/g, ' | ');
+    }
+    if (typeof error === 'string') {
+      return error;
+    }
+    return 'Error inesperado';
+  };
+
   const launchJob = async () => {
     setResumeError(null);
     setCreatedJobId(null);
+    setPollingJobId(null);
+    setActivityLog([]);
+    appendLog('Creando job…');
     let newJobId: number | null = null;
+
     try {
       const job = await mutation.mutateAsync();
       newJobId = job.id;
       setCreatedJobId(job.id);
-      await resumeMutation.mutateAsync(job.id);
-      navigate(`/classification/level1/jobs/${job.id}`);
+      appendLog(`Job creado con id=${job.id}`, 'success');
     } catch (error) {
-      if (!newJobId) {
-        return;
-      }
+      appendLog(`Error en create job: ${formatErrorMessage(error)}`, 'error');
+      return;
+    }
+
+    if (!newJobId) {
+      return;
+    }
+
+    appendLog('Arrancando job (resume)…');
+    try {
+      await resumeMutation.mutateAsync(newJobId);
+      appendLog('Job en ejecución…', 'success');
+      setPollingJobId(newJobId);
+    } catch (error) {
       setResumeError(error as ApiError);
+      appendLog(`Error en resume: ${formatErrorMessage(error)}`, 'error');
     }
   };
 
@@ -95,6 +134,66 @@ const JobCreationPage = () => {
     e.preventDefault();
     void launchJob();
   };
+
+  useEffect(() => {
+    if (!pollingJobId) {
+      return;
+    }
+
+    let isCancelled = false;
+    const pollJob = async () => {
+      try {
+        const job = await fetchJob(String(pollingJobId));
+        if (isCancelled) {
+          return;
+        }
+        const status = job.status || job.state;
+        const processed = job.processed_images ?? 0;
+        const total = job.total_images ?? 0;
+        const lastProgress = lastProgressRef.current;
+        const statusChanged = status && status !== lastProgress?.status;
+        const progressChanged = processed !== lastProgress?.processed || total !== lastProgress?.total;
+
+        if (statusChanged || progressChanged) {
+          if (status === 'running') {
+            appendLog(`Job en ejecución… ${processed}/${total}`, 'info');
+          }
+          if (status === 'completed') {
+            appendLog(`Job completado (${processed}/${total}).`, 'success');
+          }
+          if (status === 'failed') {
+            appendLog(`Job falló: ${job.error_message || 'Error desconocido'}`, 'error');
+          }
+          if (status === 'cancelled') {
+            appendLog('Job cancelado.', 'error');
+          }
+          if (status === 'paused') {
+            appendLog('Job pausado.', 'info');
+          }
+          lastProgressRef.current = { status, processed, total };
+        }
+
+        if (status && ['completed', 'failed', 'cancelled'].includes(status)) {
+          setPollingJobId(null);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          appendLog(`Error en polling: ${formatErrorMessage(error)}`, 'error');
+          setPollingJobId(null);
+        }
+      }
+    };
+
+    void pollJob();
+    const interval = window.setInterval(() => {
+      void pollJob();
+    }, 5000);
+
+    return () => {
+      isCancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [pollingJobId]);
 
   return (
     <div className="space-y-6">
@@ -143,11 +242,54 @@ const JobCreationPage = () => {
                 Ver detalle del job
               </button>
             </div>
-            <div className="mt-3">
-              <ApiErrorDisplay error={resumeError} />
-            </div>
+          <div className="mt-3">
+            <ApiErrorDisplay error={resumeError} />
+          </div>
+        </div>
+        )}
+        {createdJobId && (
+          <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600">
+            <span>Job actual: #{createdJobId}</span>
+            <button
+              type="button"
+              onClick={() => navigate(`/classification/level1/jobs/${createdJobId}`)}
+              className="rounded border border-gray-300 px-2 py-1 font-semibold text-gray-700 hover:bg-gray-100"
+            >
+              Ver detalle
+            </button>
           </div>
         )}
+        <div className="rounded border border-gray-200 bg-gray-50 p-3">
+          <div className="flex items-center justify-between">
+            <div className="font-semibold text-gray-700">Consola / Activity Log</div>
+            <button
+              type="button"
+              onClick={() => setIsLogOpen((prev) => !prev)}
+              className="text-xs font-semibold text-blue-700 hover:underline"
+            >
+              {isLogOpen ? 'Ocultar' : 'Mostrar'}
+            </button>
+          </div>
+          {isLogOpen && (
+            <div className="mt-2 space-y-2 text-xs text-gray-700">
+              {activityLog.length === 0 && <div className="text-gray-500">Sin actividad reciente.</div>}
+              {activityLog.map((entry) => (
+                <div
+                  key={entry.id}
+                  className={`rounded border px-2 py-1 ${
+                    entry.status === 'error'
+                      ? 'border-red-200 bg-red-50 text-red-700'
+                      : entry.status === 'success'
+                        ? 'border-green-200 bg-green-50 text-green-700'
+                        : 'border-gray-200 bg-white text-gray-700'
+                  }`}
+                >
+                  {entry.message}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">Dataset</label>
           <select
@@ -310,14 +452,6 @@ const JobCreationPage = () => {
                 onChange={(e) => setForm((prev) => ({ ...prev, safe_mode: e.target.checked }))}
               />
               safe_mode
-            </label>
-            <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input
-                type="checkbox"
-                checked={form.safe_load}
-                onChange={(e) => setForm((prev) => ({ ...prev, safe_load: e.target.checked }))}
-              />
-              safe_load
             </label>
           </div>
         </div>
