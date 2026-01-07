@@ -1417,3 +1417,95 @@
 2026-01-07 18:15:00,315 - INFO - uvicorn.access - 127.0.0.1:33013 - "GET /api/v1/jobs/16 HTTP/1.1" 200
 2026-01-07 18:15:00,317 - INFO - uvicorn.access - 127.0.0.1:33012 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
 2026-01-07 18:15:00,385 - INFO - uvicorn.access - 127.0.0.1:33014 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200
+2026-01-07 18:30:49,128 - INFO - uvicorn.error - Started server process [12372]
+2026-01-07 18:30:49,128 - INFO - uvicorn.error - Started server process [12372]
+2026-01-07 18:30:49,133 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-07 18:30:49,133 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-07 18:30:49,159 - INFO - uvicorn.error - Application startup complete.
+2026-01-07 18:30:49,159 - INFO - uvicorn.error - Application startup complete.
+2026-01-07 18:31:51,246 - INFO - uvicorn.access - 127.0.0.1:33177 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:31:54,288 - INFO - uvicorn.access - 127.0.0.1:33188 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-07 18:31:54,799 - INFO - uvicorn.access - 127.0.0.1:33190 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:33:25,185 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:33:26,726 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:33:26,739 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:33:28,828 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:33:28,830 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:33:29,025 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:33:29,029 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:33:33,312 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:33:33,314 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 18:33:35,536 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:33:37,602 - INFO - uvicorn.access - 127.0.0.1:33199 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404
+2026-01-07 18:33:37,646 - INFO - uvicorn.access - 127.0.0.1:33194 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 18:33:37,685 - INFO - uvicorn.access - 127.0.0.1:33198 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:33:37,726 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:33:38,651 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404
+2026-01-07 18:33:39,249 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:33:40,051 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/images?limit=50 HTTP/1.1" 200
+2026-01-07 18:33:40,304 - INFO - uvicorn.access - 127.0.0.1:33202 - "GET /api/v1/images/1/file HTTP/1.1" 200
+2026-01-07 18:33:40,665 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404
+2026-01-07 18:33:44,680 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404
+2026-01-07 18:33:45,688 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 18:33:48,240 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 18:33:49,498 - INFO - uvicorn.access - 127.0.0.1:33195 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:33:54,938 - INFO - uvicorn.access - 127.0.0.1:33207 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:33:54,949 - INFO - uvicorn.access - 127.0.0.1:33206 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:34:00,413 - INFO - uvicorn.access - 127.0.0.1:33208 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:00,419 - INFO - uvicorn.access - 127.0.0.1:33208 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:34:00,423 - INFO - uvicorn.access - 127.0.0.1:33208 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:34:10,634 - INFO - uvicorn.access - 127.0.0.1:33211 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:20,846 - INFO - uvicorn.access - 127.0.0.1:33212 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:22,483 - INFO - uvicorn.access - 127.0.0.1:33212 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:34:22,489 - INFO - uvicorn.access - 127.0.0.1:33212 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:34:22,674 - INFO - uvicorn.access - 127.0.0.1:33212 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:22,679 - INFO - uvicorn.access - 127.0.0.1:33212 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:34:32,896 - INFO - uvicorn.access - 127.0.0.1:33217 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:43,100 - INFO - uvicorn.access - 127.0.0.1:33218 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:53,330 - INFO - uvicorn.access - 127.0.0.1:33219 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:34:54,031 - INFO - uvicorn.access - 127.0.0.1:33219 - "OPTIONS /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 18:34:54,180 - INFO - uvicorn.access - 127.0.0.1:33219 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 18:34:54,184 - INFO - jobs.manager - Created SAM-3 runner for weights at C:\Users\nacho\Documents\GitHub\Proyecto_IA_Clasificador_SAM_3\Proyecto_IA\checkpoints\sam3
+2026-01-07 18:34:54,226 - INFO - uvicorn.access - 127.0.0.1:33219 - "POST /api/v1/jobs/17/resume HTTP/1.1" 200
+2026-01-07 18:34:54,237 - INFO - uvicorn.access - 127.0.0.1:33219 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:34:54,328 - INFO - inference.sam3_runner - VRAM check: free=3.28GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 18:34:54,334 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.22GB weights_est=3.20GB status=ok
+2026-01-07 18:34:54,335 - INFO - inference.sam3_runner - Loading SAM-3 (1/4) with strategy=device_map_auto_fp16, device=cuda, dtype=torch.float16, device_map=auto
+2026-01-07 18:34:54,336 - INFO - inference.sam3_runner - Before load RAM: 0.73 GB, VRAM: 0.00 GB
+2026-01-07 18:34:58,763 - INFO - inference.sam3_runner - After load RAM: 0.88 GB, VRAM: 1.58 GB
+2026-01-07 18:34:58,766 - INFO - inference.sam3_runner - Memory load: RAM: 0.73 -> 0.88 GB (+0.15), VRAM: 0.00 -> 1.58 GB (+1.58), device=cuda, dtype=torch.float16, device_map=auto
+2026-01-07 18:34:58,773 - INFO - inference.sam3_runner - VRAM check: free=1.65GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 18:34:59,122 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.16GB weights_est=3.20GB status=ok
+2026-01-07 18:34:59,143 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 18:44:11,079 - INFO - uvicorn.access - 127.0.0.1:33245 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:44:11,082 - INFO - uvicorn.access - 127.0.0.1:33247 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:44:11,084 - INFO - uvicorn.access - 127.0.0.1:33248 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:44:11,085 - INFO - uvicorn.access - 127.0.0.1:33246 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 18:44:17,312 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:44:17,318 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 18:44:17,324 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 18:44:19,487 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:44:21,316 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:44:22,121 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:44:22,125 - INFO - uvicorn.access - 127.0.0.1:33252 - "GET /api/v1/jobs/17/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 18:44:22,127 - INFO - uvicorn.access - 127.0.0.1:33249 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:44:22,129 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:44:23,142 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:44:25,164 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:44:25,584 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/images?limit=50 HTTP/1.1" 200
+2026-01-07 18:44:25,609 - INFO - uvicorn.access - 127.0.0.1:33264 - "GET /api/v1/images/21/file HTTP/1.1" 200
+2026-01-07 18:44:25,611 - INFO - uvicorn.access - 127.0.0.1:33265 - "GET /api/v1/images/22/file HTTP/1.1" 200
+2026-01-07 18:44:25,613 - INFO - uvicorn.access - 127.0.0.1:33267 - "GET /api/v1/images/23/file HTTP/1.1" 200
+2026-01-07 18:44:25,614 - INFO - uvicorn.access - 127.0.0.1:33268 - "GET /api/v1/images/24/file HTTP/1.1" 200
+2026-01-07 18:44:27,760 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 18:44:29,206 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:44:31,537 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:44:31,892 - INFO - uvicorn.access - 127.0.0.1:33253 - "GET /api/v1/jobs/17/samples?limit=50&concept_id=7&bucket=max HTTP/1.1" 200
+2026-01-07 18:47:26,860 - INFO - uvicorn.access - 127.0.0.1:33362 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:47:27,063 - INFO - uvicorn.access - 127.0.0.1:33359 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 18:47:27,081 - INFO - uvicorn.access - 127.0.0.1:33360 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 18:47:27,083 - INFO - uvicorn.access - 127.0.0.1:33361 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 18:47:27,086 - INFO - uvicorn.access - 127.0.0.1:33363 - "GET /api/v1/jobs/17/images?limit=50 HTTP/1.1" 200
+2026-01-07 18:47:27,088 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/samples?limit=50&concept_id=7&bucket=max HTTP/1.1" 200
+2026-01-07 18:47:27,973 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 18:47:30,196 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404

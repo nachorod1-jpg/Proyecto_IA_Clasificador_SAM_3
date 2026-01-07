@@ -1,158 +1,76 @@
-INFO:     127.0.0.1:32595 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32606 - "GET /api/v1/logs/stream HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32608 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32613 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32613 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32614 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32613 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32614 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32613 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32616 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32613 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32616 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32618 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32618 - "OPTIONS /api/v1/jobs/level1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32618 - "POST /api/v1/jobs/level1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32618 - "POST /api/v1/jobs/15/resume HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32618 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32633 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32634 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32632 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32631 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32635 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32635 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32641 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32639 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32645 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32641 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32639 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32640 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/samples?limit=24&concept_id=7&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/samples?limit=24&concept_id=7&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/jobs/15/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32649 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32640 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32650 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32651 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32650 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32651 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32650 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32654 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32655 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32658 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32659 - "POST /api/v1/jobs/level1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32659 - "POST /api/v1/jobs/16/resume HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32659 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32659 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32663 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32662 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32662 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32663 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32662 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32662 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32663 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32663 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32662 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32666 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32667 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32672 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32673 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32674 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32675 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32673 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32672 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32674 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32674 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32672 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32672 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32680 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32679 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32681 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32680 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32679 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32681 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32681 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32679 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32681 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32679 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32681 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32680 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32683 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32679 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32712 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32713 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32714 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32714 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32714 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32714 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32716 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32714 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32715 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=24&concept_id=7&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=60&concept_id=7&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=60&concept_id=7&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=60&concept_id=7&bucket=uncertain HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32715 - "GET /api/v1/jobs/16/samples?limit=60&concept_id=7&bucket=uncertain HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32718 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32718 - "GET /api/v1/datasets HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32718 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32718 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32727 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32718 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32726 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32725 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32725 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32725 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32744 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32740 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32741 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32743 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32742 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32745 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32745 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32745 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:32745 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:32745 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33015 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
-INFO:     127.0.0.1:33011 - "GET /api/v1/health HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33013 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33012 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:33014 - "GET /api/v1/jobs/16/samples?limit=24&bucket= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33177 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33188 - "GET /api/v1/logs/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33190 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33194 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33199 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33194 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33198 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33195 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/images?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33202 - "GET /api/v1/images/1/file HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/jobs/16/samples?limit=50&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33195 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33207 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33206 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33208 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33208 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33208 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33211 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33212 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33217 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33218 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33219 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33219 - "OPTIONS /api/v1/jobs/level1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33219 - "POST /api/v1/jobs/level1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33219 - "POST /api/v1/jobs/17/resume HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33219 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33245 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33247 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33248 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33246 - "GET /api/v1/datasets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/jobs/16 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/jobs/15 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33252 - "GET /api/v1/jobs/17/samples?limit=50&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33249 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/images?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33264 - "GET /api/v1/images/21/file HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33265 - "GET /api/v1/images/22/file HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33267 - "GET /api/v1/images/23/file HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33268 - "GET /api/v1/images/24/file HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/samples?limit=50&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33253 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33253 - "GET /api/v1/jobs/17/samples?limit=50&concept_id=7&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33362 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33359 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33360 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33361 - "GET /api/v1/jobs/17 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33363 - "GET /api/v1/jobs/17/images?limit=50 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33364 - "GET /api/v1/jobs/17/samples?limit=50&concept_id=7&bucket=max HTTP/1.1" 200 OK
+INFO:     127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404 Not Found
