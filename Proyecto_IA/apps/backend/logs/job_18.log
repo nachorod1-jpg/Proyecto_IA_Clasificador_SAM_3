@@ -1,0 +1,34 @@
+2026-01-07 21:12:57,716 - INFO - Starting job 18 on device cuda
+2026-01-07 21:12:58,238 - INFO - Starting job 18 on device cuda
+2026-01-07 21:13:19,692 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:13:19,766 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:13:39,992 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:13:40,123 - INFO - Processed image 21 (1/5)
+2026-01-07 21:13:40,333 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:13:40,465 - INFO - Processed image 21 (2/5)
+2026-01-07 21:13:59,935 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:14:00,239 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:14:20,046 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:14:20,047 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:14:20,202 - INFO - Processed image 22 (3/5)
+2026-01-07 21:14:20,214 - INFO - Processed image 22 (3/5)
+2026-01-07 21:14:39,999 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:14:49,031 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:14:59,686 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:14:59,833 - INFO - Processed image 23 (4/5)
+2026-01-07 21:15:08,725 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:15:08,858 - INFO - Processed image 23 (5/5)
+2026-01-07 21:15:18,550 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:15:28,419 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:15:38,222 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:15:38,357 - INFO - Processed image 24 (6/5)
+2026-01-07 21:15:48,051 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:15:48,258 - INFO - Processed image 24 (7/5)
+2026-01-07 21:15:58,672 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:16:07,694 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:16:17,605 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:16:17,790 - INFO - Processed image 25 (8/5)
+2026-01-07 21:16:18,083 - INFO - Job completed
+2026-01-07 21:16:18,801 - ERROR - Error during inference: Boolean value of Tensor with more than one value is ambiguous
+2026-01-07 21:16:19,001 - INFO - Processed image 25 (9/5)
+2026-01-07 21:16:19,196 - INFO - Job completed

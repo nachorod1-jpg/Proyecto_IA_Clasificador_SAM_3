@@ -1,0 +1,44 @@
+2026-01-07 21:24:43,148 - INFO - Starting job 20 on device cuda
+2026-01-07 21:24:43,326 - INFO - Starting job 20 on device cuda
+2026-01-07 21:25:04,387 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:04,387 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:25,461 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:25,798 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:46,025 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:46,026 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:25:46,164 - INFO - Processed image 21 (1/5)
+2026-01-07 21:25:46,304 - INFO - Processed image 21 (2/5)
+2026-01-07 21:26:06,513 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:06,513 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:26,328 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:35,464 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:46,308 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:46,445 - INFO - Processed image 22 (3/5)
+2026-01-07 21:26:46,756 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:26:46,871 - INFO - Processed image 22 (4/5)
+2026-01-07 21:27:06,497 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:06,791 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:26,273 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:26,995 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:46,575 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:46,575 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:27:46,714 - INFO - Processed image 23 (5/5)
+2026-01-07 21:27:46,738 - INFO - Processed image 23 (5/5)
+2026-01-07 21:28:06,411 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:15,407 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:26,228 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:36,129 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:45,275 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:45,433 - INFO - Processed image 24 (6/5)
+2026-01-07 21:28:55,241 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:28:55,363 - INFO - Processed image 24 (7/5)
+2026-01-07 21:29:06,001 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:06,496 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:26,015 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:35,196 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:45,962 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:46,113 - INFO - Processed image 25 (8/5)
+2026-01-07 21:29:46,211 - INFO - Job completed
+2026-01-07 21:29:46,424 - ERROR - Error during inference: Boolean value of Tensor with no values is ambiguous
+2026-01-07 21:29:46,557 - INFO - Processed image 25 (9/5)
+2026-01-07 21:29:46,671 - INFO - Job completed

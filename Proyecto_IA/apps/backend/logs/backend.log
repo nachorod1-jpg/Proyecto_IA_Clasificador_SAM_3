@@ -1509,3 +1509,440 @@
 2026-01-07 18:47:27,088 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/samples?limit=50&concept_id=7&bucket=max HTTP/1.1" 200
 2026-01-07 18:47:27,973 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
 2026-01-07 18:47:30,196 - INFO - uvicorn.access - 127.0.0.1:33364 - "GET /api/v1/jobs/17/stats HTTP/1.1" 404
+2026-01-07 21:06:34,711 - INFO - uvicorn.error - Started server process [10060]
+2026-01-07 21:06:34,711 - INFO - uvicorn.error - Started server process [10060]
+2026-01-07 21:06:34,863 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-07 21:06:34,863 - INFO - uvicorn.error - Waiting for application startup.
+2026-01-07 21:06:35,294 - INFO - uvicorn.error - Application startup complete.
+2026-01-07 21:06:35,294 - INFO - uvicorn.error - Application startup complete.
+2026-01-07 21:07:44,133 - INFO - uvicorn.access - 127.0.0.1:34013 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:07:52,558 - INFO - uvicorn.access - 127.0.0.1:34022 - "GET /api/v1/logs/stream HTTP/1.1" 200
+2026-01-07 21:07:52,843 - INFO - uvicorn.access - 127.0.0.1:34024 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:09:40,825 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:09:43,073 - INFO - uvicorn.access - 127.0.0.1:34036 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:09:43,077 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:09:45,938 - INFO - uvicorn.access - 127.0.0.1:34036 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:09:45,968 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:09:46,238 - INFO - uvicorn.access - 127.0.0.1:34036 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:09:46,290 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:09:49,938 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:09:49,941 - INFO - uvicorn.access - 127.0.0.1:34039 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 21:09:49,943 - INFO - uvicorn.access - 127.0.0.1:34036 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 21:09:51,403 - INFO - uvicorn.access - 127.0.0.1:34039 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:09:51,435 - INFO - uvicorn.access - 127.0.0.1:34035 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:09:51,489 - INFO - uvicorn.access - 127.0.0.1:34040 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:09:51,494 - INFO - uvicorn.access - 127.0.0.1:34036 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:10:02,028 - INFO - uvicorn.access - 127.0.0.1:34044 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:10:12,254 - INFO - uvicorn.access - 127.0.0.1:34045 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:10:22,777 - INFO - uvicorn.access - 127.0.0.1:34048 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:10:32,995 - INFO - uvicorn.access - 127.0.0.1:34049 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:10:43,519 - INFO - uvicorn.access - 127.0.0.1:34053 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:10:46,189 - INFO - uvicorn.access - 127.0.0.1:34053 - "OPTIONS /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:10:46,330 - INFO - uvicorn.access - 127.0.0.1:34054 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:10:46,334 - INFO - jobs.manager - Created SAM-3 runner for weights at C:\Users\nacho\Documents\GitHub\Proyecto_IA_Clasificador_SAM_3\Proyecto_IA\checkpoints\sam3
+2026-01-07 21:10:46,371 - INFO - uvicorn.access - 127.0.0.1:34054 - "POST /api/v1/jobs/18/resume HTTP/1.1" 200
+2026-01-07 21:10:46,381 - INFO - uvicorn.access - 127.0.0.1:34053 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:10:46,472 - INFO - inference.sam3_runner - VRAM check: free=3.28GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:10:46,477 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.32GB weights_est=3.20GB status=ok
+2026-01-07 21:10:46,479 - INFO - inference.sam3_runner - Loading SAM-3 (1/4) with strategy=device_map_auto_fp16, device=cuda, dtype=torch.float16, device_map=auto
+2026-01-07 21:10:46,480 - INFO - inference.sam3_runner - Before load RAM: 0.76 GB, VRAM: 0.00 GB
+2026-01-07 21:10:55,267 - INFO - uvicorn.access - 127.0.0.1:34057 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:12:57,672 - INFO - inference.sam3_runner - After load RAM: 0.77 GB, VRAM: 1.58 GB
+2026-01-07 21:12:57,713 - INFO - inference.sam3_runner - Memory load: RAM: 0.76 -> 0.77 GB (+0.01), VRAM: 0.00 -> 1.58 GB (+1.58), device=cuda, dtype=torch.float16, device_map=auto
+2026-01-07 21:12:57,738 - INFO - inference.sam3_runner - VRAM check: free=1.65GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:12:58,117 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.36GB weights_est=3.20GB status=ok
+2026-01-07 21:12:58,167 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:17:25,436 - INFO - uvicorn.access - 127.0.0.1:34078 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:17:25,440 - INFO - uvicorn.access - 127.0.0.1:34080 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:17:25,442 - INFO - uvicorn.access - 127.0.0.1:34081 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:17:25,444 - INFO - uvicorn.access - 127.0.0.1:34079 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:17:33,648 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:17:33,655 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:17:33,664 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 21:17:33,670 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 21:17:35,678 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:17:37,371 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:17:38,855 - INFO - uvicorn.access - 127.0.0.1:34087 - "GET /api/v1/jobs/18/stats HTTP/1.1" 404
+2026-01-07 21:17:38,865 - INFO - uvicorn.access - 127.0.0.1:34082 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:17:38,867 - INFO - uvicorn.access - 127.0.0.1:34086 - "GET /api/v1/jobs/18/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:17:38,869 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:17:39,876 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/stats HTTP/1.1" 404
+2026-01-07 21:17:40,914 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:17:41,118 - INFO - uvicorn.access - 127.0.0.1:34091 - "GET /api/v1/images/25/file HTTP/1.1" 200
+2026-01-07 21:17:41,890 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/stats HTTP/1.1" 404
+2026-01-07 21:17:45,373 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:17:45,936 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:17:45,938 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/stats HTTP/1.1" 404
+2026-01-07 21:17:49,557 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:17:50,789 - INFO - uvicorn.access - 127.0.0.1:34088 - "GET /api/v1/jobs/18/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:17:56,150 - INFO - uvicorn.access - 127.0.0.1:34093 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:06,068 - INFO - uvicorn.access - 127.0.0.1:34108 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:18:06,071 - INFO - uvicorn.access - 127.0.0.1:34110 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:18:06,073 - INFO - uvicorn.access - 127.0.0.1:34109 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:06,074 - INFO - uvicorn.access - 127.0.0.1:34107 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:18:16,310 - INFO - uvicorn.access - 127.0.0.1:34111 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:26,819 - INFO - uvicorn.access - 127.0.0.1:34114 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:37,052 - INFO - uvicorn.access - 127.0.0.1:34115 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:47,573 - INFO - uvicorn.access - 127.0.0.1:34120 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:18:55,728 - INFO - uvicorn.access - 127.0.0.1:34121 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:18:55,761 - INFO - uvicorn.access - 127.0.0.1:34121 - "POST /api/v1/jobs/19/resume HTTP/1.1" 200
+2026-01-07 21:18:55,764 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:18:55,775 - INFO - uvicorn.access - 127.0.0.1:34121 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:18:55,778 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.00GB weights_est=3.20GB status=ok
+2026-01-07 21:18:55,780 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:18:55,792 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:18:55,876 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=8.00GB weights_est=3.20GB status=ok
+2026-01-07 21:18:55,914 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:18:57,807 - INFO - uvicorn.access - 127.0.0.1:34121 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:19:01,475 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:01,478 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:02,599 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:02,631 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:02,739 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:02,790 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:02,954 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:03,086 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:03,132 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,209 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,311 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,345 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,444 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,481 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,577 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:03,613 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:03,701 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:03,738 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,178 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,187 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,382 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,384 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,517 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,553 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,663 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:04,690 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:04,787 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,813 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:04,951 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,009 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,121 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,146 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,278 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,289 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,412 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:05,424 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:05,545 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:05,548 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,112 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,161 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,304 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,335 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,441 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,468 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,576 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:06,705 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,787 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:06,876 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:06,904 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,008 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,086 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,137 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:07,244 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,264 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,374 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:07,404 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,501 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,574 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,646 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,702 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,814 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,829 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:07,952 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:07,974 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,087 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:08,101 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,208 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,274 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,329 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,402 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,482 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,523 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:08,615 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,641 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:08,753 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:08,895 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,036 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,269 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,327 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,394 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,696 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,714 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:09,831 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:09,837 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,009 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,049 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:10,173 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,341 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,354 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,476 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:10,487 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,599 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,622 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:10,753 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,755 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,937 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:10,953 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,070 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,071 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,191 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,206 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:11,327 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:11,331 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,450 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,463 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,602 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,657 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,778 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:11,914 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:11,973 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,043 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,308 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,334 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,442 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:12,541 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,559 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,676 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:12,851 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:12,872 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,066 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,168 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,220 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,340 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,347 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:13,469 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,655 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,674 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,789 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:13,809 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:13,920 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:14,048 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,130 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,198 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,281 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,377 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,421 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,516 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,559 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,694 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:14,818 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:14,848 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:15,163 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,172 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,295 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,347 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,469 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,601 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:15,668 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,804 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,919 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:15,934 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:16,075 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:16,347 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:16,493 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:16,511 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:16,691 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:16,887 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,019 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:17,022 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,143 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,176 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:17,311 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,312 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,478 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,480 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,619 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,621 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:17,748 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,758 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:17,883 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:17,898 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,077 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,078 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,245 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,246 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,377 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,379 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:18,505 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,515 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:18,631 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,642 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:18,833 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/config.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,010 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,030 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,151 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,169 - INFO - httpx - HTTP Request: HEAD https://huggingface.co/facebook/sam3/resolve/main/model.safetensors.index.json "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,285 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:19,306 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3 "HTTP/1.1 200 OK"
+2026-01-07 21:19:19,406 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:19:19,441 - INFO - httpx - HTTP Request: GET https://huggingface.co/api/models/facebook/sam3/commits/main "HTTP/1.1 401 Unauthorized"
+2026-01-07 21:23:56,250 - INFO - uvicorn.access - 127.0.0.1:34140 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:23:56,253 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:23:56,255 - INFO - uvicorn.access - 127.0.0.1:34143 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:23:56,258 - INFO - uvicorn.access - 127.0.0.1:34141 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:24:00,006 - INFO - uvicorn.access - 127.0.0.1:34143 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:24:00,008 - INFO - uvicorn.access - 127.0.0.1:34141 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:24:00,010 - INFO - uvicorn.access - 127.0.0.1:34140 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 21:24:00,014 - INFO - uvicorn.access - 127.0.0.1:34144 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 21:24:00,016 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:24:02,010 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:24:03,799 - INFO - uvicorn.access - 127.0.0.1:34140 - "GET /api/v1/jobs/19/stats HTTP/1.1" 404
+2026-01-07 21:24:03,808 - INFO - uvicorn.access - 127.0.0.1:34144 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:24:03,809 - INFO - uvicorn.access - 127.0.0.1:34141 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:24:03,811 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:24:04,811 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/stats HTTP/1.1" 404
+2026-01-07 21:24:05,245 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:24:06,491 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:24:06,839 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/stats HTTP/1.1" 404
+2026-01-07 21:24:09,100 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:24:10,865 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/stats HTTP/1.1" 404
+2026-01-07 21:24:14,829 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:24:16,713 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:24:20,939 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:24:20,944 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:24:21,134 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:24:21,140 - INFO - uvicorn.access - 127.0.0.1:34142 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:24:31,321 - INFO - uvicorn.access - 127.0.0.1:34148 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:24:41,546 - INFO - uvicorn.access - 127.0.0.1:34149 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:24:42,852 - INFO - uvicorn.access - 127.0.0.1:34149 - "OPTIONS /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:24:43,080 - INFO - uvicorn.access - 127.0.0.1:34150 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:24:43,125 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:24:43,123 - INFO - uvicorn.access - 127.0.0.1:34150 - "POST /api/v1/jobs/20/resume HTTP/1.1" 200
+2026-01-07 21:24:43,140 - INFO - uvicorn.access - 127.0.0.1:34149 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:24:43,143 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=7.69GB weights_est=3.20GB status=ok
+2026-01-07 21:24:43,146 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:24:43,159 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:24:43,232 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=7.69GB weights_est=3.20GB status=ok
+2026-01-07 21:24:43,268 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:24:52,051 - INFO - uvicorn.access - 127.0.0.1:34156 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:25:02,323 - INFO - uvicorn.access - 127.0.0.1:34157 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:07,706 - INFO - uvicorn.access - 127.0.0.1:34208 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:07,709 - INFO - uvicorn.access - 127.0.0.1:34210 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:30:07,711 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:07,712 - INFO - uvicorn.access - 127.0.0.1:34209 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:30:10,963 - INFO - uvicorn.access - 127.0.0.1:34210 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:30:10,985 - INFO - uvicorn.access - 127.0.0.1:34209 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:11,050 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:30:11,115 - INFO - uvicorn.access - 127.0.0.1:34208 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:30:11,138 - INFO - uvicorn.access - 127.0.0.1:34212 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 21:30:11,154 - INFO - uvicorn.access - 127.0.0.1:34210 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 21:30:12,762 - INFO - uvicorn.access - 127.0.0.1:34210 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:14,063 - INFO - uvicorn.access - 127.0.0.1:34208 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:14,072 - INFO - uvicorn.access - 127.0.0.1:34210 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:30:14,074 - INFO - uvicorn.access - 127.0.0.1:34212 - "GET /api/v1/jobs/20/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:30:14,076 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:15,077 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:16,541 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:30:17,098 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:17,934 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:19,604 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:30:20,325 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:30:21,126 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:25,658 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:27,811 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:30:27,813 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:30:27,817 - INFO - uvicorn.access - 127.0.0.1:34211 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:27,821 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:28,155 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:28,826 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:29,468 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:30:30,840 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20/stats HTTP/1.1" 404
+2026-01-07 21:30:31,898 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/jobs/20/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:30:33,372 - INFO - uvicorn.access - 127.0.0.1:34219 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:30:33,400 - INFO - uvicorn.access - 127.0.0.1:34220 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:33,401 - INFO - uvicorn.access - 127.0.0.1:34214 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:30:33,406 - INFO - uvicorn.access - 127.0.0.1:34219 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:30:43,630 - INFO - uvicorn.access - 127.0.0.1:34222 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:30:54,165 - INFO - uvicorn.access - 127.0.0.1:34226 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:04,397 - INFO - uvicorn.access - 127.0.0.1:34227 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:14,935 - INFO - uvicorn.access - 127.0.0.1:34230 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:25,160 - INFO - uvicorn.access - 127.0.0.1:34231 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:35,684 - INFO - uvicorn.access - 127.0.0.1:34234 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:45,916 - INFO - uvicorn.access - 127.0.0.1:34235 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:31:56,406 - INFO - uvicorn.access - 127.0.0.1:34242 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:32:06,623 - INFO - uvicorn.access - 127.0.0.1:34243 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:32:11,424 - INFO - uvicorn.access - 127.0.0.1:34243 - "POST /api/v1/jobs/level1 HTTP/1.1" 200
+2026-01-07 21:32:11,450 - INFO - uvicorn.access - 127.0.0.1:34243 - "POST /api/v1/jobs/21/resume HTTP/1.1" 200
+2026-01-07 21:32:11,451 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:32:11,463 - INFO - uvicorn.access - 127.0.0.1:34243 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:32:11,468 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=7.73GB weights_est=3.20GB status=ok
+2026-01-07 21:32:11,470 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:32:11,480 - INFO - inference.sam3_runner - VRAM check: free=0.00GB total=4.00GB device=cuda dtype_pref=auto
+2026-01-07 21:32:11,564 - INFO - inference.sam3_runner - SAM-3 preflight: device=cuda dtype_pref=auto available_ram=7.73GB weights_est=3.20GB status=ok
+2026-01-07 21:32:11,603 - INFO - inference.sam3_runner - SAM-3 model already loaded; reusing existing instance on device=cuda dtype=torch.float16
+2026-01-07 21:32:16,866 - INFO - uvicorn.access - 127.0.0.1:34245 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:33:15,609 - INFO - uvicorn.access - 127.0.0.1:34261 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:33:15,612 - INFO - uvicorn.access - 127.0.0.1:34259 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:33:15,615 - INFO - uvicorn.access - 127.0.0.1:34262 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:33:15,617 - INFO - uvicorn.access - 127.0.0.1:34260 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:34:16,349 - INFO - uvicorn.access - 127.0.0.1:34273 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:34:16,352 - INFO - uvicorn.access - 127.0.0.1:34276 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:34:16,354 - INFO - uvicorn.access - 127.0.0.1:34275 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:34:16,355 - INFO - uvicorn.access - 127.0.0.1:34274 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:34:26,200 - INFO - uvicorn.access - 127.0.0.1:34277 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:34:26,207 - INFO - uvicorn.access - 127.0.0.1:34277 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:34:26,211 - INFO - uvicorn.access - 127.0.0.1:34277 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:34:26,216 - INFO - uvicorn.access - 127.0.0.1:34277 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:40,375 - INFO - uvicorn.access - 127.0.0.1:34297 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:37:40,377 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:37:40,379 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:40,382 - INFO - uvicorn.access - 127.0.0.1:34298 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:37:42,107 - INFO - uvicorn.access - 127.0.0.1:34297 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:42,160 - INFO - uvicorn.access - 127.0.0.1:34298 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:37:42,161 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:37:42,163 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:37:45,389 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:45,429 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/20 HTTP/1.1" 200
+2026-01-07 21:37:45,508 - INFO - uvicorn.access - 127.0.0.1:34301 - "GET /api/v1/jobs/17 HTTP/1.1" 200
+2026-01-07 21:37:45,509 - INFO - uvicorn.access - 127.0.0.1:34297 - "GET /api/v1/jobs/18 HTTP/1.1" 200
+2026-01-07 21:37:45,512 - INFO - uvicorn.access - 127.0.0.1:34298 - "GET /api/v1/jobs/19 HTTP/1.1" 200
+2026-01-07 21:37:45,519 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/15 HTTP/1.1" 200
+2026-01-07 21:37:45,621 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/jobs/16 HTTP/1.1" 200
+2026-01-07 21:37:46,874 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:48,024 - INFO - uvicorn.access - 127.0.0.1:34298 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:37:48,031 - INFO - uvicorn.access - 127.0.0.1:34300 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:37:48,033 - INFO - uvicorn.access - 127.0.0.1:34297 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:37:48,034 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:37:49,031 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:37:49,539 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:37:50,124 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:37:51,041 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:37:52,355 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:37:55,056 - INFO - uvicorn.access - 127.0.0.1:34299 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:38:02,887 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:38:02,892 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:38:02,897 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:38:02,900 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:38:02,905 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/jobs/21/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:38:02,927 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/jobs/21/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:38:03,911 - INFO - uvicorn.access - 127.0.0.1:34303 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:38:41,159 - INFO - uvicorn.access - 127.0.0.1:34311 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:38:41,164 - INFO - uvicorn.access - 127.0.0.1:34311 - "GET /api/v1/jobs/21/stats HTTP/1.1" 404
+2026-01-07 21:38:41,166 - INFO - uvicorn.access - 127.0.0.1:34314 - "GET /api/v1/jobs/21/samples?limit=50&bucket=max HTTP/1.1" 200
+2026-01-07 21:38:41,168 - INFO - uvicorn.access - 127.0.0.1:34313 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:38:41,170 - INFO - uvicorn.access - 127.0.0.1:34312 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:38:41,172 - INFO - uvicorn.access - 127.0.0.1:34315 - "GET /api/v1/jobs/21/images?limit=50 HTTP/1.1" 200
+2026-01-07 21:38:44,011 - INFO - uvicorn.access - 127.0.0.1:34314 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:38:44,014 - INFO - uvicorn.access - 127.0.0.1:34312 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:38:44,015 - INFO - uvicorn.access - 127.0.0.1:34313 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:38:44,017 - INFO - uvicorn.access - 127.0.0.1:34315 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:39:52,467 - INFO - uvicorn.access - 127.0.0.1:34329 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:39:52,468 - INFO - uvicorn.access - 127.0.0.1:34332 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:39:52,470 - INFO - uvicorn.access - 127.0.0.1:34331 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:39:52,472 - INFO - uvicorn.access - 127.0.0.1:34330 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:40:31,127 - INFO - uvicorn.access - 127.0.0.1:34333 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:40:31,132 - INFO - uvicorn.access - 127.0.0.1:34333 - "GET /api/v1/datasets HTTP/1.1" 200
+2026-01-07 21:40:31,137 - INFO - uvicorn.access - 127.0.0.1:34333 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:40:31,141 - INFO - uvicorn.access - 127.0.0.1:34333 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:42:14,296 - INFO - uvicorn.access - 127.0.0.1:34348 - "GET /api/v1/health HTTP/1.1" 200
+2026-01-07 21:42:14,298 - INFO - uvicorn.access - 127.0.0.1:34351 - "GET /api/v1/jobs/21 HTTP/1.1" 200
+2026-01-07 21:42:14,301 - INFO - uvicorn.access - 127.0.0.1:34350 - "GET /api/v1/concepts?level=1 HTTP/1.1" 200
+2026-01-07 21:42:14,302 - INFO - uvicorn.access - 127.0.0.1:34349 - "GET /api/v1/datasets HTTP/1.1" 200

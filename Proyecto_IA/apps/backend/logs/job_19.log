@@ -1,0 +1,2134 @@
+2026-01-07 21:18:55,782 - INFO - Starting job 19 on device cuda
+2026-01-07 21:18:55,980 - INFO - Starting job 19 on device cuda
+2026-01-07 21:19:05,565 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb7-2a8a2b4736424aad1ac43437;f66349bb-2756-47fd-a01f-8e265f3b0473)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb8-6005487a4c52b6d766267b59;433bde9d-d389-4688-87fa-b306ac6f39fe)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb9-3c9f88992ec58bcc23f5a222;43672205-46b1-4c5a-a614-ca797855bf16)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfba-1ddb31e94d916931615db458;c8af235c-b084-4c07-bf2a-ed4e94567f65)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:05,570 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb7-640304ea0de730561133e04a;996449fb-0806-4bda-b933-83b6ead87ae6)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb8-768ae51b678128ff1f02dbad;9d64dd4e-876d-43c2-a096-cf3e2ca21f78)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfb9-5255c12e1a6efb5b73b34a02;ba8da560-48bf-45d4-a060-074e8f0f78b5)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfba-589fe83c54acc1d94302870a;bb442525-ed1a-4405-81f4-c2af0538a92b)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:05,812 - INFO - Processed image 21 (1/5)
+2026-01-07 21:19:05,827 - INFO - Processed image 21 (1/5)
+2026-01-07 21:19:08,654 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbb-55969f5559379ea679fcea96;4d1bd7ba-5cee-4d86-8fac-386c9c04dd8b)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbb-3ca6ad276e1ee86255e0e02c;a65bc5d4-9be4-4b9c-8c0a-03a17b232883)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbc-2b7ea4a125bcb75970cd9679;7102d4bf-26a7-4c07-bc35-517d15b08fd8)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbd-11541d0b11031ae8799870d3;3c352efc-bd62-4fbc-905b-555fd57af3ca)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:08,779 - INFO - Processed image 22 (2/5)
+2026-01-07 21:19:08,902 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbb-452a3c7a702e0e23504684ed;38e6d85b-52e3-4fad-9b5b-adea1457309b)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbc-60768ee84469e13e6f55682e;e70dcdfd-95da-4588-960b-86199e69a73b)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbc-289ccbe12a6cea602eff17a6;bc20bb40-0de4-4571-9a9d-42c5c97431fd)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbd-0abe3dec57e7c9c7368de6b2;63826916-21f2-45ff-b8d7-5547fc94514e)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:09,045 - INFO - Processed image 22 (3/5)
+2026-01-07 21:19:12,066 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbe-29ab3c4d38a6c3f61a6c68ad;57c47dbc-7d69-4c26-bc3c-c7122189dc12)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbf-4c248af56fb19d002b2ca09f;5966c386-a9fc-4bc0-ad28-b78a0d154b46)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbf-056a3b24541296d82c5b25b3;e3c3a4c4-98dd-493a-87d7-ae7c103fd9b2)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc0-54f9771c7ac5e8d602ffbffd;e5d768b5-c84f-4a28-85a8-8b6d557ff389)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:12,190 - INFO - Processed image 23 (4/5)
+2026-01-07 21:19:12,578 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbe-1c6ab7db6b44d0e605a51600;f02684b5-e716-4904-aefa-24439364448a)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfbf-5529add515ac9a3814a07be1;4ca36c74-1dd4-40ec-ba15-5a3ba906b454)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc0-1a87b37b3ad3c77a3d355262;1ce917d1-9231-47b9-9b5b-5a844dc57602)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc1-4c49690d54a637710e20e318;5994d8bd-cd2a-46ac-a61d-466195c0332c)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:12,721 - INFO - Processed image 23 (5/5)
+2026-01-07 21:19:15,940 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc1-71437e6326d3b97a4ff341fb;bc2aa539-c1dd-4fda-b0ad-4b8eb7e2ecd4)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc2-674ff48f4a8a7e6b3dbac51f;6e53e5e7-8f2d-470a-aa8a-fe0bd5530e89)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc3-6c1bfd5e5d474a856ec83048;2e96a0c2-356d-4077-84f3-a5946377bf08)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc4-684950914a8d786a5effae13;398764bd-11ae-428c-97c1-5cc60f8f6b9e)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:16,107 - INFO - Processed image 24 (6/5)
+2026-01-07 21:19:16,118 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc2-67e2257a1eac5bd24361fa7b;68197bd7-9918-4fc6-80c1-c5aceed81f93)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc2-63c8c7220381c46c107248f1;5b8f05a2-fb62-45ac-95ac-641aaf788e55)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc3-351f90882ed31cf244144ee5;8f7d3e99-d47a-41c1-a88d-14f0625dce0c)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc4-25ebd24b6015d52e5ffaa664;524195cd-4658-428e-a8f3-847b1703ebd8)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:16,256 - INFO - Processed image 24 (7/5)
+2026-01-07 21:19:19,435 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc5-0b8a6a3a111804664aa35124;dd7328d4-ea52-417a-8323-5c78240cfbfa)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc6-00a6c0e9082b86f4510fc783;dbd9ba94-016e-438e-99bc-514f12e8b9c2)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc7-67912491076e2e452a682d2e;8cf1dfdf-7b67-4f43-8c3d-6690030efb4c)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc8-2f1f753e4bd8c8f900da0666;4bcafe64-3b45-46b9-ab49-802fe5929a69)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:19,467 - ERROR - Error during inference: Could not load model facebook/sam3 with any of the following classes: (<class 'transformers.models.auto.modeling_auto.AutoModelForMaskGeneration'>, <class 'transformers.models.sam3_video.modeling_sam3_video.Sam3VideoModel'>). See the original errors:
+
+while loading with AutoModelForMaskGeneration, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc5-078911a053fb46a45cd4d201;c10eac5c-3371-46c7-bda7-fd2918950ac9)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\models\auto\auto_factory.py", line 373, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc6-1e7ddfcc653c077d2952ff6e;16250cd6-3c3c-4ca1-9fec-fea686090cba)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+while loading with Sam3VideoModel, an error is thrown:
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 232, in load_model
+    model = model_class.from_pretrained(model, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc7-4cd12a5f0b1228246641cd72;24c52253-aa85-4e37-ba5e-855c388c8b05)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 657, in hf_raise_for_status
+    response.raise_for_status()
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\httpx\_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/facebook/sam3/commits/main'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\pipelines\base.py", line 248, in load_model
+    model = model_class.from_pretrained(model, **fp32_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 3895, in from_pretrained
+    checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\modeling_utils.py", line 595, in _get_resolved_checkpoint_files
+    resolved_archive_file, revision, is_sharded = auto_conversion(
+                                                  ^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 110, in auto_conversion
+    raise e
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 89, in auto_conversion
+    sha = get_conversion_pr_reference(api, pretrained_model_name_or_path, **cached_file_kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 68, in get_conversion_pr_reference
+    pr = previous_pr(api, model_id, pr_title, token=token)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\transformers\safetensors_conversion.py", line 13, in previous_pr
+    main_commit = api.list_repo_commits(model_id, token=token)[0].commit_id
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_validators.py", line 89, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in list_repo_commits
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\hf_api.py", line 3373, in <listcomp>
+    return [
+           ^
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_pagination.py", line 37, in paginate
+    hf_raise_for_status(r)
+  File "C:\ProgramData\anaconda3\envs\sam3_env\Lib\site-packages\huggingface_hub\utils\_http.py", line 677, in hf_raise_for_status
+    raise _format(GatedRepoError, message, response) from e
+huggingface_hub.errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-695ebfc8-08e88c693c3bbeaf57a26be3;68a0eb19-cded-4304-8624-d7340f9cd198)
+
+Cannot access gated repo for url https://huggingface.co/api/models/facebook/sam3/commits/main.
+Access to model facebook/sam3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+
+
+2026-01-07 21:19:19,609 - INFO - Processed image 25 (8/5)
+2026-01-07 21:19:19,800 - INFO - Job completed
+2026-01-07 21:19:19,934 - INFO - Processed image 25 (9/5)
+2026-01-07 21:19:20,041 - INFO - Job completed

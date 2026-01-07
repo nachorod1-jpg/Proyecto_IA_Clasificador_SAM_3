@@ -1,0 +1,20 @@
+2026-01-07 21:32:11,471 - INFO - Starting job 21 on device cuda
+2026-01-07 21:32:11,662 - INFO - Starting job 21 on device cuda
+2026-01-07 21:32:31,358 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:32:31,359 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:32:50,371 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:32:50,382 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:04,945 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:05,099 - INFO - Processed image 21 (1/2)
+2026-01-07 21:33:11,599 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:11,738 - INFO - Processed image 21 (2/2)
+2026-01-07 21:33:25,651 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:27,063 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:45,758 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:33:45,857 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:34:04,375 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:34:04,382 - ERROR - Error during inference: mat1 and mat2 must have the same dtype, but got Float and Half
+2026-01-07 21:34:04,568 - INFO - Processed image 22 (3/2)
+2026-01-07 21:34:04,705 - INFO - Processed image 22 (4/2)
+2026-01-07 21:34:04,837 - INFO - Job completed
+2026-01-07 21:34:04,966 - INFO - Job completed
