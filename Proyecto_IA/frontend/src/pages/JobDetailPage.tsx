@@ -25,6 +25,20 @@ const JobDetailPage = () => {
   const status = data?.status || data?.state;
   const canCancel = status === 'running';
   const canResume = status === 'cancelled' || status === 'failed' || status === 'paused';
+  const statusMessage =
+    status === 'pending'
+      ? 'Job pendiente, esperando ejecución...'
+      : status === 'running'
+        ? 'Clasificación en curso...'
+        : status === 'completed'
+          ? 'Clasificación completada.'
+          : status === 'failed'
+            ? 'El job falló durante la ejecución.'
+            : status === 'cancelled'
+              ? 'El job fue cancelado.'
+              : status === 'paused'
+                ? 'El job está pausado.'
+                : null;
 
   return (
     <div className="space-y-6">
@@ -50,6 +64,7 @@ const JobDetailPage = () => {
             {status && <JobStateIndicator status={status} />}
             {data.error_message && <div className="text-sm text-red-700">{data.error_message}</div>}
           </div>
+          {statusMessage && <div className="text-sm text-gray-600">{statusMessage}</div>}
           <ProgressBar processed={data.processed_images} total={data.total_images} />
           <div className="grid gap-3 text-sm text-gray-700 sm:grid-cols-2">
             <div>

@@ -48,6 +48,8 @@ const SamplesGallery = ({ jobId }: Props) => {
     setOffset(0);
   };
 
+  const isNotFound = error?.status === 404;
+
   return (
     <div className="mt-6 space-y-4">
       <div className="flex flex-wrap gap-4">
@@ -101,10 +103,8 @@ const SamplesGallery = ({ jobId }: Props) => {
         </button>
       </div>
 
-      {error && <ApiErrorDisplay error={error} />}
-      {error?.status === 404 && !isLoading && (
-        <div className="text-sm text-gray-600">Aún no hay resultados para este job.</div>
-      )}
+      {!isNotFound && error && <ApiErrorDisplay error={error} />}
+      {isNotFound && !isLoading && <div className="text-sm text-gray-600">Sin muestras todavía.</div>}
       {isLoading && <div className="text-sm text-gray-600">Cargando samples...</div>}
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
@@ -123,7 +123,9 @@ const SamplesGallery = ({ jobId }: Props) => {
         })}
       </div>
 
-      {!items.length && !isLoading && <div className="text-sm text-gray-600">No hay samples para los filtros seleccionados.</div>}
+      {!items.length && !isLoading && !isNotFound && (
+        <div className="text-sm text-gray-600">No hay samples para los filtros seleccionados.</div>
+      )}
 
       {totalPages > 1 && (
         <div className="flex items-center justify-between">

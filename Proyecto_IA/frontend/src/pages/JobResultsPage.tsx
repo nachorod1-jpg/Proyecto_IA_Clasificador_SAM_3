@@ -96,7 +96,7 @@ const JobResultsPage = () => {
           </div>
         )}
         {!stats && !statsQuery.isLoading && statsNotFound && (
-          <div className="text-sm text-gray-600">Aún no hay resultados.</div>
+          <div className="text-sm text-gray-600">Estadísticas aún no disponibles.</div>
         )}
         {!stats && !statsQuery.isLoading && !statsNotFound && (
           <div className="text-sm text-gray-600">No hay estadísticas disponibles.</div>
