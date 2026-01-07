@@ -6,7 +6,31 @@ export interface ApiError extends Error {
   statusText?: string;
   data?: unknown;
   isNetworkError?: boolean;
+  validationErrors?: string[];
 }
+
+export interface ValidationErrorDetail {
+  loc?: Array<string | number>;
+  msg?: string;
+  type?: string;
+}
+
+export const formatValidationErrors = (detail: unknown): string[] | null => {
+  if (!Array.isArray(detail)) {
+    return null;
+  }
+
+  return detail.map((item) => {
+    const errorItem = item as ValidationErrorDetail;
+    const loc = errorItem.loc ?? [];
+    const locParts = loc
+      .map((segment) => (typeof segment === 'number' ? String(segment) : segment))
+      .filter((segment) => Boolean(segment) && segment !== 'body');
+    const fieldLabel = locParts.length ? locParts[locParts.length - 1] : 'detalle';
+    const message = errorItem.msg ?? 'Error de validación';
+    return `${fieldLabel}: ${message}`;
+  });
+};
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL || '/api',
@@ -20,6 +44,7 @@ apiClient.interceptors.response.use(
     const responseData = error.response?.data;
     const responseMessage = (responseData as Record<string, unknown>)?.message;
     const responseDetail = (responseData as Record<string, unknown>)?.detail;
+    const validationErrors = formatValidationErrors(responseDetail);
 
     if (!hasResponse) {
       const networkMessage =
@@ -34,15 +59,18 @@ apiClient.interceptors.response.use(
 
     const message = responseMessage
       ? String(responseMessage)
-      : responseDetail
-        ? String(responseDetail)
-        : error.message;
+      : validationErrors?.length
+        ? validationErrors.join('\n')
+        : responseDetail
+          ? String(responseDetail)
+          : error.message;
 
     const enrichedError: ApiError = Object.assign(new Error(message), {
       status: error.response?.status,
       statusText: error.response?.statusText,
       data: responseData,
-      isNetworkError: false
+      isNetworkError: false,
+      validationErrors
     });
 
     return Promise.reject(enrichedError);
