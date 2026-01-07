@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import logging
+import math
 import threading
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, List, Optional
 
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageDraw, UnidentifiedImageError
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
@@ -22,6 +23,29 @@ from stats.buckets import BucketDefinition, build_buckets, select_bucket
 logger = logging.getLogger(__name__)
 
 settings = get_settings()
+
+
+def build_demo_boxes(width: int, height: int, count: int) -> List[List[float]]:
+    if count <= 0 or width <= 0 or height <= 0:
+        return []
+    cols = min(3, max(1, count))
+    rows = int(math.ceil(count / cols))
+    margin_x = width * 0.06
+    margin_y = height * 0.06
+    cell_width = (width - 2 * margin_x) / cols
+    cell_height = (height - 2 * margin_y) / rows
+    box_width = cell_width * 0.65
+    box_height = cell_height * 0.6
+    boxes: List[List[float]] = []
+    for idx in range(count):
+        row = idx // cols
+        col = idx % cols
+        x0 = margin_x + col * cell_width + (cell_width - box_width) / 2
+        y0 = margin_y + row * cell_height + (cell_height - box_height) / 2
+        x1 = x0 + box_width
+        y1 = y0 + box_height
+        boxes.append([float(x0), float(y0), float(x1), float(y1)])
+    return boxes
 
 
 class JobManager:
@@ -124,9 +148,16 @@ class JobManager:
         max_images = params.get("max_images")
         buckets = build_buckets(user_confidence)
 
-        concept_prompts = {int(c["concept_id"]): c["prompt_text"] for c in params.get("concepts", [])}
+        concept_prompts = {int(c["concept_id"]): c.get("prompt_text") for c in params.get("concepts", [])}
         inference_method = params.get("inference_method") or "PCS_TEXT"
         prompt_payload = params.get("prompt_payload") or {}
+        payload_text = prompt_payload.get("text")
+        payload_text = payload_text.strip() if isinstance(payload_text, str) else None
+        demo_mode = bool(params.get("demo_mode", False))
+        demo_overlays = params.get("demo_overlays") or {}
+        demo_overlays_enabled = bool(demo_overlays.get("enabled", False))
+        demo_count_per_image = int(demo_overlays.get("count_per_image", 3) or 3)
+        demo_include_masks = bool(demo_overlays.get("include_masks", True))
         if inference_method == "AUTO_MASK" and len(concept_prompts) > 1:
             first_concept_id = next(iter(concept_prompts))
             job_logger.info(
@@ -197,12 +228,16 @@ class JobManager:
                 job_logger.error(f"Failed to load image {img.abs_path}: {exc}")
                 continue
 
+            image_real_detections = 0
             for concept_id, prompt in concept_prompts.items():
                 try:
                     detections = []
                     debug = None
-                    prompt_text = str(prompt_payload.get("text") or prompt)
+                    prompt_text = None
                     if inference_method == "PCS_TEXT":
+                        prompt_text = payload_text or (str(prompt).strip() if prompt else None)
+                        if not prompt_text:
+                            raise RuntimeError("PCS_TEXT requires prompt_payload.text or concept prompt_text")
                         detections, debug = run_pcs_text(
                             image=pil_img,
                             text=prompt_text,
@@ -230,13 +265,15 @@ class JobManager:
                             min_area_pixels=min_area_pixels,
                         )
                     elif inference_method == "PCS_COMBINED":
+                        if not payload_text:
+                            raise RuntimeError("PCS_COMBINED requires prompt_payload.text")
                         boxes = prompt_payload.get("input_boxes") or []
                         labels = prompt_payload.get("input_boxes_labels")
                         if not boxes:
                             raise RuntimeError("PCS_COMBINED requires input_boxes in prompt_payload")
                         detections, debug = run_pcs_combined(
                             image=pil_img,
-                            text=prompt_text,
+                            text=payload_text,
                             boxes=boxes,
                             labels=labels,
                             processor=runner.processor,
@@ -261,7 +298,7 @@ class JobManager:
                             "SAM3 debug: method=%s prompt=%s threshold=%.2f mask_threshold=%.2f min_area=%s original_sizes=%s "
                             "candidates=%s filtered=%s max_pred_sigmoid=%s max_presence_sigmoid=%s",
                             inference_method,
-                            prompt_text,
+                            prompt_text or payload_text,
                             debug.used_threshold,
                             mask_threshold,
                             min_area_pixels,
@@ -280,6 +317,7 @@ class JobManager:
                 detections.sort(key=lambda det: det.score, reverse=True)
                 if max_detections:
                     detections = detections[:max_detections]
+                image_real_detections += len(detections)
 
                 for det in detections:
                     bbox_xyxy = det.bbox_xyxy
@@ -307,6 +345,34 @@ class JobManager:
                         region.mask_ref = str(mask_path.relative_to(settings.resolve_masks_dir()))
                 session.commit()
 
+            if demo_mode and demo_overlays_enabled and image_real_detections == 0:
+                demo_concept_id = next(iter(concept_prompts.keys()), None)
+                demo_boxes = build_demo_boxes(pil_img.width, pil_img.height, demo_count_per_image)
+                for demo_box in demo_boxes:
+                    x0, y0, x1, y1 = demo_box
+                    bbox = [x0, y0, max(0.0, x1 - x0), max(0.0, y1 - y0)]
+                    region = Region(
+                        job_id=job.id,
+                        image_id=img.id,
+                        concept_id=demo_concept_id,
+                        bbox_json=serialize_bbox(bbox),
+                        score=0.0,
+                        mask_ref=None,
+                        is_demo=True,
+                    )
+                    session.add(region)
+                    session.flush()
+                    if return_masks and demo_include_masks:
+                        masks_dir = settings.resolve_masks_dir() / str(job.id) / str(img.id)
+                        ensure_dir(masks_dir)
+                        mask_path = masks_dir / f"{region.id}.png"
+                        mask_image = Image.new("L", (pil_img.width, pil_img.height), 0)
+                        draw = ImageDraw.Draw(mask_image)
+                        draw.rectangle([x0, y0, x1, y1], fill=255)
+                        mask_image.save(mask_path)
+                        region.mask_ref = str(mask_path.relative_to(settings.resolve_masks_dir()))
+                session.commit()
+
             job.processed_images += 1
             job.cursor_image_id = img.id + 1
             session.commit()
@@ -327,7 +393,7 @@ class JobManager:
         regions = (
             session.query(Region, Concept)
             .join(Concept, Region.concept_id == Concept.id)
-            .filter(Region.job_id == job.id)
+            .filter(Region.job_id == job.id, Region.is_demo.is_(False))
             .all()
         )
         by_concept: Dict[int, Dict[str, List[int]]] = {}

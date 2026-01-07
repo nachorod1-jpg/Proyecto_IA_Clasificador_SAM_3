@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -83,10 +83,11 @@ class Region(Base):
     id = Column(Integer, primary_key=True, index=True)
     job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False)
     image_id = Column(Integer, ForeignKey("images.id"), nullable=False)
-    concept_id = Column(Integer, ForeignKey("concepts.id"), nullable=False)
+    concept_id = Column(Integer, ForeignKey("concepts.id"), nullable=True)
     bbox_json = Column(Text, nullable=False)
     score = Column(Float, nullable=False)
     mask_ref = Column(String, nullable=True)
+    is_demo = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     job = relationship("Job", back_populates="regions")

@@ -65,13 +65,20 @@ const JobCreationPage = () => {
     safe_mode: true,
     inference_method: 'PCS_TEXT',
     prompt_text: '',
+    prompt_source: 'payload' as 'payload' | 'concept',
     prompt_language: 'en',
     input_boxes_text: '',
     input_boxes_labels_text: '',
+    input_box_draft: { x1: '', y1: '', x2: '', y2: '' },
+    input_box_label_draft: '',
     points_per_batch: undefined as number | undefined,
     return_masks: true,
     return_boxes: true,
-    return_polygons: false
+    return_polygons: false,
+    demo_mode: false,
+    demo_overlays_enabled: true,
+    demo_overlays_count: 3,
+    demo_overlays_include_masks: true
   });
 
   const mutation = useMutation({
@@ -111,6 +118,29 @@ const JobCreationPage = () => {
 
   const buildPayload = (override?: Partial<typeof form>) => {
     const snapshot = { ...form, ...override };
+    const promptPayload: Record<string, unknown> = {};
+    const promptText = snapshot.prompt_text.trim();
+    if (snapshot.inference_method === 'PCS_TEXT' || snapshot.inference_method === 'PCS_COMBINED') {
+      if (promptText) {
+        promptPayload.text = promptText;
+      }
+      if (snapshot.prompt_language) {
+        promptPayload.language = snapshot.prompt_language;
+      }
+    }
+    if (snapshot.inference_method === 'PCS_BOX' || snapshot.inference_method === 'PCS_COMBINED') {
+      const boxes = parseOptionalJson(snapshot.input_boxes_text);
+      const labels = parseOptionalJson(snapshot.input_boxes_labels_text);
+      if (boxes) {
+        promptPayload.input_boxes = boxes;
+      }
+      if (labels) {
+        promptPayload.input_boxes_labels = labels;
+      }
+    }
+    if (snapshot.inference_method === 'AUTO_MASK') {
+      promptPayload.points_per_batch = snapshot.points_per_batch;
+    }
     const payload: Record<string, unknown> = {
       dataset_id: snapshot.dataset_id,
       concepts: snapshot.conceptIds.map((id) => {
@@ -127,13 +157,7 @@ const JobCreationPage = () => {
       max_detections_per_image: snapshot.max_detections_per_image ?? 0,
       sleep_ms_between_images: snapshot.sleep_ms_between_images ?? 0,
       inference_method: snapshot.inference_method,
-      prompt_payload: {
-        text: snapshot.prompt_text || undefined,
-        language: snapshot.prompt_language || undefined,
-        input_boxes: parseOptionalJson(snapshot.input_boxes_text),
-        input_boxes_labels: parseOptionalJson(snapshot.input_boxes_labels_text),
-        points_per_batch: snapshot.points_per_batch
-      },
+      prompt_payload: Object.keys(promptPayload).length ? promptPayload : undefined,
       thresholds: {
         confidence_threshold: snapshot.box_threshold,
         mask_threshold: snapshot.mask_threshold,
@@ -143,6 +167,12 @@ const JobCreationPage = () => {
         return_masks: snapshot.return_masks,
         return_boxes: snapshot.return_boxes,
         return_polygons: snapshot.return_polygons
+      },
+      demo_mode: snapshot.demo_mode,
+      demo_overlays: {
+        enabled: snapshot.demo_overlays_enabled,
+        count_per_image: snapshot.demo_overlays_count,
+        include_masks: snapshot.demo_overlays_include_masks
       }
     };
     if (typeof snapshot.max_images === 'number') {
@@ -156,6 +186,22 @@ const JobCreationPage = () => {
     setActivityLog([]);
     setLogSeeded(true);
     appendLog('Creando job…');
+    const snapshot = { ...form, ...override };
+    const promptText = snapshot.prompt_text.trim();
+    if (snapshot.inference_method === 'PCS_COMBINED' && !promptText) {
+      appendLog('PCS_COMBINED requiere un prompt de texto.', 'error');
+      return;
+    }
+    if (snapshot.inference_method === 'PCS_BOX' && promptText) {
+      appendLog('PCS_BOX ignora texto: se enviarán solo cajas.', 'info');
+    }
+    if (snapshot.inference_method === 'PCS_BOX' || snapshot.inference_method === 'PCS_COMBINED') {
+      const boxes = parseOptionalJson(snapshot.input_boxes_text);
+      if (!boxes || !Array.isArray(boxes) || boxes.length === 0) {
+        appendLog('Debes definir al menos 1 bbox en input_boxes.', 'error');
+        return;
+      }
+    }
     const payload = buildPayload(override);
     if (typeof payload.max_images === 'number') {
       appendLog(`Solicitado max_images=${payload.max_images}`, 'info');
@@ -196,6 +242,19 @@ const JobCreationPage = () => {
   const isSubmitDisabled = useMemo(
     () => !form.dataset_id || !form.conceptIds.length || isLaunching || sam3Unavailable,
     [form.dataset_id, form.conceptIds.length, isLaunching, sam3Unavailable]
+  );
+  const primaryConcept = useMemo(() => {
+    if (!form.conceptIds.length) {
+      return undefined;
+    }
+    return conceptsQuery.data?.find((concept) => concept.id === form.conceptIds[0]);
+  }, [conceptsQuery.data, form.conceptIds]);
+  const primaryConceptPrompt = useMemo(() => {
+    return primaryConcept?.prompt?.trim() || primaryConcept?.name?.trim() || '';
+  }, [primaryConcept]);
+  const parsedInputBoxes = useMemo(
+    () => parseOptionalJson(form.input_boxes_text) as number[][] | undefined,
+    [form.input_boxes_text]
   );
 
   const handleSubmit = (e: FormEvent) => {
@@ -262,6 +321,16 @@ const JobCreationPage = () => {
       lastProgressRef.current = { status, processed, total };
     }
   }, [jobQuery.data, activeJobId]);
+
+  useEffect(() => {
+    if (form.prompt_source !== 'concept') {
+      return;
+    }
+    if (!primaryConceptPrompt) {
+      return;
+    }
+    setForm((prev) => ({ ...prev, prompt_text: primaryConceptPrompt }));
+  }, [form.prompt_source, primaryConceptPrompt]);
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
@@ -447,34 +516,185 @@ const JobCreationPage = () => {
                 <option value="AUTO_MASK">AutoMask</option>
               </select>
             </div>
-            {form.inference_method !== 'AUTO_MASK' && (
+            {(form.inference_method === 'PCS_TEXT' || form.inference_method === 'PCS_COMBINED') && (
               <div>
-                <label className="block text-sm font-medium text-gray-700">Prompt (texto)</label>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <label className="block text-sm font-medium text-gray-700">Prompt (texto)</label>
+                  <button
+                    type="button"
+                    disabled={!primaryConceptPrompt}
+                    onClick={() =>
+                      setForm((prev) => ({
+                        ...prev,
+                        prompt_text: primaryConceptPrompt,
+                        prompt_source: 'concept'
+                      }))
+                    }
+                    className="rounded border border-gray-300 px-2 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    Usar texto del Concepto
+                  </button>
+                </div>
                 <input
                   type="text"
                   value={form.prompt_text}
-                  onChange={(e) => setForm((prev) => ({ ...prev, prompt_text: e.target.value }))}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, prompt_text: e.target.value, prompt_source: 'payload' }))
+                  }
                   placeholder='e.g. "person"'
                   className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
                 />
-                <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-                  <span>Idioma:</span>
-                  <select
-                    value={form.prompt_language}
-                    onChange={(e) => setForm((prev) => ({ ...prev, prompt_language: e.target.value }))}
-                    className="rounded border border-gray-300 px-2 py-1 text-xs"
-                  >
-                    <option value="en">en</option>
-                    <option value="es">es</option>
-                  </select>
-                  <span className="text-gray-500">(recomendado en inglés)</span>
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-600">
+                  <div>
+                    Fuente actual:{' '}
+                    <span className="font-semibold">
+                      {form.prompt_source === 'concept' ? 'concepto' : 'payload'}
+                    </span>
+                    {form.conceptIds.length > 1 && form.prompt_source === 'concept' && (
+                      <span className="ml-1 text-gray-500">(usa el primer concepto seleccionado)</span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>Idioma:</span>
+                    <select
+                      value={form.prompt_language}
+                      onChange={(e) => setForm((prev) => ({ ...prev, prompt_language: e.target.value }))}
+                      className="rounded border border-gray-300 px-2 py-1 text-xs"
+                    >
+                      <option value="en">en</option>
+                      <option value="es">es</option>
+                    </select>
+                    <span className="text-gray-500">(recomendado en inglés)</span>
+                  </div>
                 </div>
               </div>
             )}
           </div>
 
+          {form.inference_method === 'PCS_BOX' && (
+            <div className="mt-3 rounded border border-blue-200 bg-blue-50 p-3 text-xs text-blue-900">
+              PCS_BOX ignora prompts de texto; usa solo cajas de ejemplo para guiar la detección.
+            </div>
+          )}
+
           {(form.inference_method === 'PCS_BOX' || form.inference_method === 'PCS_COMBINED') && (
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="space-y-3">
+                <div className="text-sm font-semibold text-gray-700">Agregar bbox</div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <input
+                    type="number"
+                    placeholder="x1"
+                    value={form.input_box_draft.x1}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        input_box_draft: { ...prev.input_box_draft, x1: e.target.value }
+                      }))
+                    }
+                    className="rounded border border-gray-300 px-2 py-1"
+                  />
+                  <input
+                    type="number"
+                    placeholder="y1"
+                    value={form.input_box_draft.y1}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        input_box_draft: { ...prev.input_box_draft, y1: e.target.value }
+                      }))
+                    }
+                    className="rounded border border-gray-300 px-2 py-1"
+                  />
+                  <input
+                    type="number"
+                    placeholder="x2"
+                    value={form.input_box_draft.x2}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        input_box_draft: { ...prev.input_box_draft, x2: e.target.value }
+                      }))
+                    }
+                    className="rounded border border-gray-300 px-2 py-1"
+                  />
+                  <input
+                    type="number"
+                    placeholder="y2"
+                    value={form.input_box_draft.y2}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        input_box_draft: { ...prev.input_box_draft, y2: e.target.value }
+                      }))
+                    }
+                    className="rounded border border-gray-300 px-2 py-1"
+                  />
+                </div>
+                <div className="flex items-center gap-2 text-xs">
+                  <input
+                    type="number"
+                    placeholder="label (opcional)"
+                    value={form.input_box_label_draft}
+                    onChange={(e) => setForm((prev) => ({ ...prev, input_box_label_draft: e.target.value }))}
+                    className="w-32 rounded border border-gray-300 px-2 py-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const { x1, y1, x2, y2 } = form.input_box_draft;
+                      const coords = [x1, y1, x2, y2].map((value) => Number(value));
+                      if (coords.some((value) => Number.isNaN(value))) {
+                        appendLog('BBox inválida: completa x1,y1,x2,y2.', 'error');
+                        return;
+                      }
+                      const existingBoxes = parseOptionalJson(form.input_boxes_text) as number[][] | undefined;
+                      const updatedBoxes = [...(existingBoxes || []), coords];
+                      const existingLabels = parseOptionalJson(form.input_boxes_labels_text) as number[] | undefined;
+                      const labelValue = form.input_box_label_draft !== '' ? Number(form.input_box_label_draft) : undefined;
+                      const updatedLabels = labelValue !== undefined ? [...(existingLabels || []), labelValue] : existingLabels;
+                      setForm((prev) => ({
+                        ...prev,
+                        input_boxes_text: JSON.stringify(updatedBoxes),
+                        input_boxes_labels_text: updatedLabels ? JSON.stringify(updatedLabels) : prev.input_boxes_labels_text,
+                        input_box_draft: { x1: '', y1: '', x2: '', y2: '' },
+                        input_box_label_draft: ''
+                      }));
+                    }}
+                    className="rounded bg-blue-600 px-3 py-1 text-xs font-semibold text-white hover:bg-blue-700"
+                  >
+                    Agregar
+                  </button>
+                </div>
+                <div className="rounded border border-gray-200 bg-white p-2 text-xs text-gray-600">
+                  <div className="font-semibold text-gray-700">Cajas definidas</div>
+                  <ul className="mt-1 space-y-1">
+                    {(parsedInputBoxes || []).map((box, idx) => (
+                      <li key={`box-${idx}`} className="flex items-center justify-between gap-2">
+                        <span>{box.join(', ')}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!parsedInputBoxes) return;
+                            const updatedBoxes = parsedInputBoxes.filter((_, i) => i !== idx);
+                            const existingLabels = parseOptionalJson(form.input_boxes_labels_text) as number[] | undefined;
+                            const updatedLabels = existingLabels ? existingLabels.filter((_, i) => i !== idx) : existingLabels;
+                            setForm((prev) => ({
+                              ...prev,
+                              input_boxes_text: JSON.stringify(updatedBoxes),
+                              input_boxes_labels_text: updatedLabels ? JSON.stringify(updatedLabels) : prev.input_boxes_labels_text
+                            }));
+                          }}
+                          className="text-xs font-semibold text-red-600 hover:underline"
+                        >
+                          Quitar
+                        </button>
+                      </li>
+                    ))}
+                    {(parsedInputBoxes || []).length === 0 && <li className="text-gray-500">Sin cajas aún.</li>}
+                  </ul>
+                </div>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">input_boxes (JSON)</label>
                 <textarea
@@ -591,6 +811,53 @@ const JobCreationPage = () => {
               return_polygons
             </label>
           </div>
+        </div>
+
+        <div className="rounded border border-gray-200 bg-gray-50 p-4">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-semibold text-gray-700">Demo overlays</div>
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={form.demo_mode}
+                onChange={(e) => setForm((prev) => ({ ...prev, demo_mode: e.target.checked }))}
+              />
+              Ejecutar demo (pintar aunque no haya detecciones)
+            </label>
+          </div>
+          {form.demo_mode && (
+            <div className="mt-3 grid gap-3 text-sm text-gray-700 sm:grid-cols-3">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={form.demo_overlays_enabled}
+                  onChange={(e) => setForm((prev) => ({ ...prev, demo_overlays_enabled: e.target.checked }))}
+                />
+                Demo overlays enabled
+              </label>
+              <label className="flex items-center gap-2">
+                <span className="text-xs">count_per_image</span>
+                <input
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={form.demo_overlays_count}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, demo_overlays_count: Number(e.target.value) || 3 }))
+                  }
+                  className="w-20 rounded border border-gray-300 px-2 py-1 text-xs"
+                />
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={form.demo_overlays_include_masks}
+                  onChange={(e) => setForm((prev) => ({ ...prev, demo_overlays_include_masks: e.target.checked }))}
+                />
+                incluir masks
+              </label>
+            </div>
+          )}
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

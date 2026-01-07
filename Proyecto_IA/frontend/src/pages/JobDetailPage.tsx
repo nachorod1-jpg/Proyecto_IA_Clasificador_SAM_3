@@ -114,6 +114,30 @@ const JobDetailPage = () => {
             <div>
               <span className="font-semibold">Método:</span> {data.inference_method || 'PCS_TEXT'}
             </div>
+            {data.debug && (
+              <>
+                <div>
+                  <span className="font-semibold">Método usado:</span> {data.debug.method_used || 'N/D'}
+                </div>
+                <div>
+                  <span className="font-semibold">Prompt source:</span> {data.debug.concept_prompt_source || 'N/D'}
+                </div>
+                <div className="sm:col-span-2">
+                  <span className="font-semibold">Prompt usado:</span> {data.debug.text_used || 'N/D'}
+                </div>
+                <div>
+                  <span className="font-semibold">Boxes usadas:</span> {data.debug.boxes_used_count ?? 0}
+                </div>
+                <div>
+                  <span className="font-semibold">Thresholds:</span>{' '}
+                  {data.debug.thresholds_used
+                    ? `conf=${data.debug.thresholds_used.confidence_threshold ?? 'N/D'} · mask=${
+                        data.debug.thresholds_used.mask_threshold ?? 'N/D'
+                      } · min_area=${data.debug.thresholds_used.min_area_pixels ?? 'N/D'}`
+                    : 'N/D'}
+                </div>
+              </>
+            )}
           </div>
           <div className="flex gap-3">
             <button

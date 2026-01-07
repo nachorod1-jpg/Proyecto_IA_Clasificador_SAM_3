@@ -66,6 +66,12 @@ class PromptPayload(BaseModel):
     points_per_batch: Optional[int] = None
 
 
+class DemoOverlaysPayload(BaseModel):
+    enabled: bool = False
+    count_per_image: int = Field(3, ge=1, le=20)
+    include_masks: bool = True
+
+
 class ThresholdsPayload(BaseModel):
     confidence_threshold: Optional[float] = Field(None, ge=0.0, le=1.0)
     mask_threshold: Optional[float] = Field(None, ge=0.0, le=1.0)
@@ -94,6 +100,16 @@ class JobLevel1Request(BaseModel):
     prompt_payload: Optional[PromptPayload] = None
     thresholds: Optional[ThresholdsPayload] = None
     output_controls: Optional[OutputControlsPayload] = None
+    demo_mode: bool = False
+    demo_overlays: Optional[DemoOverlaysPayload] = None
+
+
+class JobDebugInfo(BaseModel):
+    method_used: InferenceMethod
+    text_used: Optional[str] = None
+    concept_prompt_source: Literal["payload", "concept", "none"]
+    boxes_used_count: int = 0
+    thresholds_used: ThresholdsPayload
 
 
 class JobResponse(BaseModel):
@@ -109,6 +125,9 @@ class JobResponse(BaseModel):
     total_images: int
     stats: Optional[dict] = None
     inference_method: Optional[InferenceMethod] = None
+    debug: Optional[JobDebugInfo] = None
+    demo_mode: Optional[bool] = None
+    demo_overlays: Optional[DemoOverlaysPayload] = None
 
 
 class CancelResponse(BaseModel):
@@ -126,6 +145,7 @@ class SampleRegion(BaseModel):
     mask_ref: Optional[str]
     mask_url: Optional[str] = None
     bbox_xyxy: Optional[list] = None
+    is_demo: Optional[bool] = False
 
 
 class SampleImage(BaseModel):
