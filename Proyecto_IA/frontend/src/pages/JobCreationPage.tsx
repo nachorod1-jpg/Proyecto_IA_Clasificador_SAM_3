@@ -2,7 +2,8 @@ import { FormEvent, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
-import { createLevel1Job, fetchConcepts, fetchDatasets } from '../api';
+import { createLevel1Job, fetchConcepts, fetchDatasets, resumeJob } from '../api';
+import { ApiError } from '../api/client';
 import { Concept, Dataset } from '../types';
 import { useHealthPolling } from '../hooks/useHealthPolling';
 
@@ -52,22 +53,47 @@ const JobCreationPage = () => {
         max_detections_per_image: form.max_detections_per_image,
         sleep_ms_between_images: form.sleep_ms_between_images,
         max_images: form.max_images
-      }),
-    onSuccess: (job) => navigate(`/classification/level1/jobs/${job.id}`)
+      })
   });
+
+  const [createdJobId, setCreatedJobId] = useState<number | null>(null);
+  const [resumeError, setResumeError] = useState<ApiError | null>(null);
+
+  const resumeMutation = useMutation({
+    mutationFn: (jobId: number) => resumeJob(String(jobId))
+  });
+
+  const launchJob = async () => {
+    setResumeError(null);
+    setCreatedJobId(null);
+    let newJobId: number | null = null;
+    try {
+      const job = await mutation.mutateAsync();
+      newJobId = job.id;
+      setCreatedJobId(job.id);
+      await resumeMutation.mutateAsync(job.id);
+      navigate(`/classification/level1/jobs/${job.id}`);
+    } catch (error) {
+      if (!newJobId) {
+        return;
+      }
+      setResumeError(error as ApiError);
+    }
+  };
 
   const sam3Unavailable = Boolean(
     healthQuery.data && (!healthQuery.data.sam3_import_ok || !healthQuery.data.sam3_weights_ready)
   );
 
+  const isLaunching = mutation.isLoading || resumeMutation.isLoading;
   const isSubmitDisabled = useMemo(
-    () => !form.dataset_id || !form.conceptIds.length || mutation.isLoading || sam3Unavailable,
-    [form.dataset_id, form.conceptIds.length, mutation.isLoading, sam3Unavailable]
+    () => !form.dataset_id || !form.conceptIds.length || isLaunching || sam3Unavailable,
+    [form.dataset_id, form.conceptIds.length, isLaunching, sam3Unavailable]
   );
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    mutation.mutate();
+    void launchJob();
   };
 
   return (
@@ -85,6 +111,43 @@ const JobCreationPage = () => {
           </div>
         )}
         <ApiErrorDisplay error={healthQuery.error ?? null} />
+        {isLaunching && <div className="text-sm text-gray-600">Preparando job y conectando con el backend…</div>}
+        {createdJobId && !resumeError && !isLaunching && (
+          <div className="text-sm text-gray-600">Job #{createdJobId} creado en estado pendiente.</div>
+        )}
+        {createdJobId && resumeError && (
+          <div className="rounded border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-900">
+            <p className="font-semibold">El job se creó pero no pudo iniciarse.</p>
+            <p>Reintenta la ejecución desde el botón de abajo o visita el detalle del job.</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  setResumeError(null);
+                  try {
+                    await resumeMutation.mutateAsync(createdJobId);
+                    navigate(`/classification/level1/jobs/${createdJobId}`);
+                  } catch (error) {
+                    setResumeError(error as ApiError);
+                  }
+                }}
+                className="rounded border border-yellow-600 px-3 py-2 text-xs font-semibold text-yellow-700 hover:bg-yellow-100"
+              >
+                Reintentar ejecución
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate(`/classification/level1/jobs/${createdJobId}`)}
+                className="rounded border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-100"
+              >
+                Ver detalle del job
+              </button>
+            </div>
+            <div className="mt-3">
+              <ApiErrorDisplay error={resumeError} />
+            </div>
+          </div>
+        )}
         <div>
           <label className="block text-sm font-medium text-gray-700">Dataset</label>
           <select

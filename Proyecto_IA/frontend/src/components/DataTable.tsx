@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 interface Column<T> {
-  key: keyof T | string;
+  key: keyof T;
   header: string;
   // eslint-disable-next-line no-unused-vars
   render?: (_item: T) => ReactNode;
@@ -35,7 +35,7 @@ function DataTable<T>({ data, columns, emptyMessage = 'Sin registros' }: Props<T
             <tr key={idx} className="hover:bg-gray-50">
               {columns.map((col) => (
                 <td key={String(col.key)} className="px-4 py-3 align-top">
-                  {col.render ? col.render(item) : (item as any)[col.key]}
+                  {col.render ? col.render(item) : item[col.key]}
                 </td>
               ))}
             </tr>
