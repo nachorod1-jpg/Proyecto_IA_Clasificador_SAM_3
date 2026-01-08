@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
 import ApiErrorDisplay from '../components/ApiErrorDisplay';
-import { fetchJob, fetchJobStats } from '../api';
+import { fetchJob } from '../api';
 import SamplesGallery from '../components/SamplesGallery';
 import JobStateIndicator from '../components/JobStateIndicator';
 import { ApiError } from '../api/client';
@@ -16,16 +16,10 @@ const JobResultsPage = () => {
     queryKey: ['job', jobId],
     queryFn: () => fetchJob(jobId),
   });
-  const statsQuery = useQuery<Awaited<ReturnType<typeof fetchJobStats>>, ApiError>({
-    queryKey: ['stats', jobId],
-    queryFn: () => fetchJobStats(jobId),
-  });
 
-  const stats = statsQuery.data;
+  const stats = jobQuery.data?.stats;
   const jobError = jobQuery.error as ApiError | undefined;
-  const statsError = statsQuery.error as ApiError | undefined;
   const jobNotFound = jobError?.status === 404;
-  const statsNotFound = statsError?.status === 404;
 
   useEffect(() => {
     if (jobId) {
@@ -97,9 +91,8 @@ const JobResultsPage = () => {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-800">Estadísticas</h2>
-          {statsQuery.isFetching && <span className="text-xs text-gray-500">Actualizando...</span>}
+          {jobQuery.isFetching && <span className="text-xs text-gray-500">Actualizando...</span>}
         </div>
-        {!statsNotFound && <ApiErrorDisplay error={statsError ?? null} />}
         {stats && (
           <div className="grid gap-4 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-2">
             <div>
@@ -140,10 +133,7 @@ const JobResultsPage = () => {
             </div>
           </div>
         )}
-        {!stats && !statsQuery.isLoading && statsNotFound && (
-          <div className="text-sm text-gray-600">Estadísticas aún no disponibles.</div>
-        )}
-        {!stats && !statsQuery.isLoading && !statsNotFound && (
+        {!stats && !jobQuery.isLoading && (
           <div className="text-sm text-gray-600">No hay estadísticas disponibles.</div>
         )}
       </section>

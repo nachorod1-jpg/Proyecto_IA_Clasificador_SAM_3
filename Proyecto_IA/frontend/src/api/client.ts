@@ -34,7 +34,7 @@ export const formatValidationErrors = (detail: unknown): string[] | null => {
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL || '/api',
-  timeout: 10000
+  timeout: 60000 // 60 segundos - permite operaciones largas del modelo SAM3
 });
 
 apiClient.interceptors.response.use(

@@ -283,7 +283,7 @@ const JobCreationPage = () => {
       return;
     }
     const job = jobQuery.data;
-    const status = job.status || job.state;
+    const status = job.status;
     const processed = job.processed_images ?? 0;
     const total = job.total_images ?? 0;
     updateLevel1JobMeta(activeJobId, {
@@ -420,7 +420,7 @@ const JobCreationPage = () => {
             </button>
             {jobQuery.data && (
               <span>
-                Estado: {jobQuery.data.status || jobQuery.data.state} ·{' '}
+                Estado: {jobQuery.data.status} ·{' '}
                 {(jobQuery.data.processed_images ?? 0)}/{jobQuery.data.total_images ?? 0}
               </span>
             )}

@@ -14,12 +14,12 @@ export const useJobPolling = (jobId: string) => {
   const query = useQuery<Job, ApiError>({
     queryKey: ['job', jobId],
     queryFn: () => fetchJob(jobId),
-    refetchInterval: (data) => getInterval(data?.status || data?.state),
+    refetchInterval: (data) => getInterval(data?.status),
     enabled: Boolean(jobId),
     onSuccess: (data) => {
       if (!jobId) return;
       updateLevel1JobMeta(Number(jobId), {
-        status: data.status || data.state,
+        status: data.status,
         processed_images: data.processed_images,
         total_images: data.total_images
       });
