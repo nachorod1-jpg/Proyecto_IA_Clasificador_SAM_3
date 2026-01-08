@@ -22,7 +22,6 @@ export interface Concept {
 export interface Job {
   id: number;
   status: JobStatus;
-  state?: JobStatus;
   created_at?: string;
   updated_at?: string;
   started_at?: string;

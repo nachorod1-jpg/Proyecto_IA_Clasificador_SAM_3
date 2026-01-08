@@ -1,5 +1,5 @@
 import apiClient from './client';
-import { Concept, Dataset, HealthInfo, Job, JobImage, Sample, Stats } from '../types';
+import { Concept, Dataset, HealthInfo, Job, JobImage, Sample } from '../types';
 
 export const fetchHealth = async (): Promise<HealthInfo> => {
   const { data } = await apiClient.get('/api/v1/health');
@@ -43,11 +43,6 @@ export const cancelJob = async (jobId: string) => {
 
 export const resumeJob = async (jobId: string) => {
   await apiClient.post(`/api/v1/jobs/${jobId}/resume`);
-};
-
-export const fetchJobStats = async (jobId: string): Promise<Stats> => {
-  const { data } = await apiClient.get(`/api/v1/jobs/${jobId}/stats`);
-  return data;
 };
 
 export const fetchJobSamples = async (

@@ -24,7 +24,7 @@ const JobDetailPage = () => {
     mutationFn: () => resumeJob(jobId)
   });
 
-  const status = data?.status || data?.state;
+  const status = data?.status;
   const canCancel = status === 'running';
   const canResume = status === 'cancelled' || status === 'failed' || status === 'paused' || status === 'pending';
   const requestedMaxImages = useMemo(

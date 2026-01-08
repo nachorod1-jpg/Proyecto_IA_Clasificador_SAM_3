@@ -35,11 +35,11 @@ const JobsL1Page = () => {
     queries: jobIds.map((jobId) => ({
       queryKey: ['job', jobId],
       queryFn: () => fetchJob(String(jobId)),
-      refetchInterval: (data: Job | undefined) => (shouldPoll(data?.status || data?.state) ? 5000 : false),
+      refetchInterval: (data: Job | undefined) => (shouldPoll(data?.status) ? 5000 : false),
       retry: false,
       onSuccess: (data: Job) => {
         updateLevel1JobMeta(jobId, {
-          status: data.status || data.state,
+          status: data.status,
           processed_images: data.processed_images,
           total_images: data.total_images
         });
@@ -94,7 +94,7 @@ const JobsL1Page = () => {
             <tbody className="divide-y divide-gray-100">
               {rows.map(({ jobId, query }) => {
                 const data = query.data;
-                const status = data?.status || data?.state;
+                const status = data?.status;
                 const processed = data?.processed_images ?? getLevel1JobMeta(jobId)?.processed_images ?? 0;
                 const total = data?.total_images ?? getLevel1JobMeta(jobId)?.total_images ?? 0;
                 const progressLabel =
