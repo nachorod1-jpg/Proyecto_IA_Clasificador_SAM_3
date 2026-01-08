@@ -134,7 +134,8 @@ export const drawMaskOverlays = async (
     try {
       const maskImage = await loadMaskImage(maskUrl);
       const color = getRegionColor(region);
-      paintMask(ctx, maskImage, width, height, color, opacity);
+      const resolvedOpacity = region.is_demo ? Math.max(0.1, opacity * 0.7) : opacity;
+      paintMask(ctx, maskImage, width, height, color, resolvedOpacity);
     } catch (err) {
       if (import.meta.env.DEV) {
         console.debug('[samples] mask load failed', region.mask_ref, err);

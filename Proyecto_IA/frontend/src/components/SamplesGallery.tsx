@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchConcepts, fetchJobImages, fetchJobSamples } from '../api';
-import { Concept, JobImage, Sample } from '../types';
+import { Concept, Job, JobImage, Sample } from '../types';
 import ApiErrorDisplay from './ApiErrorDisplay';
 import { ApiError } from '../api/client';
 import SampleOverlayImage from './SampleOverlayImage';
@@ -10,6 +10,7 @@ import { getRegionColor } from '../utils/maskOverlay';
 
 interface Props {
   jobId: string;
+  job?: Job;
 }
 
 const buckets = [
@@ -22,7 +23,7 @@ const buckets = [
 
 const DEFAULT_LIMIT = 50;
 
-const SamplesGallery = ({ jobId }: Props) => {
+const SamplesGallery = ({ jobId, job }: Props) => {
   const [limit, setLimit] = useState(DEFAULT_LIMIT);
   const [concept, setConcept] = useState<number | undefined>();
   const [bucket, setBucket] = useState('max');
@@ -53,6 +54,8 @@ const SamplesGallery = ({ jobId }: Props) => {
 
   const items = data || [];
   const jobImages = jobImagesQuery.data || [];
+  const demoMode = Boolean(job?.demo_mode && job?.demo_overlays?.enabled);
+  const demoCount = job?.demo_overlays?.count_per_image ?? 3;
 
   const isNotFound = error?.status === 404;
   const hasNoSamples = !isLoading && !error && items.length === 0;
@@ -212,6 +215,7 @@ const SamplesGallery = ({ jobId }: Props) => {
         {galleryItems.map((sample: Sample) => {
           const detectionCount = sample.regions?.length ?? 0;
           const conceptSummary = summarizeConcepts(sample);
+          const demoFallbackActive = demoMode && detectionCount === 0;
           return (
             <div
               key={`${sample.image_id}-${sample.rel_path ?? sample.abs_path ?? 'sample'}`}
@@ -223,6 +227,8 @@ const SamplesGallery = ({ jobId }: Props) => {
                 showBboxes={showBboxes}
                 showMasks={showMasks}
                 maskOpacity={maskOpacity}
+                demoMode={demoFallbackActive}
+                demoCount={demoCount}
               />
               <div className="space-y-2 p-3 text-xs text-gray-700">
                 <div className="flex items-center justify-between">
@@ -252,6 +258,11 @@ const SamplesGallery = ({ jobId }: Props) => {
                   ) : (
                     <div className="mt-1 text-gray-500">No detecciones: pruebe threshold menor / prompt en inglés.</div>
                   )}
+                  {demoFallbackActive && (
+                    <div className="mt-1 text-[10px] font-semibold text-indigo-600">
+                      Demo overlays activos (cliente).
+                    </div>
+                  )}
                 </div>
                 {detectionCount > 0 && (
                   <div>
@@ -261,6 +272,11 @@ const SamplesGallery = ({ jobId }: Props) => {
                         <li key={`${sample.image_id}-region-${idx}`} className="rounded border border-gray-200 px-2 py-1">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-semibold">{region.concept_name || 'Concepto'}</span>
+                            {region.is_demo && (
+                              <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700">
+                                DEMO
+                              </span>
+                            )}
                             {typeof region.score === 'number' && <span>Score: {region.score.toFixed(2)}</span>}
                             {region.color_hex && (
                               <span

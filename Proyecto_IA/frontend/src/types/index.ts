@@ -35,6 +35,23 @@ export interface Job {
   safe_mode?: boolean;
   safe_load?: boolean;
   inference_method?: string;
+  debug?: {
+    method_used?: string;
+    text_used?: string | null;
+    concept_prompt_source?: 'payload' | 'concept' | 'none';
+    boxes_used_count?: number;
+    thresholds_used?: {
+      confidence_threshold?: number;
+      mask_threshold?: number;
+      min_area_pixels?: number;
+    };
+  };
+  demo_mode?: boolean;
+  demo_overlays?: {
+    enabled?: boolean;
+    count_per_image?: number;
+    include_masks?: boolean;
+  };
 }
 
 export interface StatsBucket {
@@ -74,6 +91,7 @@ export interface SampleRegion {
   mask_url?: string;
   bbox_xyxy?: BBox;
   region_id?: number;
+  is_demo?: boolean;
 }
 
 export interface Sample {

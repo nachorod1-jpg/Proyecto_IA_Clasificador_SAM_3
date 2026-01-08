@@ -71,6 +71,22 @@ const JobResultsPage = () => {
             <div>Actualizado: {jobQuery.data.updated_at || 'N/D'}</div>
             <div>Inicio: {jobQuery.data.started_at || 'N/D'}</div>
             <div>Fin: {jobQuery.data.finished_at || 'N/D'}</div>
+            {jobQuery.data.debug && (
+              <>
+                <div>Método usado: {jobQuery.data.debug.method_used || 'N/D'}</div>
+                <div>Prompt source: {jobQuery.data.debug.concept_prompt_source || 'N/D'}</div>
+                <div className="sm:col-span-2">Prompt usado: {jobQuery.data.debug.text_used || 'N/D'}</div>
+                <div>Boxes usadas: {jobQuery.data.debug.boxes_used_count ?? 0}</div>
+                <div>
+                  Thresholds:{' '}
+                  {jobQuery.data.debug.thresholds_used
+                    ? `conf=${jobQuery.data.debug.thresholds_used.confidence_threshold ?? 'N/D'} · mask=${
+                        jobQuery.data.debug.thresholds_used.mask_threshold ?? 'N/D'
+                      } · min_area=${jobQuery.data.debug.thresholds_used.min_area_pixels ?? 'N/D'}`
+                    : 'N/D'}
+                </div>
+              </>
+            )}
           </div>
           {jobQuery.data.error_message && (
             <div className="text-xs font-semibold text-red-700">{jobQuery.data.error_message}</div>
@@ -134,7 +150,7 @@ const JobResultsPage = () => {
 
       <section id="samples">
         <h2 className="text-lg font-semibold text-gray-800">Samples</h2>
-        <SamplesGallery jobId={jobId} />
+        <SamplesGallery jobId={jobId} job={jobQuery.data} />
       </section>
     </div>
   );

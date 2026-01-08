@@ -11,7 +11,15 @@ from sqlalchemy.orm import Session
 from core.config import get_settings
 from core.database import get_db
 from core.models import Concept, Image, Job, JobStat, Region
-from core.schemas import CancelResponse, JobImage, JobLevel1Request, JobResponse, SampleImage
+from core.schemas import (
+    CancelResponse,
+    JobImage,
+    JobLevel1Request,
+    JobResponse,
+    JobDebugInfo,
+    SampleImage,
+    ThresholdsPayload,
+)
 from core.utils import resolve_safe_path
 from jobs.manager import JobManager
 from stats.buckets import build_buckets, select_bucket
@@ -25,8 +33,58 @@ def set_job_manager(manager: JobManager):
     job_manager = manager
 
 
+def _resolve_thresholds(params: dict) -> ThresholdsPayload:
+    safe_mode = bool(params.get("safe_mode", True))
+    box_threshold_param = params.get("box_threshold")
+    box_threshold = float(box_threshold_param) if box_threshold_param is not None else (0.5 if safe_mode else 0.3)
+    thresholds = params.get("thresholds") or {}
+    confidence_threshold = float(thresholds.get("confidence_threshold", box_threshold))
+    mask_threshold = float(thresholds.get("mask_threshold", 0.5))
+    min_area_pixels = int(thresholds.get("min_area_pixels", 0))
+    return ThresholdsPayload(
+        confidence_threshold=confidence_threshold,
+        mask_threshold=mask_threshold,
+        min_area_pixels=min_area_pixels,
+    )
+
+
+def _build_job_debug(params: dict) -> JobDebugInfo:
+    inference_method = params.get("inference_method") or "PCS_TEXT"
+    prompt_payload = params.get("prompt_payload") or {}
+    payload_text = prompt_payload.get("text")
+    payload_text = payload_text.strip() if isinstance(payload_text, str) else None
+    concept_prompts = [
+        (c.get("prompt_text") or "").strip() for c in params.get("concepts", []) if (c.get("prompt_text") or "").strip()
+    ]
+    if inference_method == "PCS_TEXT":
+        if payload_text:
+            text_used = payload_text
+            source = "payload"
+        else:
+            text_used = concept_prompts[0] if len(concept_prompts) == 1 else None
+            source = "concept" if concept_prompts else "none"
+    elif inference_method == "PCS_COMBINED":
+        text_used = payload_text
+        source = "payload" if payload_text else "none"
+    else:
+        text_used = None
+        source = "none"
+
+    boxes = prompt_payload.get("input_boxes") or []
+    boxes_used_count = len(boxes) if inference_method in {"PCS_BOX", "PCS_COMBINED"} else 0
+    thresholds_used = _resolve_thresholds(params)
+    return JobDebugInfo(
+        method_used=inference_method,
+        text_used=text_used,
+        concept_prompt_source=source,
+        boxes_used_count=boxes_used_count,
+        thresholds_used=thresholds_used,
+    )
+
+
 def _job_to_response(job: Job, stats: Optional[dict] = None) -> JobResponse:
     params = job.params()
+    debug = _build_job_debug(params)
     return JobResponse(
         id=job.id,
         status=job.status,
@@ -40,7 +98,37 @@ def _job_to_response(job: Job, stats: Optional[dict] = None) -> JobResponse:
         total_images=job.total_images,
         stats=stats,
         inference_method=params.get("inference_method") or "PCS_TEXT",
+        debug=debug,
+        demo_mode=params.get("demo_mode"),
+        demo_overlays=params.get("demo_overlays"),
     )
+
+
+def _validate_inference_payload(payload: JobLevel1Request):
+    inference_method = payload.inference_method or "PCS_TEXT"
+    prompt_payload = payload.prompt_payload
+    payload_text = prompt_payload.text.strip() if prompt_payload and isinstance(prompt_payload.text, str) else None
+    input_boxes = prompt_payload.input_boxes if prompt_payload else None
+    has_boxes = bool(input_boxes)
+    if inference_method == "PCS_BOX":
+        if payload_text:
+            raise HTTPException(status_code=400, detail="PCS_BOX ignores prompt_payload.text; omit text for this method.")
+        if not has_boxes:
+            raise HTTPException(status_code=400, detail="PCS_BOX requires prompt_payload.input_boxes.")
+    elif inference_method == "PCS_COMBINED":
+        if not payload_text:
+            raise HTTPException(status_code=400, detail="PCS_COMBINED requires prompt_payload.text.")
+        if not has_boxes:
+            raise HTTPException(status_code=400, detail="PCS_COMBINED requires prompt_payload.input_boxes.")
+    elif inference_method == "PCS_TEXT":
+        if payload_text:
+            return
+        has_concept_prompt = any((concept.prompt_text or "").strip() for concept in payload.concepts)
+        if not has_concept_prompt:
+            raise HTTPException(
+                status_code=400,
+                detail="PCS_TEXT requires prompt_payload.text or a non-empty concept prompt_text.",
+            )
 
 
 def _collect_stats(job: Job, db: Session) -> dict:
@@ -62,6 +150,8 @@ def create_job(payload: JobLevel1Request, db: Session = Depends(get_db)):
     dataset_images = db.query(Image).filter(Image.dataset_id == payload.dataset_id).count()
     if dataset_images == 0:
         raise HTTPException(status_code=400, detail="Dataset has no images or does not exist")
+
+    _validate_inference_payload(payload)
 
     for concept_prompt in payload.concepts:
         concept = db.get(Concept, concept_prompt.concept_id)
@@ -137,7 +227,11 @@ def get_samples(
     params = job.params()
     buckets = build_buckets(float(params.get("user_confidence", 0.5)))
 
-    regions_query = db.query(Region, Image, Concept).join(Image, Region.image_id == Image.id).join(Concept)
+    regions_query = (
+        db.query(Region, Image, Concept)
+        .join(Image, Region.image_id == Image.id)
+        .outerjoin(Concept, Region.concept_id == Concept.id)
+    )
     regions_query = regions_query.filter(Region.job_id == job_id)
     if concept_id:
         regions_query = regions_query.filter(Region.concept_id == concept_id)
@@ -152,9 +246,10 @@ def get_samples(
 
     filtered = []
     for region, image, concept in regions:
-        bucket_name = select_bucket(region.score, buckets)
-        if bucket and bucket_name != bucket:
-            continue
+        if not region.is_demo:
+            bucket_name = select_bucket(region.score, buckets)
+            if bucket and bucket_name != bucket:
+                continue
         filtered.append((region, image, concept))
     filtered = filtered[:limit]
 
@@ -173,17 +268,20 @@ def get_samples(
                 "regions": [],
             },
         )
+        concept_name = concept.name if concept else ("DEMO" if region.is_demo else "Concepto")
+        color_hex = concept.color_hex if concept else "#10b981"
         img_entry["regions"].append(
             {
                 "bbox": bbox,
                 "score": region.score,
-                "color_hex": concept.color_hex,
-                "concept_name": concept.name,
-                "concept_id": concept.id,
+                "color_hex": color_hex,
+                "concept_name": concept_name,
+                "concept_id": concept.id if concept else None,
                 "region_id": region.id,
                 "mask_ref": region.mask_ref,
                 "mask_url": f"/api/v1/masks/{job_id}/{image.id}/{region.id}.png" if region.mask_ref else None,
                 "bbox_xyxy": bbox_xyxy,
+                "is_demo": region.is_demo,
             }
         )
 
